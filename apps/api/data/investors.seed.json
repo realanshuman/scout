@@ -1,0 +1,306 @@
+[
+  {
+    "firm": "Northbeam Ventures",
+    "partner": "Sarah Lindqvist",
+    "email": "sarah@northbeam.example.com",
+    "linkedin": "https://linkedin.com/in/sarah-lindqvist-example",
+    "website": "https://northbeam.example.com",
+    "countries": ["United States", "Global"],
+    "stages": ["seed", "series-a"],
+    "sectors": ["developer tools", "AI infrastructure", "SaaS"],
+    "check_min_usd": 500000,
+    "check_max_usd": 3000000,
+    "thesis": "We back technical founders building the tools developers will use for the next decade — AI-native dev tooling, infra primitives, and workflow automation.",
+    "partner_interests": "Sarah led investments in AI coding assistants and is actively looking at agentic developer workflows.",
+    "recent_investments": [
+      { "company": "CodeLoom", "round": "Seed", "year": 2025 },
+      { "company": "Trailhead CI", "round": "Series A", "year": 2024 }
+    ],
+    "portfolio": ["CodeLoom", "Trailhead CI", "Packfile", "QueryDeck"]
+  },
+  {
+    "firm": "Peninsula Capital",
+    "partner": "Arjun Mehta",
+    "email": "arjun@peninsula.example.in",
+    "linkedin": "https://linkedin.com/in/arjun-mehta-example",
+    "website": "https://peninsula.example.in",
+    "countries": ["India", "Southeast Asia"],
+    "stages": ["pre-seed", "seed"],
+    "sectors": ["fintech", "SaaS", "B2B marketplaces"],
+    "check_min_usd": 250000,
+    "check_max_usd": 1500000,
+    "thesis": "First-cheque investor for Indian founders building for global markets — especially cross-border fintech and SMB software.",
+    "partner_interests": "Arjun writes about UPI-rails infrastructure and vertical SaaS from India.",
+    "recent_investments": [
+      { "company": "LedgerPe", "round": "Seed", "year": 2025 },
+      { "company": "Exportly", "round": "Pre-seed", "year": 2025 }
+    ],
+    "portfolio": ["LedgerPe", "Exportly", "Craftstack", "BillSutra"]
+  },
+  {
+    "firm": "Foundry North",
+    "partner": "Emma Ostrowski",
+    "email": "emma@foundrynorth.example.com",
+    "linkedin": "https://linkedin.com/in/emma-ostrowski-example",
+    "website": "https://foundrynorth.example.com",
+    "countries": ["United States", "Canada"],
+    "stages": ["pre-seed", "seed"],
+    "sectors": ["healthtech", "digital health", "AI"],
+    "check_min_usd": 100000,
+    "check_max_usd": 1000000,
+    "thesis": "Pre-seed conviction bets on clinician-founders and AI applied to care delivery, diagnostics, and health admin drudgery.",
+    "partner_interests": "Emma spent eight years in hospital operations; loves boring-but-huge admin automation.",
+    "recent_investments": [
+      { "company": "ChartRelief", "round": "Pre-seed", "year": 2025 },
+      { "company": "Intake AI", "round": "Seed", "year": 2024 }
+    ],
+    "portfolio": ["ChartRelief", "Intake AI", "VitalsHub"]
+  },
+  {
+    "firm": "Bluewater Partners",
+    "partner": "Daniel Cho",
+    "email": "daniel@bluewater.example.com",
+    "linkedin": "https://linkedin.com/in/daniel-cho-example",
+    "website": "https://bluewater.example.com",
+    "countries": ["Global"],
+    "stages": ["series-a", "series-b+"],
+    "sectors": ["enterprise SaaS", "security", "data infrastructure"],
+    "check_min_usd": 5000000,
+    "check_max_usd": 20000000,
+    "thesis": "Series A/B firm for enterprise software with proven bottoms-up adoption; we lead rounds and take board seats.",
+    "partner_interests": "Daniel focuses on data security and compliance automation.",
+    "recent_investments": [
+      { "company": "VaultProxy", "round": "Series A", "year": 2025 },
+      { "company": "Schemata", "round": "Series B", "year": 2024 }
+    ],
+    "portfolio": ["VaultProxy", "Schemata", "Perimeter Labs", "Datafold Systems"]
+  },
+  {
+    "firm": "Garage Angels Syndicate",
+    "partner": "Priya Raghavan",
+    "email": "priya@garageangels.example.in",
+    "linkedin": "https://linkedin.com/in/priya-raghavan-example",
+    "website": "https://garageangels.example.in",
+    "countries": ["India"],
+    "stages": ["pre-seed"],
+    "sectors": ["consumer", "D2C", "creator economy", "AI applications"],
+    "check_min_usd": 50000,
+    "check_max_usd": 300000,
+    "thesis": "Operator-angel syndicate writing the first ₹ cheque into consumer and AI-application startups from India.",
+    "partner_interests": "Priya scaled growth at two unicorns; strong on consumer retention playbooks.",
+    "recent_investments": [
+      { "company": "SnackTheory", "round": "Pre-seed", "year": 2025 },
+      { "company": "Reelcraft", "round": "Pre-seed", "year": 2025 }
+    ],
+    "portfolio": ["SnackTheory", "Reelcraft", "Mudra Studio"]
+  },
+  {
+    "firm": "Helios Climate Fund",
+    "partner": "Tomás Ferreira",
+    "email": "tomas@helioscf.example.com",
+    "linkedin": "https://linkedin.com/in/tomas-ferreira-example",
+    "website": "https://helioscf.example.com",
+    "countries": ["Europe", "Global"],
+    "stages": ["seed", "series-a"],
+    "sectors": ["climate", "energy", "industrial software"],
+    "check_min_usd": 1000000,
+    "check_max_usd": 6000000,
+    "thesis": "Software and hardware-light companies decarbonizing heavy industry, energy markets, and logistics.",
+    "partner_interests": "Tomás is deep on grid flexibility and carbon accounting.",
+    "recent_investments": [
+      { "company": "GridLoop", "round": "Series A", "year": 2025 },
+      { "company": "Kelvin Analytics", "round": "Seed", "year": 2024 }
+    ],
+    "portfolio": ["GridLoop", "Kelvin Analytics", "Fluxwerk"]
+  },
+  {
+    "firm": "Latitude Labs",
+    "partner": "Grace Nakamura",
+    "email": "grace@latitudelabs.example.com",
+    "linkedin": "https://linkedin.com/in/grace-nakamura-example",
+    "website": "https://latitudelabs.example.com",
+    "countries": ["United States", "Global"],
+    "stages": ["pre-seed", "seed"],
+    "sectors": ["AI applications", "vertical SaaS", "future of work"],
+    "check_min_usd": 250000,
+    "check_max_usd": 2000000,
+    "thesis": "AI-native applications that own a workflow end-to-end in an underserved vertical — we like markets that look small but compound.",
+    "partner_interests": "Grace publishes a newsletter on AI agents replacing services spend.",
+    "recent_investments": [
+      { "company": "Briefcase AI", "round": "Seed", "year": 2025 },
+      { "company": "Permitly", "round": "Pre-seed", "year": 2025 }
+    ],
+    "portfolio": ["Briefcase AI", "Permitly", "Stackform", "Clerkwise"]
+  },
+  {
+    "firm": "Monsoon Ventures",
+    "partner": "Kavya Iyer",
+    "email": "kavya@monsoon.example.in",
+    "linkedin": "https://linkedin.com/in/kavya-iyer-example",
+    "website": "https://monsoon.example.in",
+    "countries": ["India", "Global"],
+    "stages": ["seed", "series-a"],
+    "sectors": ["SaaS", "AI applications", "developer tools"],
+    "check_min_usd": 1000000,
+    "check_max_usd": 5000000,
+    "thesis": "India-to-global software: we lead seed rounds for founders selling to the US from day one.",
+    "partner_interests": "Kavya tracks AI copilots for professional services and GTM tooling.",
+    "recent_investments": [
+      { "company": "Salesloom", "round": "Seed", "year": 2025 },
+      { "company": "Docmint", "round": "Series A", "year": 2024 }
+    ],
+    "portfolio": ["Salesloom", "Docmint", "Pipeworks", "Zenreply"]
+  },
+  {
+    "firm": "Harbor Street Capital",
+    "partner": "Michael Doyle",
+    "email": "michael@harborstreet.example.com",
+    "linkedin": "https://linkedin.com/in/michael-doyle-example",
+    "website": "https://harborstreet.example.com",
+    "countries": ["United States", "United Kingdom"],
+    "stages": ["seed"],
+    "sectors": ["fintech", "insurtech", "B2B payments"],
+    "check_min_usd": 750000,
+    "check_max_usd": 4000000,
+    "thesis": "Seed-stage fintech infrastructure and embedded finance; we like founders who've lived the regulatory pain.",
+    "partner_interests": "Michael was a payments PM; obsessed with cross-border settlement and compliance tooling.",
+    "recent_investments": [
+      { "company": "Railgate", "round": "Seed", "year": 2025 },
+      { "company": "Underwrite OS", "round": "Seed", "year": 2024 }
+    ],
+    "portfolio": ["Railgate", "Underwrite OS", "Ledgerline"]
+  },
+  {
+    "firm": "Sierra Verde Ventures",
+    "partner": "Lucía Marín",
+    "email": "lucia@sierraverde.example.com",
+    "linkedin": "https://linkedin.com/in/lucia-marin-example",
+    "website": "https://sierraverde.example.com",
+    "countries": ["Latin America", "United States"],
+    "stages": ["pre-seed", "seed"],
+    "sectors": ["fintech", "commerce", "logistics"],
+    "check_min_usd": 200000,
+    "check_max_usd": 1500000,
+    "thesis": "Backing LatAm founders digitizing commerce and financial access, plus US companies expanding south.",
+    "partner_interests": "Lucía focuses on SMB lending rails and cross-border logistics software.",
+    "recent_investments": [
+      { "company": "Cambiora", "round": "Seed", "year": 2025 },
+      { "company": "RutaOne", "round": "Pre-seed", "year": 2025 }
+    ],
+    "portfolio": ["Cambiora", "RutaOne", "Bodegal"]
+  },
+  {
+    "firm": "Cobalt Deep Tech",
+    "partner": "Yusuf Karim",
+    "email": "yusuf@cobaltdt.example.com",
+    "linkedin": "https://linkedin.com/in/yusuf-karim-example",
+    "website": "https://cobaltdt.example.com",
+    "countries": ["Global"],
+    "stages": ["seed", "series-a"],
+    "sectors": ["deep tech", "robotics", "space", "AI infrastructure"],
+    "check_min_usd": 1000000,
+    "check_max_usd": 8000000,
+    "thesis": "Hard technology with defensible IP — robotics, silicon, space systems, and the AI infrastructure underneath.",
+    "partner_interests": "Yusuf is an ex-robotics founder; strong views on hardware margins and moats.",
+    "recent_investments": [
+      { "company": "Armature Robotics", "round": "Series A", "year": 2025 },
+      { "company": "Ionway", "round": "Seed", "year": 2024 }
+    ],
+    "portfolio": ["Armature Robotics", "Ionway", "Substrate Semi"]
+  },
+  {
+    "firm": "First Draft Fund",
+    "partner": "Hannah Weiss",
+    "email": "hannah@firstdraft.example.com",
+    "linkedin": "https://linkedin.com/in/hannah-weiss-example",
+    "website": "https://firstdraft.example.com",
+    "countries": ["United States", "Europe", "Global"],
+    "stages": ["pre-seed"],
+    "sectors": ["consumer", "marketplaces", "AI applications", "edtech"],
+    "check_min_usd": 100000,
+    "check_max_usd": 500000,
+    "thesis": "The first believing cheque, pre-traction — we invest in storytellers with unusual insight into a consumer behavior shift.",
+    "partner_interests": "Hannah looks for products with organic word-of-mouth in niche communities.",
+    "recent_investments": [
+      { "company": "Fig & Fable", "round": "Pre-seed", "year": 2025 },
+      { "company": "Tutorloop", "round": "Pre-seed", "year": 2025 }
+    ],
+    "portfolio": ["Fig & Fable", "Tutorloop", "Campfire Social"]
+  },
+  {
+    "firm": "Meridian Growth",
+    "partner": "Olivia Bennett",
+    "email": "olivia@meridiangrowth.example.com",
+    "linkedin": "https://linkedin.com/in/olivia-bennett-example",
+    "website": "https://meridiangrowth.example.com",
+    "countries": ["Global"],
+    "stages": ["series-b+"],
+    "sectors": ["SaaS", "marketplaces", "fintech"],
+    "check_min_usd": 15000000,
+    "check_max_usd": 60000000,
+    "thesis": "Growth rounds for capital-efficient companies past $10M ARR with clear paths to durable free cash flow.",
+    "partner_interests": "Olivia leads the firm's vertical software practice.",
+    "recent_investments": [
+      { "company": "Shopgrid", "round": "Series C", "year": 2025 },
+      { "company": "Finlayer", "round": "Series B", "year": 2024 }
+    ],
+    "portfolio": ["Shopgrid", "Finlayer", "Crewbase", "Tally Systems"]
+  },
+  {
+    "firm": "Baobab Ventures",
+    "partner": "Amara Okafor",
+    "email": "amara@baobab.example.com",
+    "linkedin": "https://linkedin.com/in/amara-okafor-example",
+    "website": "https://baobab.example.com",
+    "countries": ["Africa", "Global"],
+    "stages": ["pre-seed", "seed"],
+    "sectors": ["fintech", "agritech", "logistics", "healthtech"],
+    "check_min_usd": 100000,
+    "check_max_usd": 1000000,
+    "thesis": "Pan-African early-stage fund backing infrastructure for the continent's next 500M digital consumers.",
+    "partner_interests": "Amara focuses on payment interoperability and agent-network distribution.",
+    "recent_investments": [
+      { "company": "PayBridge", "round": "Seed", "year": 2025 },
+      { "company": "FarmSignal", "round": "Pre-seed", "year": 2024 }
+    ],
+    "portfolio": ["PayBridge", "FarmSignal", "Njia Logistics"]
+  },
+  {
+    "firm": "Kite String Capital",
+    "partner": "Ben Alcott",
+    "email": "ben@kitestring.example.com",
+    "linkedin": "https://linkedin.com/in/ben-alcott-example",
+    "website": "https://kitestring.example.com",
+    "countries": ["United States", "Global"],
+    "stages": ["seed"],
+    "sectors": ["AI applications", "sales tech", "marketing tech", "SMB software"],
+    "check_min_usd": 500000,
+    "check_max_usd": 2500000,
+    "thesis": "Seed cheques into AI products that make revenue teams measurably faster — we ask every founder for a live conversion metric.",
+    "partner_interests": "Ben angel-invested in three GTM-tooling exits; loves WhatsApp/SMS-native products for emerging markets.",
+    "recent_investments": [
+      { "company": "Pitchloop", "round": "Seed", "year": 2025 },
+      { "company": "Replyist", "round": "Seed", "year": 2024 }
+    ],
+    "portfolio": ["Pitchloop", "Replyist", "Funnelwise"]
+  },
+  {
+    "firm": "Alpine Summit Partners",
+    "partner": "Claire Dubois",
+    "email": "claire@alpinesummit.example.com",
+    "linkedin": "https://linkedin.com/in/claire-dubois-example",
+    "website": "https://alpinesummit.example.com",
+    "countries": ["Europe"],
+    "stages": ["seed", "series-a"],
+    "sectors": ["B2B SaaS", "AI applications", "privacy tech"],
+    "check_min_usd": 1000000,
+    "check_max_usd": 7000000,
+    "thesis": "European B2B software champions — we help seed-stage teams win the EU enterprise market before going transatlantic.",
+    "partner_interests": "Claire specializes in GDPR-adjacent products and AI governance tooling.",
+    "recent_investments": [
+      { "company": "Consentio", "round": "Series A", "year": 2025 },
+      { "company": "Modelpass", "round": "Seed", "year": 2025 }
+    ],
+    "portfolio": ["Consentio", "Modelpass", "Werkstatt SaaS"]
+  }
+]

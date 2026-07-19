@@ -1,0 +1,76 @@
+# 🔭 Scout
+
+**Your AI fundraising associate on WhatsApp.**
+
+A founder chats with Scout for ~15 minutes → Scout researches the startup → matches it against a curated investor knowledge base → the founder gets a curated investor list with personalized outreach for each match, plus an ongoing AI fundraising assistant that never forgets their context.
+
+## How it works
+
+```
+Dashboard  →  WhatsApp  →  AI founder interview  →  startup research
+     →  investor matching  →  paywall (top-3 preview)  →  full report
+     →  personalized outreach  →  ongoing fundraising assistant
+```
+
+1. **Interview** — a dynamic WhatsApp conversation (not a form). Every answer is extracted into a structured startup profile; nothing is ever asked twice.
+2. **Research** — Scout scrapes the startup's website (Firecrawl) and searches the web (Tavily), then synthesizes an investor-grade brief: summary, market, strengths, weaknesses, ideal investor profile.
+3. **Matching** — the core of the product. Hard filters (stage, geography) + pgvector semantic retrieval over the investor knowledge base, then an LLM re-ranking pass that scores each candidate and writes a founder-credible "why matched" explanation.
+4. **Paywall** — the founder gets a free preview of their top 3 matches; ₹999/$29 (Stripe) unlocks the full report.
+5. **Outreach** — a distinct cold email + LinkedIn DM per investor, each anchored on that investor's actual thesis, portfolio, or recent investment.
+6. **Assistant** — after the report, the same chat becomes a fundraising assistant with full context (profile, research, matched investors).
+
+## Repo layout
+
+```
+apps/
+  api/        NestJS backend — WhatsApp webhook, agents, pipeline, Stripe
+    src/
+      whatsapp/       Meta Cloud API webhook + outbound messaging
+      conversation/   interview + assistant agents, profile schema, prompts
+      memory/         all Supabase persistence (users, messages, profiles…)
+      agents/         research, matching, outreach, report agents
+      pipeline/       orchestration (BullMQ when Redis is set, inline otherwise)
+      payments/       Stripe checkout + webhook
+    scripts/          investor-base seeding (computes embeddings)
+    data/             sample investor dataset (FICTIONAL — replace before launch)
+  web/        Next.js dashboard — single landing page + /thanks
+supabase/
+  migrations/ Postgres schema (pgvector, match_investors RPC)
+```
+
+## Getting started
+
+Prereqs: Node ≥20, pnpm, a Supabase project, and API keys for OpenAI, Meta WhatsApp Cloud API, Stripe, Tavily, Firecrawl (the last two are optional — the pipeline degrades gracefully without them).
+
+```bash
+pnpm install
+cp .env.example .env        # fill in your keys
+
+# 1. Apply the schema to your Supabase project
+#    (Supabase CLI: supabase db push — or paste supabase/migrations/0001_init.sql
+#     into the SQL editor)
+
+# 2. Seed the investor knowledge base (computes embeddings via OpenAI)
+pnpm seed:investors
+
+# 3. Run everything
+pnpm dev                    # web on :3000, api on :4000
+```
+
+### Wiring the webhooks
+
+- **WhatsApp**: in the Meta developer console, point the webhook to `https://<api-host>/webhooks/whatsapp` with the verify token from `WHATSAPP_VERIFY_TOKEN`, and subscribe to `messages`.
+- **Stripe**: point a webhook at `https://<api-host>/webhooks/stripe` for the `checkout.session.completed` event; put the signing secret in `STRIPE_WEBHOOK_SECRET`. Create a one-time price for the report and set `STRIPE_PRICE_ID`.
+- For local dev use `stripe listen --forward-to localhost:4000/webhooks/stripe` and any HTTPS tunnel (e.g. `cloudflared`) for the WhatsApp webhook.
+
+### Redis (optional)
+
+Set `REDIS_URL` to run the research/delivery pipeline on BullMQ with retries. Without it, jobs run in-process — fine for development.
+
+## The investor knowledge base
+
+`apps/api/data/investors.seed.json` ships with **fictional sample investors** so the full flow works end-to-end immediately. The real moat is a curated, well-maintained dataset with stages, geographies, sectors, check sizes, theses, partner interests, and recent investments. Replace the seed file with your real dataset (same shape) and re-run `pnpm seed:investors` — it upserts by (firm, partner) and recomputes embeddings.
+
+## Deliberately out of scope (MVP)
+
+CRM, automated sending, follow-up sequences, meeting scheduling, analytics, deck parsing, multi-startup support per founder. The MVP validates one thing: founders will pay for a trustworthy, personalized investor list delivered through a conversation.
