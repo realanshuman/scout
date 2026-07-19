@@ -1,7 +1,8 @@
 /** Typed access to environment variables with sane defaults for dev. */
 export const env = {
   get port(): number {
-    return Number(process.env.API_PORT ?? 4000);
+    // PORT is what Railway/Render/Fly inject; API_PORT wins when set.
+    return Number(process.env.API_PORT ?? process.env.PORT ?? 4000);
   },
   get apiPublicUrl(): string {
     return process.env.API_PUBLIC_URL ?? `http://localhost:${this.port}`;

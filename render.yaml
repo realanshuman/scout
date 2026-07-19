@@ -1,0 +1,17 @@
+# Render Blueprint — deploys the Scout API as a Docker web service.
+# The dashboard (apps/web) goes to Vercel; see README → Deployment.
+services:
+  - type: web
+    name: scout-api
+    runtime: docker
+    dockerfilePath: apps/api/Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Fill the rest in the Render dashboard (see .env.example):
+      # OPENAI_API_KEY, SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY,
+      # WHATSAPP_PHONE_NUMBER_ID, WHATSAPP_ACCESS_TOKEN, WHATSAPP_VERIFY_TOKEN,
+      # STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, STRIPE_PRICE_ID,
+      # TAVILY_API_KEY, FIRECRAWL_API_KEY, REDIS_URL, WEB_PUBLIC_URL

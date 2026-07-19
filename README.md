@@ -71,6 +71,30 @@ Set `REDIS_URL` to run the research/delivery pipeline on BullMQ with retries. Wi
 
 `apps/api/data/investors.seed.json` ships with **fictional sample investors** so the full flow works end-to-end immediately. The real moat is a curated, well-maintained dataset with stages, geographies, sectors, check sizes, theses, partner interests, and recent investments. Replace the seed file with your real dataset (same shape) and re-run `pnpm seed:investors` — it upserts by (firm, partner) and recomputes embeddings.
 
+## Deployment
+
+The two apps deploy to different platforms on purpose: the dashboard is static and fits Vercel perfectly, while the API is a long-lived process (5–10 minute research jobs, BullMQ worker, webhooks) that needs a persistent server.
+
+### Dashboard → Vercel
+
+1. Import the GitHub repo in Vercel and set **Root Directory** to `apps/web` (Vercel auto-detects Next.js + pnpm; `apps/web/vercel.json` also skips builds when nothing under `apps/web` changed).
+2. Set env var `NEXT_PUBLIC_WHATSAPP_NUMBER` to your WhatsApp business number (E.164, no `+`).
+3. Attach your domain and set it as `WEB_PUBLIC_URL` on the API.
+
+### API → Railway / Render / anything that runs Docker
+
+`apps/api/Dockerfile` is a multi-stage build (build → prod-deps → slim runtime) with the **repo root as build context**:
+
+```bash
+docker build -f apps/api/Dockerfile -t scout-api .
+```
+
+- **Railway**: `railway.json` in the repo root points at the Dockerfile and wires the `/health` healthcheck — just create a project from the repo and add env vars.
+- **Render**: `render.yaml` is a ready Blueprint — "New → Blueprint", pick the repo, fill in env vars.
+- The server listens on `PORT` (injected by the platform) or `API_PORT`.
+
+Set every variable from `.env.example`, add a Redis instance and set `REDIS_URL` (recommended in production so an interrupted research job retries instead of dropping a founder), then wire the two webhooks (see above) to the deployed API URL and run the investor seed against your production Supabase.
+
 ## Deliberately out of scope (MVP)
 
 CRM, automated sending, follow-up sequences, meeting scheduling, analytics, deck parsing, multi-startup support per founder. The MVP validates one thing: founders will pay for a trustworthy, personalized investor list delivered through a conversation.
