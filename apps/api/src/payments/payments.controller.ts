@@ -12,7 +12,7 @@ import type { Request } from 'express';
 import { PaymentsService } from './payments.service';
 import { PipelineService } from '../pipeline/pipeline.service';
 
-@Controller('webhooks/stripe')
+@Controller('webhooks/dodo')
 export class PaymentsController {
   private readonly logger = new Logger(PaymentsController.name);
 
@@ -25,14 +25,20 @@ export class PaymentsController {
   @HttpCode(200)
   async handle(
     @Req() req: RawBodyRequest<Request>,
-    @Headers('stripe-signature') signature: string,
+    @Headers('webhook-id') webhookId: string,
+    @Headers('webhook-timestamp') webhookTimestamp: string,
+    @Headers('webhook-signature') webhookSignature: string,
   ): Promise<{ received: true }> {
-    if (!req.rawBody || !signature) throw new BadRequestException('missing signature');
+    if (!req.rawBody) throw new BadRequestException('missing body');
     let reportId: string | null;
     try {
-      reportId = await this.payments.handleWebhook(req.rawBody, signature);
+      reportId = await this.payments.handleWebhook(req.rawBody, {
+        id: webhookId,
+        timestamp: webhookTimestamp,
+        signature: webhookSignature,
+      });
     } catch (err) {
-      this.logger.warn(`stripe webhook rejected: ${err}`);
+      this.logger.warn(`dodo webhook rejected: ${err}`);
       throw new BadRequestException('invalid webhook');
     }
     if (reportId) await this.pipeline.enqueueDelivery(reportId);

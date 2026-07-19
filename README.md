@@ -15,7 +15,7 @@ Dashboard  →  WhatsApp  →  AI founder interview  →  startup research
 1. **Interview** — a dynamic WhatsApp conversation (not a form). Every answer is extracted into a structured startup profile; nothing is ever asked twice.
 2. **Research** — Scout scrapes the startup's website (Firecrawl) and searches the web (Tavily), then synthesizes an investor-grade brief: summary, market, strengths, weaknesses, ideal investor profile.
 3. **Matching** — the core of the product. Hard filters (stage, geography) + pgvector semantic retrieval over the investor knowledge base, then an LLM re-ranking pass that scores each candidate and writes a founder-credible "why matched" explanation.
-4. **Paywall** — the founder gets a free preview of their top 3 matches; ₹999/$29 (Stripe) unlocks the full report.
+4. **Paywall** — the founder gets a free preview of their top 3 matches; ₹999/$29 (Dodo Payments) unlocks the full report.
 5. **Outreach** — a distinct cold email + LinkedIn DM per investor, each anchored on that investor's actual thesis, portfolio, or recent investment.
 6. **Assistant** — after the report, the same chat becomes a fundraising assistant with full context (profile, research, matched investors).
 
@@ -23,14 +23,14 @@ Dashboard  →  WhatsApp  →  AI founder interview  →  startup research
 
 ```
 apps/
-  api/        NestJS backend — WhatsApp webhook, agents, pipeline, Stripe
+  api/        NestJS backend — WhatsApp webhook, agents, pipeline, payments
     src/
       whatsapp/       Meta Cloud API webhook + outbound messaging
       conversation/   interview + assistant agents, profile schema, prompts
       memory/         all Supabase persistence (users, messages, profiles…)
       agents/         research, matching, outreach, report agents
       pipeline/       orchestration (BullMQ when Redis is set, inline otherwise)
-      payments/       Stripe checkout + webhook
+      payments/       Dodo Payments checkout + webhook
     scripts/          investor-base seeding (computes embeddings)
     data/             sample investor dataset (FICTIONAL — replace before launch)
   web/        Next.js dashboard — single landing page + /thanks
@@ -40,7 +40,7 @@ supabase/
 
 ## Getting started
 
-Prereqs: Node ≥20, pnpm, a Supabase project, and API keys for OpenAI, Meta WhatsApp Cloud API, Stripe, Tavily, Firecrawl (the last two are optional — the pipeline degrades gracefully without them).
+Prereqs: Node ≥20, pnpm, a Supabase project, and API keys for OpenAI, Meta WhatsApp Cloud API, Dodo Payments, Tavily, Firecrawl (the last two are optional — the pipeline degrades gracefully without them).
 
 ```bash
 pnpm install
@@ -60,8 +60,8 @@ pnpm dev                    # web on :3000, api on :4000
 ### Wiring the webhooks
 
 - **WhatsApp**: in the Meta developer console, point the webhook to `https://<api-host>/webhooks/whatsapp` with the verify token from `WHATSAPP_VERIFY_TOKEN`, and subscribe to `messages`.
-- **Stripe**: point a webhook at `https://<api-host>/webhooks/stripe` for the `checkout.session.completed` event; put the signing secret in `STRIPE_WEBHOOK_SECRET`. Create a one-time price for the report and set `STRIPE_PRICE_ID`.
-- For local dev use `stripe listen --forward-to localhost:4000/webhooks/stripe` and any HTTPS tunnel (e.g. `cloudflared`) for the WhatsApp webhook.
+- **Dodo Payments**: create a one-time product for the report (₹999 / $29 — Dodo is merchant of record, so localized pricing and tax are handled for you) and set `DODO_PAYMENTS_PRODUCT_ID`. In Dashboard → Webhooks, add `https://<api-host>/webhooks/dodo` subscribed to `payment.succeeded` and put the signing key in `DODO_PAYMENTS_WEBHOOK_KEY`. Keep `DODO_PAYMENTS_ENVIRONMENT=test_mode` until launch, then flip to `live_mode` with your live API key.
+- For local dev use any HTTPS tunnel (e.g. `cloudflared`) so both the WhatsApp and Dodo webhooks can reach your machine.
 
 ### Redis (optional)
 

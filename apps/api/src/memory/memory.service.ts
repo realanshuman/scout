@@ -71,7 +71,7 @@ export interface ReportRow {
   id: string;
   startup_id: string;
   status: 'locked' | 'unlocked';
-  stripe_session_id: string | null;
+  payment_ref: string | null;
 }
 
 /**
@@ -319,10 +319,10 @@ export class MemoryService {
 
   // ── reports ───────────────────────────────────────────────────────
 
-  async createReport(startupId: string, stripeSessionId: string): Promise<ReportRow> {
+  async createReport(startupId: string, paymentRef: string): Promise<ReportRow> {
     const { data, error } = await this.db
       .from('reports')
-      .insert({ startup_id: startupId, stripe_session_id: stripeSessionId })
+      .insert({ startup_id: startupId, payment_ref: paymentRef })
       .select()
       .single();
     if (error) throw error;
@@ -335,11 +335,11 @@ export class MemoryService {
     return data as ReportRow;
   }
 
-  async reportByStripeSession(sessionId: string): Promise<ReportRow | null> {
+  async reportByPaymentRef(paymentRef: string): Promise<ReportRow | null> {
     const { data } = await this.db
       .from('reports')
       .select()
-      .eq('stripe_session_id', sessionId)
+      .eq('payment_ref', paymentRef)
       .maybeSingle();
     return (data as ReportRow) ?? null;
   }

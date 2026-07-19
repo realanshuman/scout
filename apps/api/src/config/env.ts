@@ -48,14 +48,17 @@ export const env = {
     return process.env.FIRECRAWL_API_KEY;
   },
 
-  get stripeSecretKey(): string {
-    return required('STRIPE_SECRET_KEY');
+  get dodoApiKey(): string {
+    return required('DODO_PAYMENTS_API_KEY');
   },
-  get stripeWebhookSecret(): string {
-    return required('STRIPE_WEBHOOK_SECRET');
+  get dodoWebhookKey(): string {
+    return required('DODO_PAYMENTS_WEBHOOK_KEY');
   },
-  get stripePriceId(): string {
-    return required('STRIPE_PRICE_ID');
+  get dodoProductId(): string {
+    return required('DODO_PAYMENTS_PRODUCT_ID');
+  },
+  get dodoEnvironment(): 'test_mode' | 'live_mode' {
+    return process.env.DODO_PAYMENTS_ENVIRONMENT === 'live_mode' ? 'live_mode' : 'test_mode';
   },
 
   get redisUrl(): string | undefined {

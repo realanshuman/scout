@@ -7,7 +7,7 @@ import { AppModule } from './app.module';
 import { env } from './config/env';
 
 async function bootstrap() {
-  // rawBody is required for Stripe webhook signature verification.
+  // rawBody is required for payment-webhook signature verification.
   const app = await NestFactory.create<NestExpressApplication>(AppModule, { rawBody: true });
   app.enableCors({ origin: env.webPublicUrl });
   await app.listen(env.port);
