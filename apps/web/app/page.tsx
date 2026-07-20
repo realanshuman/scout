@@ -1,18 +1,24 @@
-import { ScoutMark } from '@/components/logo';
-import { SiteNav, SiteFooter, WhatsAppGlyph, WA_LINK } from '@/components/site';
-import {
-  BrandCrunchbase,
-  BrandGitHub,
-  BrandGlobe,
-  BrandLinkedIn,
-  BrandNews,
-  BrandProductHunt,
-  BrandX,
-  BrandYC,
-} from '@/components/brands';
+import { Logo, ScoutMark } from '@/components/logo';
+import { ThemeToggle } from '@/components/theme-toggle';
 
-// ── CTA ───────────────────────────────────────────────────────────────
+const WA_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '15551234567';
+const WA_LINK = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Hi Scout!')}`;
 
+// ── shared bits ───────────────────────────────────────────────────────
+
+function WhatsAppGlyph({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true">
+      <path d="M12 2a10 10 0 0 0-8.66 15L2 22l5.16-1.31A10 10 0 1 0 12 2Zm0 18.13a8.1 8.1 0 0 1-4.13-1.13l-.3-.18-3.06.78.8-2.98-.2-.31A8.13 8.13 0 1 1 12 20.13Zm4.46-6.07c-.24-.12-1.44-.71-1.66-.79s-.39-.12-.55.12-.63.79-.77.95-.28.18-.53.06a6.65 6.65 0 0 1-1.95-1.2 7.33 7.33 0 0 1-1.35-1.68c-.14-.24 0-.37.1-.5s.24-.28.37-.42a1.65 1.65 0 0 0 .24-.41.45.45 0 0 0 0-.43c-.06-.12-.55-1.32-.75-1.8s-.4-.42-.55-.42h-.47a.9.9 0 0 0-.65.3 2.74 2.74 0 0 0-.86 2.04 4.76 4.76 0 0 0 1 2.53 10.9 10.9 0 0 0 4.18 3.69 14.1 14.1 0 0 0 1.4.51 3.35 3.35 0 0 0 1.54.1 2.52 2.52 0 0 0 1.65-1.17 2 2 0 0 0 .14-1.16c-.06-.11-.22-.17-.46-.29Z" />
+    </svg>
+  );
+}
+
+/**
+ * The main CTA, Backdoor-style: a glossy pill with the messenger icon in a
+ * green squircle. `bg-ink text-paper` flips automatically per theme, so it
+ * is a black pill in day mode and a white pill in night mode.
+ */
 function MessageCTA({
   label = 'Message Scout',
   caption = 'WhatsApp · free to start',
@@ -31,7 +37,9 @@ function MessageCTA({
         target="_blank"
         rel="noopener noreferrer"
         className={`group relative inline-flex w-full items-center justify-center gap-3 overflow-hidden rounded-full px-8 py-4 text-lg font-semibold shadow-lift ring-1 transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_24px_60px_-16px_rgba(0,0,0,0.35)] active:translate-y-0 active:scale-[0.99] sm:w-auto ${
-          light ? 'bg-white text-[#111614] ring-black/5' : 'bg-ink text-paper ring-white/15'
+          light
+            ? 'bg-white text-[#111614] ring-black/5'
+            : 'bg-ink text-paper ring-white/15'
         }`}
       >
         <span className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/25 to-transparent" />
@@ -45,27 +53,27 @@ function MessageCTA({
   );
 }
 
-// ── step mockups ──────────────────────────────────────────────────────
+// ── mini mockups for the step cards ───────────────────────────────────
 
 function StepChat() {
   return (
-    <div className="w-full max-w-[300px] rounded-2xl border border-ink/[0.06] bg-card p-3 text-left shadow-lift">
-      <div className="flex items-center gap-2 border-b border-ink/[0.06] pb-2">
+    <div className="w-full max-w-[290px] rounded-2xl bg-white p-3 text-left shadow-lift">
+      <div className="flex items-center gap-2 border-b border-black/5 pb-2">
         <ScoutMark className="h-6 w-6" />
-        <p className="text-xs font-semibold">Scout</p>
-        <p className="ml-auto text-[10px] text-mist">online</p>
+        <p className="text-xs font-semibold text-[#111614]">Scout</p>
+        <p className="ml-auto text-[10px] text-[#8a938e]">online</p>
       </div>
       <div className="mt-2.5 space-y-1.5 text-[12px] leading-relaxed">
-        <p className="w-fit max-w-[92%] rounded-xl rounded-tl-sm bg-paper px-2.5 py-1.5">
+        <p className="w-fit max-w-[92%] rounded-xl rounded-tl-sm bg-[#f0f2f0] px-2.5 py-1.5 text-[#111614]">
           Hey 👋 What are you building?
         </p>
-        <p className="ml-auto w-fit max-w-[92%] rounded-xl rounded-tr-sm bg-bubble px-2.5 py-1.5 text-[#111614]">
+        <p className="ml-auto w-fit max-w-[92%] rounded-xl rounded-tr-sm bg-[#d9fdd3] px-2.5 py-1.5 text-[#111614]">
           Loop, an AI copilot for warehouse ops. $18k MRR.
         </p>
-        <p className="w-fit max-w-[92%] rounded-xl rounded-tl-sm bg-paper px-2.5 py-1.5">
+        <p className="w-fit max-w-[92%] rounded-xl rounded-tl-sm bg-[#f0f2f0] px-2.5 py-1.5 text-[#111614]">
           Solid traction. Who&apos;s the buyer, ops manager or floor lead?
         </p>
-        <p className="ml-auto w-fit max-w-[92%] rounded-xl rounded-tr-sm bg-bubble px-2.5 py-1.5 text-[#111614]">
+        <p className="ml-auto w-fit max-w-[92%] rounded-xl rounded-tr-sm bg-[#d9fdd3] px-2.5 py-1.5 text-[#111614]">
           Ops managers at mid-size 3PLs.
         </p>
       </div>
@@ -77,22 +85,22 @@ function StepMatches() {
   const rows = [
     { firm: 'Northbeam Ventures', note: 'led two logistics-AI seeds this year', fit: 94 },
     { firm: 'Latitude Labs', note: 'thesis: AI owning a full workflow', fit: 91 },
-    { firm: 'Kite String Capital', note: 'backs revenue tooling at seed', fit: 88 },
+    { firm: 'Kite String Capital', note: 'backs revenue-tooling at seed', fit: 88 },
   ];
   return (
-    <div className="w-full max-w-[300px] rounded-2xl border border-ink/[0.06] bg-card p-3 text-left shadow-lift">
-      <p className="border-b border-ink/[0.06] pb-2 text-xs font-semibold">
+    <div className="w-full max-w-[290px] rounded-2xl bg-white p-3 text-left shadow-lift">
+      <p className="border-b border-black/5 pb-2 text-xs font-semibold text-[#111614]">
         58 investors found · top 3
       </p>
-      <div className="mt-1 divide-y divide-ink/[0.06]">
+      <div className="mt-1 divide-y divide-black/5">
         {rows.map((r, i) => (
           <div key={r.firm} className="flex items-center gap-2.5 py-2">
-            <span className="text-[11px] font-semibold text-mist">{i + 1}</span>
+            <span className="text-[11px] font-semibold text-[#8a938e]">{i + 1}</span>
             <div className="min-w-0">
-              <p className="truncate text-[12px] font-semibold">{r.firm}</p>
-              <p className="truncate text-[11px] text-mist">{r.note}</p>
+              <p className="truncate text-[12px] font-semibold text-[#111614]">{r.firm}</p>
+              <p className="truncate text-[11px] text-[#8a938e]">{r.note}</p>
             </div>
-            <span className="ml-auto shrink-0 rounded-full bg-signal/15 px-1.5 py-0.5 text-[10px] font-bold text-moss">
+            <span className="ml-auto shrink-0 rounded-full bg-[#e8f8ee] px-1.5 py-0.5 text-[10px] font-bold text-[#0e7a5f]">
               {r.fit}%
             </span>
           </div>
@@ -104,18 +112,20 @@ function StepMatches() {
 
 function StepEmail() {
   return (
-    <div className="w-full max-w-[300px] rounded-2xl border border-ink/[0.06] bg-card p-3.5 text-left shadow-lift">
-      <p className="text-[10px] font-semibold uppercase tracking-wider text-mist">
+    <div className="w-full max-w-[290px] rounded-2xl bg-white p-3.5 text-left shadow-lift">
+      <p className="text-[10px] font-semibold uppercase tracking-wider text-[#8a938e]">
         Draft · Sarah Lindqvist
       </p>
-      <p className="mt-1.5 text-[12px] font-semibold">Subject: Cursor for warehouse ops</p>
-      <div className="my-2 h-px bg-ink/[0.06]" />
-      <p className="text-[12px] leading-relaxed text-ink/70">
+      <p className="mt-1.5 text-[12px] font-semibold text-[#111614]">
+        Subject: Cursor for warehouse ops
+      </p>
+      <div className="my-2 h-px bg-black/5" />
+      <p className="text-[12px] leading-relaxed text-[#3f4a45]">
         Hi Sarah, saw your seed into CodeLoom and your piece on agentic ops. We&apos;re
         building Loop: $18k MRR, growing 22% MoM. Worth 20 minutes?
       </p>
-      <div className="mt-2.5 flex items-center gap-1.5 text-[11px] font-medium text-moss">
-        <span className="grid h-4 w-4 place-items-center rounded-full bg-signal/15">✓</span>
+      <div className="mt-2.5 flex items-center gap-1.5 text-[11px] font-medium text-[#0e7a5f]">
+        <span className="grid h-4 w-4 place-items-center rounded-full bg-[#e8f8ee]">✓</span>
         LinkedIn DM included
       </div>
     </div>
@@ -126,34 +136,36 @@ function StepEmail() {
 
 const steps = [
   {
-    n: '1',
-    title: 'One honest conversation',
-    body: 'Fifteen minutes on WhatsApp about your product, traction, and raise. Scout listens like a sharp associate and never asks the same thing twice.',
+    n: 1,
+    title: 'A real conversation',
+    body: 'Fifteen minutes on WhatsApp about your product, traction, and raise. Scout listens like a sharp associate and never asks twice.',
+    gradient: 'from-[#dcc0ab] to-[#8f6f5c]',
     mock: StepChat,
   },
   {
-    n: '2',
-    title: 'Deep research, ranked matches',
-    body: 'Scout studies your company and market, then scores a curated investor base on stage, sector, geography, check size, and thesis. You see exactly why each name made the cut.',
+    n: 2,
+    title: 'Research and matching',
+    body: 'Scout studies your company and market, then ranks a curated investor base by stage, sector, geography, and thesis fit.',
+    gradient: 'from-[#c7cfb2] to-[#68755a]',
     mock: StepMatches,
   },
   {
-    n: '3',
-    title: 'Outreach in your voice',
-    body: 'Every investor gets a personal email and LinkedIn DM built from their real portfolio and your real numbers. You review, tweak if you like, and send.',
+    n: 3,
+    title: 'Outreach that lands',
+    body: 'Every investor gets a personal email and LinkedIn DM built from their real portfolio and your real numbers. You review and send.',
+    gradient: 'from-[#d3bb96] to-[#57504a]',
     mock: StepEmail,
   },
 ];
 
-const platforms = [
-  { name: 'Your website', icon: BrandGlobe },
-  { name: 'LinkedIn', icon: BrandLinkedIn },
-  { name: 'Crunchbase', icon: BrandCrunchbase },
-  { name: 'X / Twitter', icon: BrandX },
-  { name: 'Y Combinator', icon: BrandYC },
-  { name: 'Product Hunt', icon: BrandProductHunt },
-  { name: 'GitHub', icon: BrandGitHub },
-  { name: 'Tech press', icon: BrandNews },
+const sources = [
+  'Your website',
+  'Crunchbase',
+  'LinkedIn',
+  'X / Twitter',
+  'Y Combinator',
+  'Product Hunt',
+  'TechCrunch',
 ];
 
 const faqs = [
@@ -188,104 +200,83 @@ const faqs = [
 export default function Home() {
   return (
     <>
-      <SiteNav
-        links={[
-          { label: 'How it works', href: '#how' },
-          { label: 'Investors', href: '#investors' },
-          { label: 'Pricing', href: '#pricing' },
-          { label: 'FAQ', href: '#faq' },
-        ]}
-      />
+      {/* Nav */}
+      <header className="sticky top-0 z-40 border-b border-ink/[0.06] bg-paper/80 backdrop-blur-md">
+        <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
+          <Logo />
+          <div className="hidden items-center gap-8 text-sm text-mist md:flex">
+            <a href="#how" className="transition hover:text-ink">How it works</a>
+            <a href="#pricing" className="transition hover:text-ink">Pricing</a>
+            <a href="#faq" className="transition hover:text-ink">FAQ</a>
+          </div>
+          <a
+            href={WA_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-full bg-ink px-4 py-2 text-sm font-medium text-paper shadow-sm transition duration-200 hover:-translate-y-px hover:opacity-90"
+          >
+            Message Scout
+          </a>
+        </nav>
+      </header>
 
       <main>
-        {/* Hero */}
-        <section className="relative mx-auto max-w-4xl px-5 pb-20 pt-14 text-center sm:pb-28 sm:pt-20">
-          <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[420px] opacity-60 [background:radial-gradient(ellipse_at_50%_-20%,rgb(34_197_94/0.14),transparent_60%)]" />
-          <ScoutMark className="mx-auto h-14 w-14 animate-fade-up" />
-          <h1 className="mt-6 animate-fade-up font-display text-5xl leading-[1.05] tracking-tight text-ink [animation-delay:60ms] sm:text-7xl">
-            Meet Scout, your AI <span className="italic text-moss">fundraising associate</span>.
+        {/* Hero: centered, editorial, whitespace-heavy */}
+        <section className="mx-auto max-w-4xl px-5 pb-20 pt-16 text-center sm:pb-28 sm:pt-24">
+          <h1 className="animate-fade-up font-display text-5xl leading-[1.05] tracking-tight text-ink sm:text-7xl">
+            Meet Scout, your AI fundraising associate.
           </h1>
-          <p className="mx-auto mt-7 max-w-2xl animate-fade-up text-lg leading-relaxed text-mist [animation-delay:120ms] sm:text-xl">
-            One chat on WhatsApp. Scout learns your startup, researches your market, and
-            hands you the fifty investors most likely to say yes, with a personal email
-            for each.
+          <p className="mx-auto mt-7 max-w-2xl animate-fade-up text-lg leading-relaxed text-mist [animation-delay:80ms] sm:text-xl">
+            Fundraising isn&apos;t a numbers game. Focused outreach wins. Scout finds the
+            investors most likely to fund you and writes outreach they&apos;ll actually
+            answer, so you wake up to meetings, not templates.
           </p>
-          <div className="mt-10 animate-fade-up [animation-delay:180ms]">
+          <div className="mt-10 animate-fade-up [animation-delay:160ms]">
             <MessageCTA />
           </div>
         </section>
 
-        {/* How it works: zigzag timeline */}
-        <section id="how" className="mx-auto max-w-5xl scroll-mt-24 px-5 py-16 sm:py-24">
+        {/* How it works: three gradient cards with product mockups */}
+        <section id="how" className="mx-auto max-w-6xl scroll-mt-24 px-5 py-16 sm:py-24">
           <h2 className="text-center font-display text-4xl tracking-tight sm:text-5xl">
-            How Scout works
+            How it works
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-center text-mist">
-            One conversation in. A ranked, explained, written-for-you investor list out.
+            Fifty carefully matched investors, not five thousand. Each one researched,
+            scored, and worth your email. The opposite of spray-and-pray.
           </p>
-
-          <div className="relative mt-14 sm:mt-20">
-            {/* center spine on large screens */}
-            <div className="absolute bottom-8 left-1/2 top-2 hidden w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-ink/15 to-transparent lg:block" />
-            <div className="space-y-14 sm:space-y-20">
-              {steps.map((step, i) => (
+          <div className="mt-12 grid gap-6 sm:mt-16 lg:grid-cols-3">
+            {steps.map((step) => (
+              <div key={step.n}>
                 <div
-                  key={step.n}
-                  className="relative grid items-center gap-6 lg:grid-cols-2 lg:gap-16"
+                  className={`flex min-h-[300px] items-center justify-center rounded-[1.75rem] bg-gradient-to-br p-6 sm:min-h-[340px] ${step.gradient}`}
                 >
-                  {/* spine dot */}
-                  <span className="absolute left-1/2 top-1/2 hidden h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-signal ring-4 ring-paper lg:block" />
-                  <div
-                    className={`text-center lg:text-left ${i % 2 === 1 ? 'lg:order-2 lg:pl-4' : 'lg:pr-4'}`}
-                  >
-                    <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-ink/10 bg-card font-display text-lg shadow-sm">
-                      {step.n}
-                    </span>
-                    <h3 className="mt-4 text-xl font-semibold tracking-[-0.01em] sm:text-2xl">
-                      {step.title}
-                    </h3>
-                    <p className="mx-auto mt-3 max-w-md text-[15px] leading-relaxed text-mist lg:mx-0">
-                      {step.body}
-                    </p>
-                  </div>
-                  <div
-                    className={`flex justify-center ${i % 2 === 1 ? 'lg:order-1 lg:justify-end lg:pr-10' : 'lg:justify-start lg:pl-10'}`}
-                  >
-                    <step.mock />
-                  </div>
+                  <step.mock />
                 </div>
-              ))}
-            </div>
+                <p className="mt-6 text-xs font-semibold uppercase tracking-[0.18em] text-mist">
+                  Step {step.n}
+                </p>
+                <h3 className="mt-2 text-lg font-semibold tracking-[-0.01em]">{step.title}</h3>
+                <p className="mt-2 text-[15px] leading-relaxed text-mist">{step.body}</p>
+              </div>
+            ))}
           </div>
-
-          <p className="mx-auto mt-14 max-w-xl text-center text-sm text-mist sm:mt-20">
-            And after the report, the same chat becomes your fundraising assistant.
-            Rewrite an email, prep for a call, or ask what a term sheet clause means.
+          <p className="mx-auto mt-12 max-w-xl text-center text-sm text-mist">
+            After the report, the same chat becomes your fundraising assistant. Rewrite an
+            email, prep for a call, or ask what a term sheet clause means.
           </p>
         </section>
 
-        {/* Investors / diligence */}
-        <section
-          id="investors"
-          className="mx-auto max-w-5xl scroll-mt-24 border-t border-ink/[0.06] px-5 py-16 sm:py-24"
-        >
-          <h2 className="mx-auto max-w-2xl text-center font-display text-4xl tracking-tight sm:text-5xl">
-            Your next 50 investors are already out there.
-          </h2>
-          <p className="mx-auto mt-4 max-w-xl text-center text-mist">
-            Scout does the diligence a good analyst would: it reads everywhere your
-            startup and your investors leave a trace, then matches you with the funds
-            most likely to write the cheque.
+        {/* Sources */}
+        <section className="mx-auto max-w-5xl px-5 py-14 sm:py-20">
+          <p className="text-center text-xs font-semibold uppercase tracking-[0.22em] text-mist">
+            Where Scout does your diligence
           </p>
-          <div className="mx-auto mt-10 grid max-w-3xl grid-cols-2 gap-3 sm:mt-14 sm:grid-cols-4">
-            {platforms.map((p) => (
-              <div
-                key={p.name}
-                className="flex items-center justify-center gap-2.5 rounded-2xl border border-ink/[0.06] bg-card px-3 py-4 text-mist shadow-soft transition duration-200 hover:-translate-y-0.5 hover:text-ink hover:shadow-lift"
-              >
-                <p.icon className="h-5 w-5 shrink-0" />
-                <span className="text-sm font-medium">{p.name}</span>
-              </div>
+          <div className="mt-7 flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
+            {sources.map((s) => (
+              <span key={s} className="text-[15px] font-medium text-mist/80">
+                {s}
+              </span>
             ))}
           </div>
           <p className="mt-6 text-center text-sm text-mist">
@@ -318,8 +309,7 @@ export default function Home() {
               </span>
               <h3 className="text-sm font-semibold uppercase tracking-wider text-moss">Pro</h3>
               <p className="mt-3 font-display text-5xl tracking-tight">
-                ₹999{' '}
-                <span className="font-sans text-base font-medium text-mist">/ $29 · one-time</span>
+                ₹999 <span className="font-sans text-base font-medium text-mist">/ $29 · one-time</span>
               </p>
               <p className="mt-1.5 text-sm text-mist">Pay when you unlock. No subscription.</p>
               <ul className="mt-6 space-y-3 text-[15px] text-ink">
@@ -333,7 +323,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* FAQ */}
+        {/* FAQ: minimal hairline rows */}
         <section id="faq" className="mx-auto max-w-3xl scroll-mt-24 px-5 py-16 sm:py-24">
           <h2 className="text-center font-display text-4xl tracking-tight sm:text-5xl">
             Questions founders ask
@@ -353,18 +343,17 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Final CTA: deep green panel */}
+        {/* Final CTA: black panel, serif headline, white pill */}
         <section className="mx-auto max-w-6xl px-5 pb-20 pt-4 sm:pb-28">
-          <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-b from-[#0d2b1e] to-[#0a1f16] px-6 py-16 text-center ring-1 ring-white/10 sm:px-12 sm:py-24">
-            <div className="pointer-events-none absolute inset-0 opacity-[0.18] [background:radial-gradient(circle_at_50%_120%,#22c55e,transparent_60%)]" />
+          <div className="relative overflow-hidden rounded-[2rem] bg-[#0c1512] px-6 py-16 text-center ring-1 ring-white/10 sm:px-12 sm:py-24">
+            <div className="pointer-events-none absolute inset-0 opacity-[0.12] [background:radial-gradient(circle_at_50%_-10%,#22c55e,transparent_55%)]" />
             <div className="relative">
-              <ScoutMark className="mx-auto h-12 w-12" />
-              <h2 className="mx-auto mt-6 max-w-2xl font-display text-4xl tracking-tight text-white sm:text-6xl">
-                Your next investor is a chat away.
+              <h2 className="mx-auto max-w-2xl font-display text-4xl tracking-tight text-white sm:text-6xl">
+                Scout, your unfair advantage.
               </h2>
               <p className="mx-auto mt-5 max-w-md text-white/60">
-                Fifteen minutes on WhatsApp. No forms, no dashboards, no weeks lost to
-                research.
+                Text once. Scout handles the research, the matching, and the first email.
+                You focus on building.
               </p>
               <div className="mt-9">
                 <MessageCTA light caption="WhatsApp · top-3 preview free" />
@@ -374,7 +363,28 @@ export default function Home() {
         </section>
       </main>
 
-      <SiteFooter />
+      {/* Footer: one minimal row */}
+      <footer className="border-t border-ink/[0.06]">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-5 px-5 py-8 text-sm text-mist sm:flex-row">
+          <Logo markClassName="h-6 w-6" wordClassName="text-lg" />
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
+            <a href="/about" className="transition hover:text-ink">About</a>
+            <a href="/contact" className="transition hover:text-ink">Contact</a>
+            <a href="/privacy" className="transition hover:text-ink">Privacy</a>
+            <a href="/terms" className="transition hover:text-ink">Terms</a>
+            <a
+              href="https://realanshuman.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition hover:text-ink"
+            >
+              Built by Anshuman
+            </a>
+            <ThemeToggle />
+            <span>© {new Date().getFullYear()}</span>
+          </div>
+        </div>
+      </footer>
     </>
   );
 }
