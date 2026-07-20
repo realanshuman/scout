@@ -1,5 +1,4 @@
-import Link from 'next/link';
-import { Logo } from '@/components/logo';
+import { SiteNav, SiteFooter } from '@/components/site';
 
 export function LegalPage({
   title,
@@ -11,20 +10,17 @@ export function LegalPage({
   children: React.ReactNode;
 }) {
   return (
-    <div className="mx-auto max-w-2xl px-5 py-10 sm:py-16">
-      <Link href="/" className="inline-block">
-        <Logo />
-      </Link>
-      <h1 className="mt-10 font-display text-5xl tracking-tight">{title}</h1>
-      <p className="mt-2 text-sm text-mist">Last updated {updated}</p>
-      <div className="mt-8 space-y-6 text-[15px] leading-relaxed text-ink/80 [&_h2]:text-lg [&_h2]:font-semibold [&_h2]:text-ink [&_a]:font-medium [&_a]:text-moss [&_a]:underline">
-        {children}
-      </div>
-      <div className="mt-12 border-t border-ink/[0.06] pt-6 text-sm text-mist">
-        <Link href="/" className="hover:text-ink">
-          ← Back to home
-        </Link>
-      </div>
-    </div>
+    <>
+      <SiteNav />
+      <main className="mx-auto max-w-2xl px-5 py-14 sm:py-20">
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-moss">Legal</p>
+        <h1 className="mt-3 font-display text-5xl tracking-tight sm:text-6xl">{title}</h1>
+        <p className="mt-3 text-sm text-mist">Last updated {updated}</p>
+        <div className="mt-10 space-y-8 border-t border-ink/10 pt-8 text-[15px] leading-relaxed text-ink/80 [&_h2]:text-lg [&_h2]:font-semibold [&_h2]:text-ink [&_a]:font-medium [&_a]:text-moss [&_a]:underline [&_a]:underline-offset-2">
+          {children}
+        </div>
+      </main>
+      <SiteFooter />
+    </>
   );
 }
