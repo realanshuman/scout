@@ -1,12 +1,13 @@
 import type { Metadata } from 'next';
-import { Schibsted_Grotesk } from 'next/font/google';
+import { GeistSans } from 'geist/font/sans';
+import { Inter } from 'next/font/google';
 import './globals.css';
 
-// One editorial grotesk used across the whole site, weighted for contrast.
-const schibsted = Schibsted_Grotesk({
+// Geist for display (clean, cool, modern), Inter for body (best small-size
+// legibility on phones). Both are self-hosted, so no runtime font fetch.
+const inter = Inter({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800'],
-  variable: '--font-sans',
+  variable: '--font-inter',
   display: 'swap',
 });
 
@@ -44,7 +45,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={schibsted.variable}>
+    <html lang="en" className={`${GeistSans.variable} ${inter.variable}`}>
       <body className="grain bg-paper font-sans text-ink antialiased">{children}</body>
     </html>
   );

@@ -5,9 +5,9 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--font-sans)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        // Same editorial grotesk, used at heavier weights for headings.
-        display: ['var(--font-sans)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        // Inter for body/UI, Geist for headings.
+        sans: ['var(--font-inter)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        display: ['var(--font-geist-sans)', 'var(--font-inter)', 'system-ui', 'sans-serif'],
       },
       colors: {
         ink: '#111614', // primary text

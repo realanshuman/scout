@@ -260,15 +260,14 @@ export default function Home() {
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-signal opacity-60" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-signal" />
               </span>
-              Your AI fundraising associate · on WhatsApp
+              Now on WhatsApp
             </span>
-            <h1 className="mt-6 font-display text-[2.6rem] font-extrabold leading-[1.03] tracking-[-0.02em] text-ink sm:text-6xl">
-              Meet the 50 investors most likely to fund your startup.
+            <h1 className="mt-6 font-display text-[2.7rem] font-semibold leading-[1.03] tracking-[-0.03em] text-ink sm:text-[4.25rem]">
+              Meet Scout, your AI fundraising associate.
             </h1>
-            <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-mist sm:text-lg lg:mx-0">
-              Scout interviews you on WhatsApp, researches your market, and matches you
-              against a curated investor base, then writes the outreach. Fifteen minutes
-              of chat. No spreadsheets, no cold-list guessing.
+            <p className="mx-auto mt-5 max-w-md text-base leading-relaxed text-mist sm:text-lg lg:mx-0">
+              Chat for 15 minutes and get the investors most likely to fund you, each with
+              a personal email ready to send.
             </p>
             <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row lg:justify-start">
               <PrimaryCTA label="Message Scout" className="w-full sm:w-auto" />
@@ -567,7 +566,11 @@ export default function Home() {
             <div className="pointer-events-none absolute inset-0 opacity-[0.16] [background:radial-gradient(circle_at_50%_-10%,#22c55e,transparent_55%)]" />
             <div className="relative">
               <ScoutMark className="mx-auto h-12 w-12" />
-              <h2 className="mx-auto mt-6 max-w-lg font-display text-3xl font-extrabold tracking-[-0.02em] text-white sm:text-5xl">
+              <span className="mt-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3.5 py-1.5 text-xs font-medium text-white/80">
+                <span className="h-1.5 w-1.5 rounded-full bg-signal" />
+                Your AI fundraising associate · on WhatsApp
+              </span>
+              <h2 className="mx-auto mt-5 max-w-lg font-display text-3xl font-semibold tracking-[-0.03em] text-white sm:text-5xl">
                 Your next investor is a chat away.
               </h2>
               <p className="mx-auto mt-4 max-w-md text-white/60">
