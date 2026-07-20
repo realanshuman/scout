@@ -21,7 +21,7 @@ body {
   color: #0c1512;
 }
 
-/* Fine film grain — a subtle Framer-style texture over the whole page. */
+/* Fine film grain: a subtle Framer-style texture over the whole page. */
 .grain::after {
   content: '';
   position: fixed;

@@ -1,5 +1,5 @@
 /**
- * Scout's mark: a scope reticle with an off-centre "locked" dot — the moment
+ * Scout's mark: a scope reticle with an off-centre "locked" dot, the moment
  * of spotting the right target. Rendered on a green-gradient tile.
  */
 export function ScoutMark({ className = 'h-8 w-8' }: { className?: string }) {

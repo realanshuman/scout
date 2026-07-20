@@ -13,7 +13,7 @@ export default function Thanks() {
         </h1>
         <p className="mt-4 text-base leading-relaxed text-mist">
           Scout is generating your full investor report with personalized outreach
-          right now. Head back to WhatsApp — it&apos;ll land in the next few minutes.
+          right now. Head back to WhatsApp, it&apos;ll land in the next few minutes.
         </p>
         <Link
           href="/"

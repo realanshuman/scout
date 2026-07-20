@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { LegalPage } from '@/components/legal';
 
 export const metadata: Metadata = {
-  title: 'Privacy — Scout',
+  title: 'Privacy · Scout',
   description: 'How Scout handles the information you share during a fundraising session.',
 };
 
@@ -21,7 +21,7 @@ export default function Privacy() {
           When you chat with Scout on WhatsApp we store your phone number, the messages
           in the conversation, and the startup details you share so we can build your
           profile and investor report. If you buy the full report, our payment provider
-          processes the transaction — we never see or store your card details.
+          processes the transaction, and we never see or store your card details.
         </p>
       </div>
 

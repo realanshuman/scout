@@ -24,17 +24,40 @@ function WhatsAppGlyph({ className }: { className?: string }) {
   );
 }
 
+/** Glossy green pill with a colored glow, top highlight, and arrow nudge. */
 function PrimaryCTA({ label, className = '' }: { label: string; className?: string }) {
   return (
     <a
       href={WA_LINK}
       target="_blank"
       rel="noopener noreferrer"
-      className={`group inline-flex items-center justify-center gap-2.5 rounded-full bg-signal px-7 py-3.5 text-base font-semibold text-night shadow-soft ring-1 ring-inset ring-black/5 transition active:scale-[0.98] sm:hover:brightness-105 sm:hover:shadow-lift ${className}`}
+      className={`group relative inline-flex items-center justify-center gap-2.5 overflow-hidden rounded-full bg-signal px-7 py-3.5 text-base font-semibold text-night shadow-[0_10px_30px_-8px_rgba(34,197,94,0.55)] ring-1 ring-inset ring-white/25 transition duration-200 hover:-translate-y-0.5 hover:bg-[#2ad36e] hover:shadow-[0_16px_44px_-10px_rgba(34,197,94,0.7)] active:translate-y-0 active:scale-[0.99] ${className}`}
     >
-      <WhatsAppGlyph className="h-5 w-5" />
+      <span className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/30 to-transparent opacity-70" />
+      <WhatsAppGlyph className="relative h-5 w-5" />
+      <span className="relative">{label}</span>
+      <IconArrow className="relative h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+    </a>
+  );
+}
+
+/** Bordered glass pill for secondary actions. */
+function GhostButton({
+  href,
+  label,
+  className = '',
+}: {
+  href: string;
+  label: string;
+  className?: string;
+}) {
+  return (
+    <a
+      href={href}
+      className={`group inline-flex items-center justify-center gap-1.5 rounded-full border border-ink/12 bg-white/70 px-6 py-3.5 text-base font-medium text-ink shadow-sm backdrop-blur transition duration-200 hover:-translate-y-0.5 hover:border-ink/20 hover:bg-white ${className}`}
+    >
       {label}
-      <IconArrow className="h-4 w-4 transition-transform sm:group-hover:translate-x-0.5" />
+      <IconArrow className="h-4 w-4 text-mist transition-transform duration-200 group-hover:translate-x-0.5" />
     </a>
   );
 }
@@ -53,14 +76,14 @@ function SectionLabel({ n, children }: { n: string; children: React.ReactNode })
 
 function ChatIn({ children }: { children: React.ReactNode }) {
   return (
-    <div className="relative max-w-[86%] self-start rounded-2xl rounded-tl-sm bg-white px-3.5 py-2.5 text-[13px] leading-relaxed text-ink shadow-sm">
+    <div className="max-w-[86%] self-start rounded-2xl rounded-tl-sm bg-white px-3.5 py-2.5 text-[13px] leading-relaxed text-ink shadow-sm">
       {children}
     </div>
   );
 }
 function ChatOut({ children }: { children: React.ReactNode }) {
   return (
-    <div className="relative max-w-[86%] self-end rounded-2xl rounded-tr-sm bg-bubble px-3.5 py-2.5 text-[13px] leading-relaxed text-ink shadow-sm">
+    <div className="max-w-[86%] self-end rounded-2xl rounded-tr-sm bg-bubble px-3.5 py-2.5 text-[13px] leading-relaxed text-ink shadow-sm">
       {children}
     </div>
   );
@@ -68,35 +91,38 @@ function ChatOut({ children }: { children: React.ReactNode }) {
 
 function ChatMockup() {
   return (
-    <div className="mx-auto w-full max-w-[380px] overflow-hidden rounded-[2rem] border border-ink/10 bg-chatbg shadow-lift ring-1 ring-black/5">
-      <div className="flex items-center gap-3 bg-[#075e54] px-4 py-3 text-white">
-        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15">
-          <ScoutMark className="h-6 w-6" />
+    <div className="relative mx-auto w-full max-w-[380px]">
+      <div className="absolute -inset-4 -z-10 rounded-[2.5rem] bg-gradient-to-tr from-signal/20 via-transparent to-transparent blur-2xl" />
+      <div className="overflow-hidden rounded-[2rem] border border-ink/10 bg-chatbg shadow-lift ring-1 ring-black/5">
+        <div className="flex items-center gap-3 bg-[#075e54] px-4 py-3 text-white">
+          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15">
+            <ScoutMark className="h-6 w-6" />
+          </div>
+          <div className="leading-tight">
+            <p className="text-sm font-semibold">Scout</p>
+            <p className="text-[11px] text-white/70">online</p>
+          </div>
+          <span className="ml-auto flex items-center gap-1 rounded-full bg-white/10 px-2 py-0.5 text-[10px] font-medium text-white/80">
+            <span className="h-1.5 w-1.5 rounded-full bg-signal" /> encrypted
+          </span>
         </div>
-        <div className="leading-tight">
-          <p className="text-sm font-semibold">Scout</p>
-          <p className="text-[11px] text-white/70">online</p>
-        </div>
-        <span className="ml-auto flex items-center gap-1 rounded-full bg-white/10 px-2 py-0.5 text-[10px] font-medium text-white/80">
-          <span className="h-1.5 w-1.5 rounded-full bg-signal" /> encrypted
-        </span>
-      </div>
-      <div className="flex flex-col gap-2 px-3 py-4">
-        <ChatIn>
-          Hey 👋 I&apos;m Scout. I&apos;ll help you find investors that actually back
-          startups like yours. What are you building?
-        </ChatIn>
-        <ChatOut>Loop — an AI copilot for warehouse ops. We&apos;re at $18k MRR.</ChatOut>
-        <ChatIn>Solid traction. Who&apos;s the buyer — ops manager or floor lead?</ChatIn>
-        <ChatOut>Ops managers at mid-size 3PLs.</ChatOut>
-        <div className="mt-1 self-start rounded-2xl rounded-tl-sm border border-moss/15 bg-white px-3.5 py-3 text-[13px] leading-relaxed shadow-sm">
-          <p className="font-semibold text-moss">Research complete ✓</p>
-          <p className="mt-1 text-ink">
-            Found <span className="font-semibold">58 highly relevant investors</span>.
-          </p>
-          <p className="mt-1 text-mist">
-            #1 Northbeam Ventures — led two logistics-AI seeds this year…
-          </p>
+        <div className="flex flex-col gap-2 px-3 py-4">
+          <ChatIn>
+            Hey 👋 I&apos;m Scout. I&apos;ll help you find investors that actually back
+            startups like yours. What are you building?
+          </ChatIn>
+          <ChatOut>Loop, an AI copilot for warehouse ops. We&apos;re at $18k MRR.</ChatOut>
+          <ChatIn>Solid traction. Who&apos;s the buyer, ops manager or floor lead?</ChatIn>
+          <ChatOut>Ops managers at mid-size 3PLs.</ChatOut>
+          <div className="mt-1 self-start rounded-2xl rounded-tl-sm border border-moss/15 bg-white px-3.5 py-3 text-[13px] leading-relaxed shadow-sm">
+            <p className="font-semibold text-moss">Research complete ✓</p>
+            <p className="mt-1 text-ink">
+              Found <span className="font-semibold">58 highly relevant investors</span>.
+            </p>
+            <p className="mt-1 text-mist">
+              #1 Northbeam Ventures, led two logistics-AI seeds this year.
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -119,7 +145,7 @@ const steps = [
   {
     icon: IconChat,
     title: 'Talk it through',
-    body: 'A 15-minute WhatsApp chat about your product, traction, and raise. It reads like a conversation with a sharp associate — not a form.',
+    body: 'A 15-minute WhatsApp chat about your product, traction, and raise. It reads like a conversation with a sharp associate, not a form.',
   },
   {
     icon: IconResearch,
@@ -129,7 +155,7 @@ const steps = [
   {
     icon: IconTarget,
     title: 'Matches ranked by fit',
-    body: 'Your profile is scored against a curated investor base by stage, sector, geography, and check size — the top 50, each with a reason.',
+    body: 'Your profile is scored against a curated investor base by stage, sector, geography, and check size. The top 50, each with a reason.',
   },
   {
     icon: IconSend,
@@ -152,7 +178,7 @@ const features = [
   {
     icon: IconList,
     title: 'Contacts that work',
-    body: 'Partner name, email, and LinkedIn — the person to reach, not a generic info@ inbox.',
+    body: 'Partner name, email, and LinkedIn. The person to reach, not a generic info@ inbox.',
   },
   {
     icon: IconSend,
@@ -174,27 +200,27 @@ const features = [
 const faqs = [
   {
     q: 'How is this different from an investor database?',
-    a: 'A database hands you 5,000 names and a search box. Scout hands you the 50 that fit your specific startup — each with a concrete reason and a ready-to-send email. It does the filtering and the writing, which is the part that actually takes weeks.',
+    a: 'A database hands you 5,000 names and a search box. Scout hands you the 50 that fit your specific startup, each with a concrete reason and a ready-to-send email. It does the filtering and the writing, which is the part that actually takes weeks.',
   },
   {
     q: 'How long does the whole thing take?',
-    a: 'About 15 minutes of chat, then 5–10 minutes while Scout researches. Your top-3 preview lands in under half an hour; the full report follows the moment you unlock it.',
+    a: 'About 15 minutes of chat, then 5 to 10 minutes while Scout researches. Your top-3 preview lands in under half an hour, and the full report follows the moment you unlock it.',
   },
   {
     q: 'Do I have to repeat myself?',
-    a: 'Never. Scout remembers everything you tell it. After the report it becomes your ongoing fundraising assistant — with full context on your company — so you can pick up the conversation any time.',
+    a: 'Never. Scout remembers everything you tell it. After the report it becomes your ongoing fundraising assistant, with full context on your company, so you can pick up the conversation any time.',
   },
   {
     q: 'Where does the investor data come from?',
-    a: 'A curated base of funds and angels with stage, sector, geography, check size, thesis, and recent investments — the signals that decide whether an intro is worth making.',
+    a: 'A curated base of funds and angels with stage, sector, geography, check size, thesis, and recent investments: the signals that decide whether an intro is worth making.',
   },
   {
     q: 'Will investors know an AI wrote my outreach?',
-    a: 'Each draft is built from your real numbers and the investor’s real thesis and portfolio — then you review and send it yourself. No mass blasts, no spray-and-pray.',
+    a: 'Each draft is built from your real numbers and the investor’s real thesis and portfolio, then you review and send it yourself. No mass blasts, no spray-and-pray.',
   },
   {
     q: 'What does it cost?',
-    a: 'The interview, the research, and a preview of your top 3 matches are free. The full report — all 50 investors with contacts and personalized outreach — is a one-time ₹999 / $29.',
+    a: 'The interview, the research, and a preview of your top 3 matches are free. The full report, all 50 investors with contacts and personalized outreach, is a one-time ₹999 / $29.',
   },
 ];
 
@@ -217,7 +243,7 @@ export default function Home() {
             href={WA_LINK}
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-full bg-ink px-4 py-2 text-sm font-medium text-white transition hover:bg-ink/85"
+            className="rounded-full bg-ink px-4 py-2 text-sm font-medium text-white shadow-sm transition duration-200 hover:-translate-y-px hover:bg-ink/85 hover:shadow-md"
           >
             Message Scout
           </a>
@@ -234,24 +260,19 @@ export default function Home() {
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-signal opacity-60" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-signal" />
               </span>
-              Your AI fundraising associate — on WhatsApp
+              Your AI fundraising associate · on WhatsApp
             </span>
-            <h1 className="mt-6 font-display text-[2.6rem] font-extrabold leading-[1.05] tracking-tight text-ink sm:text-6xl">
+            <h1 className="mt-6 font-display text-[2.6rem] font-extrabold leading-[1.03] tracking-[-0.02em] text-ink sm:text-6xl">
               Meet the 50 investors most likely to fund your startup.
             </h1>
             <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-mist sm:text-lg lg:mx-0">
               Scout interviews you on WhatsApp, researches your market, and matches you
-              against a curated investor base — then writes the outreach. Fifteen
-              minutes of chat. No spreadsheets, no cold-list guessing.
+              against a curated investor base, then writes the outreach. Fifteen minutes
+              of chat. No spreadsheets, no cold-list guessing.
             </p>
             <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row lg:justify-start">
               <PrimaryCTA label="Message Scout" className="w-full sm:w-auto" />
-              <a
-                href="#how"
-                className="inline-flex items-center gap-1.5 rounded-full px-5 py-3.5 text-base font-medium text-ink transition hover:text-moss"
-              >
-                See how it works
-              </a>
+              <GhostButton href="#how" label="See how it works" className="w-full sm:w-auto" />
             </div>
             <p className="mt-5 text-sm text-mist">
               Free to start · top-3 matches in ~30 min · no login
@@ -265,8 +286,8 @@ export default function Home() {
         {/* Sources strip */}
         <section className="border-y border-ink/[0.06] py-8">
           <p className="text-center text-sm text-mist">
-            The research a diligent analyst would spend three weeks on — read in
-            minutes, across the sources that matter:
+            The research a diligent analyst would spend three weeks on, read in minutes,
+            across the sources that matter:
           </p>
           <div className="mt-5 flex flex-wrap items-center justify-center gap-x-3 gap-y-2.5">
             {sources.map((s) => (
@@ -283,12 +304,12 @@ export default function Home() {
         {/* Problem / compare */}
         <section className="py-16 sm:py-24">
           <SectionLabel n="01">The problem</SectionLabel>
-          <h2 className="mx-auto max-w-2xl text-center font-display text-3xl font-bold tracking-tight sm:text-4xl">
+          <h2 className="mx-auto max-w-2xl text-center font-display text-3xl font-bold tracking-[-0.02em] sm:text-4xl">
             Raising shouldn&apos;t start with a spreadsheet.
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-center text-mist">
-            The hard part of fundraising isn&apos;t sending emails — it&apos;s knowing
-            who deserves one. Most founders lose weeks here.
+            The hard part of fundraising isn&apos;t sending emails. It&apos;s knowing who
+            deserves one. Most founders lose weeks here.
           </p>
           <div className="mx-auto mt-10 grid max-w-4xl gap-4 sm:mt-14 sm:grid-cols-2 sm:gap-5">
             <div className="rounded-4xl border border-ink/[0.06] bg-white p-7 shadow-soft sm:p-8">
@@ -308,9 +329,9 @@ export default function Home() {
                   </li>
                 ))}
               </ul>
-              <p className="mt-6 text-sm font-medium text-mist">Time: 2–3 weeks</p>
+              <p className="mt-6 text-sm font-medium text-mist">Time: 2 to 3 weeks</p>
             </div>
-            <div className="rounded-4xl border-2 border-signal/60 bg-white p-7 shadow-lift sm:p-8">
+            <div className="relative rounded-4xl border-2 border-signal/60 bg-white p-7 shadow-[0_20px_60px_-24px_rgba(34,197,94,0.45)] sm:p-8">
               <p className="text-xs font-semibold uppercase tracking-wider text-moss">
                 With Scout
               </p>
@@ -327,7 +348,7 @@ export default function Home() {
                   </li>
                 ))}
               </ul>
-              <p className="mt-6 text-sm font-semibold text-moss">Time: ~30 minutes</p>
+              <p className="mt-6 text-sm font-semibold text-moss">Time: about 30 minutes</p>
             </div>
           </div>
         </section>
@@ -335,14 +356,14 @@ export default function Home() {
         {/* How it works */}
         <section id="how" className="scroll-mt-24 py-16 sm:py-24">
           <SectionLabel n="02">How it works</SectionLabel>
-          <h2 className="mx-auto max-w-2xl text-center font-display text-3xl font-bold tracking-tight sm:text-4xl">
+          <h2 className="mx-auto max-w-2xl text-center font-display text-3xl font-bold tracking-[-0.02em] sm:text-4xl">
             Four steps, one conversation.
           </h2>
           <div className="mt-10 grid gap-4 sm:mt-14 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
             {steps.map((step, i) => (
               <div
                 key={step.title}
-                className="group flex items-start gap-4 rounded-4xl border border-ink/[0.06] bg-white p-6 shadow-soft transition hover:shadow-lift sm:block"
+                className="group flex items-start gap-4 rounded-4xl border border-ink/[0.06] bg-white p-6 shadow-soft transition duration-200 hover:-translate-y-1 hover:shadow-lift sm:block"
               >
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-signal/12 text-moss transition group-hover:bg-signal/20 sm:mb-5">
                   <step.icon className="h-6 w-6" />
@@ -352,7 +373,7 @@ export default function Home() {
                     <span className="font-display text-sm font-bold text-mist/60">
                       0{i + 1}
                     </span>
-                    <h3 className="font-display text-lg font-bold tracking-tight">
+                    <h3 className="font-display text-lg font-bold tracking-[-0.01em]">
                       {step.title}
                     </h3>
                   </div>
@@ -366,12 +387,12 @@ export default function Home() {
         {/* Product peek */}
         <section id="report" className="scroll-mt-24 py-16 sm:py-24">
           <SectionLabel n="03">The report</SectionLabel>
-          <h2 className="mx-auto max-w-2xl text-center font-display text-3xl font-bold tracking-tight sm:text-4xl">
+          <h2 className="mx-auto max-w-2xl text-center font-display text-3xl font-bold tracking-[-0.02em] sm:text-4xl">
             This is what a match looks like.
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-center text-mist">
-            Every investor in your report comes with the why, the contact, and the
-            first email — already written.
+            Every investor in your report comes with the why, the contact, and the first
+            email, already written.
           </p>
 
           <div className="mx-auto mt-10 grid max-w-4xl gap-5 sm:mt-14 lg:grid-cols-[1fr_0.9fr]">
@@ -382,7 +403,7 @@ export default function Home() {
                   <p className="text-[11px] font-semibold uppercase tracking-wider text-mist">
                     Example match · #1
                   </p>
-                  <h3 className="mt-1 font-display text-xl font-bold tracking-tight">
+                  <h3 className="mt-1 font-display text-xl font-bold tracking-[-0.01em]">
                     Northbeam Ventures
                   </h3>
                   <p className="text-sm text-mist">Sarah Lindqvist · Partner</p>
@@ -392,7 +413,7 @@ export default function Home() {
                 </span>
               </div>
               <div className="mt-4 flex flex-wrap gap-2">
-                {['Seed–Series A', '$500K–$3M', 'Dev tools · AI infra'].map((t) => (
+                {['Seed to Series A', '$500K to $3M', 'Dev tools · AI infra'].map((t) => (
                   <span
                     key={t}
                     className="rounded-lg bg-paper px-2.5 py-1 text-xs font-medium text-ink/70"
@@ -406,15 +427,16 @@ export default function Home() {
                   Why matched
                 </p>
                 <p className="mt-1.5 text-sm leading-relaxed text-ink/80">
-                  Sarah led Northbeam&apos;s seed into two logistics-AI startups this
-                  year and writes publicly about agentic ops software — your warehouse
-                  copilot lands squarely in her thesis.
+                  Sarah led Northbeam&apos;s seed into two logistics-AI startups this year
+                  and writes publicly about agentic ops software. Your warehouse copilot
+                  lands squarely in her thesis.
                 </p>
               </div>
             </div>
 
             {/* email card */}
-            <div className="rounded-4xl border border-ink/[0.06] bg-night p-6 text-white shadow-lift sm:p-7">
+            <div className="relative overflow-hidden rounded-4xl border border-ink/[0.06] bg-night p-6 text-white shadow-lift sm:p-7">
+              <span className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent" />
               <div className="flex items-center gap-2 text-white/50">
                 <IconSend className="h-4 w-4" />
                 <p className="text-[11px] font-semibold uppercase tracking-wider">
@@ -425,12 +447,12 @@ export default function Home() {
               <p className="text-sm font-semibold">Cursor for warehouse ops</p>
               <div className="my-4 h-px bg-white/10" />
               <p className="text-sm leading-relaxed text-white/80">
-                Hi Sarah — saw your seed into CodeLoom and your piece on agentic ops.
+                Hi Sarah, saw your seed into CodeLoom and your piece on agentic ops.
                 We&apos;re building Loop, an AI copilot for warehouse teams: $18k MRR,
                 growing 22% MoM with mid-size 3PLs. Worth 20 minutes to compare notes?
               </p>
               <p className="mt-4 text-xs text-white/40">
-                + a matching LinkedIn DM, ready to send.
+                Plus a matching LinkedIn DM, ready to send.
               </p>
             </div>
           </div>
@@ -439,19 +461,19 @@ export default function Home() {
         {/* Features */}
         <section className="py-16 sm:py-24">
           <SectionLabel n="04">What you get</SectionLabel>
-          <h2 className="mx-auto max-w-2xl text-center font-display text-3xl font-bold tracking-tight sm:text-4xl">
+          <h2 className="mx-auto max-w-2xl text-center font-display text-3xl font-bold tracking-[-0.02em] sm:text-4xl">
             Everything you&apos;d ask an associate for.
           </h2>
           <div className="mt-10 grid gap-4 sm:mt-14 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
             {features.map((f) => (
               <div
                 key={f.title}
-                className="rounded-4xl border border-ink/[0.06] bg-white p-6 shadow-soft transition hover:shadow-lift sm:p-7"
+                className="rounded-4xl border border-ink/[0.06] bg-white p-6 shadow-soft transition duration-200 hover:-translate-y-1 hover:shadow-lift sm:p-7"
               >
                 <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-signal/12 text-moss">
                   <f.icon className="h-5 w-5" />
                 </div>
-                <h3 className="mt-4 font-display text-lg font-bold tracking-tight">
+                <h3 className="mt-4 font-display text-lg font-bold tracking-[-0.01em]">
                   {f.title}
                 </h3>
                 <p className="mt-2 text-sm leading-relaxed text-mist">{f.body}</p>
@@ -463,13 +485,13 @@ export default function Home() {
         {/* Pricing */}
         <section id="pricing" className="scroll-mt-24 py-16 sm:py-24">
           <SectionLabel n="05">Pricing</SectionLabel>
-          <h2 className="mx-auto max-w-2xl text-center font-display text-3xl font-bold tracking-tight sm:text-4xl">
+          <h2 className="mx-auto max-w-2xl text-center font-display text-3xl font-bold tracking-[-0.02em] sm:text-4xl">
             Start free. Pay once you&apos;ve seen the matches.
           </h2>
           <div className="mx-auto mt-10 grid max-w-3xl gap-4 sm:mt-14 sm:grid-cols-2 sm:gap-5">
             <div className="rounded-4xl border border-ink/[0.06] bg-white p-7 shadow-soft sm:p-8">
               <h3 className="font-display text-lg font-bold">Free</h3>
-              <p className="mt-3 font-display text-4xl font-extrabold tracking-tight">$0</p>
+              <p className="mt-3 font-display text-4xl font-extrabold tracking-[-0.02em]">$0</p>
               <p className="mt-1 text-sm text-mist">No card, no login.</p>
               <ul className="mt-6 space-y-3 text-[15px] text-ink/80">
                 {[
@@ -484,19 +506,19 @@ export default function Home() {
                 ))}
               </ul>
             </div>
-            <div className="relative rounded-4xl border-2 border-signal bg-white p-7 shadow-lift sm:p-8">
-              <span className="absolute -top-3 right-6 rounded-full bg-signal px-3 py-1 text-xs font-bold text-night">
+            <div className="relative rounded-4xl border-2 border-signal bg-white p-7 shadow-[0_24px_70px_-24px_rgba(34,197,94,0.5)] sm:p-8">
+              <span className="absolute -top-3 right-6 rounded-full bg-signal px-3 py-1 text-xs font-bold text-night shadow-sm">
                 Full report
               </span>
               <h3 className="font-display text-lg font-bold text-moss">Pro</h3>
-              <p className="mt-3 font-display text-4xl font-extrabold tracking-tight">
+              <p className="mt-3 font-display text-4xl font-extrabold tracking-[-0.02em]">
                 ₹999 <span className="text-base font-medium text-mist">/ $29 · one-time</span>
               </p>
               <p className="mt-1 text-sm text-mist">Pay when you unlock. No subscription.</p>
               <ul className="mt-6 space-y-3 text-[15px] text-ink">
                 {[
                   'All 50 investors, ranked by fit',
-                  'Why each one fits + confidence score',
+                  'Why each one fits, plus a confidence score',
                   'Partner name, email & LinkedIn',
                   'Personal email + DM per investor',
                   'Ongoing AI fundraising assistant',
@@ -517,18 +539,18 @@ export default function Home() {
         {/* FAQ */}
         <section id="faq" className="scroll-mt-24 py-16 sm:py-24">
           <SectionLabel n="06">FAQ</SectionLabel>
-          <h2 className="mx-auto max-w-2xl text-center font-display text-3xl font-bold tracking-tight sm:text-4xl">
+          <h2 className="mx-auto max-w-2xl text-center font-display text-3xl font-bold tracking-[-0.02em] sm:text-4xl">
             Questions founders ask.
           </h2>
           <div className="mx-auto mt-10 max-w-2xl space-y-3 sm:mt-12">
             {faqs.map((f) => (
               <details
                 key={f.q}
-                className="group rounded-3xl border border-ink/[0.06] bg-white px-5 py-4 shadow-soft open:shadow-lift sm:px-6"
+                className="group rounded-3xl border border-ink/[0.06] bg-white px-5 py-4 shadow-soft transition open:shadow-lift sm:px-6"
               >
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-display text-[15px] font-semibold sm:text-base [&::-webkit-details-marker]:hidden">
                   {f.q}
-                  <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-paper text-mist transition group-open:rotate-45 group-open:bg-signal/15 group-open:text-moss">
+                  <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-paper text-mist transition duration-200 group-open:rotate-45 group-open:bg-signal/15 group-open:text-moss">
                     +
                   </span>
                 </summary>
@@ -541,10 +563,11 @@ export default function Home() {
         {/* Final CTA */}
         <section className="pb-16 pt-4 sm:pb-24">
           <div className="relative overflow-hidden rounded-[2.5rem] bg-night px-6 py-14 text-center sm:px-12 sm:py-20">
-            <div className="pointer-events-none absolute inset-0 opacity-[0.15] [background:radial-gradient(circle_at_50%_-10%,#22c55e,transparent_55%)]" />
+            <span className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent" />
+            <div className="pointer-events-none absolute inset-0 opacity-[0.16] [background:radial-gradient(circle_at_50%_-10%,#22c55e,transparent_55%)]" />
             <div className="relative">
               <ScoutMark className="mx-auto h-12 w-12" />
-              <h2 className="mx-auto mt-6 max-w-lg font-display text-3xl font-extrabold tracking-tight text-white sm:text-5xl">
+              <h2 className="mx-auto mt-6 max-w-lg font-display text-3xl font-extrabold tracking-[-0.02em] text-white sm:text-5xl">
                 Your next investor is a chat away.
               </h2>
               <p className="mx-auto mt-4 max-w-md text-white/60">
@@ -566,8 +589,8 @@ export default function Home() {
             <div className="max-w-xs">
               <Logo />
               <p className="mt-4 text-sm leading-relaxed text-mist">
-                Your AI fundraising associate. Scout finds the right investors and
-                writes the first email — all on WhatsApp.
+                Your AI fundraising associate. Scout finds the right investors and writes
+                the first email, all on WhatsApp.
               </p>
               <div className="mt-5 flex gap-2.5">
                 <a
@@ -575,7 +598,7 @@ export default function Home() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Scout on X"
-                  className="grid h-9 w-9 place-items-center rounded-full border border-ink/10 bg-white text-ink/70 transition hover:text-ink"
+                  className="grid h-9 w-9 place-items-center rounded-full border border-ink/10 bg-white text-ink/70 transition hover:-translate-y-0.5 hover:text-ink"
                 >
                   <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden>
                     <path d="M18.9 2H22l-7.1 8.1L23 22h-6.6l-5.2-6.8L5.2 22H2l7.6-8.7L1.5 2h6.8l4.7 6.2L18.9 2Zm-1.2 18h1.8L7.1 3.9H5.2L17.7 20Z" />
@@ -586,7 +609,7 @@ export default function Home() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Scout on LinkedIn"
-                  className="grid h-9 w-9 place-items-center rounded-full border border-ink/10 bg-white text-ink/70 transition hover:text-ink"
+                  className="grid h-9 w-9 place-items-center rounded-full border border-ink/10 bg-white text-ink/70 transition hover:-translate-y-0.5 hover:text-ink"
                 >
                   <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden>
                     <path d="M6.5 8.3H3.7V21h2.8V8.3ZM5.1 3.5A1.7 1.7 0 1 0 5.1 7a1.7 1.7 0 0 0 0-3.4ZM21 21h-2.8v-6.7c0-1.6-.6-2.7-2-2.7-1.1 0-1.7.7-2 1.5-.1.2-.1.6-.1.9V21H9.3s0-11.5 0-12.7h2.8v1.8c.4-.6 1-1.5 2.6-1.5 1.9 0 3.4 1.2 3.4 3.9V21Z" />
@@ -597,7 +620,7 @@ export default function Home() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Message Scout on WhatsApp"
-                  className="grid h-9 w-9 place-items-center rounded-full border border-ink/10 bg-white text-ink/70 transition hover:text-moss"
+                  className="grid h-9 w-9 place-items-center rounded-full border border-ink/10 bg-white text-ink/70 transition hover:-translate-y-0.5 hover:text-moss"
                 >
                   <WhatsAppGlyph className="h-4 w-4" />
                 </a>
