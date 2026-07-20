@@ -8,7 +8,7 @@ export default function Thanks() {
         <div className="mx-auto grid h-16 w-16 place-items-center rounded-3xl bg-signal/12">
           <ScoutMark className="h-10 w-10" />
         </div>
-        <h1 className="mt-6 font-display text-3xl font-semibold tracking-tight sm:text-4xl">
+        <h1 className="mt-6 font-display text-4xl tracking-tight sm:text-5xl">
           Payment received 🎉
         </h1>
         <p className="mt-4 text-base leading-relaxed text-mist">

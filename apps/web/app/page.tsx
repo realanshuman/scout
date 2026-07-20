@@ -1,13 +1,5 @@
 import { Logo, ScoutMark } from '@/components/logo';
 import { ThemeToggle } from '@/components/theme-toggle';
-import {
-  IconArrow,
-  IconChat,
-  IconCheck,
-  IconResearch,
-  IconSend,
-  IconTarget,
-} from '@/components/icons';
 
 const WA_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '15551234567';
 const WA_LINK = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Hi Scout!')}`;
@@ -22,102 +14,119 @@ function WhatsAppGlyph({ className }: { className?: string }) {
   );
 }
 
-function PrimaryCTA({ label, className = '' }: { label: string; className?: string }) {
-  return (
-    <a
-      href={WA_LINK}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={`group relative inline-flex items-center justify-center gap-2.5 overflow-hidden rounded-full bg-signal px-7 py-3.5 text-base font-semibold text-night shadow-[0_10px_30px_-8px_rgba(34,197,94,0.55)] ring-1 ring-inset ring-white/25 transition duration-200 hover:-translate-y-0.5 hover:bg-[#2ad36e] hover:shadow-[0_16px_44px_-10px_rgba(34,197,94,0.7)] active:translate-y-0 active:scale-[0.99] ${className}`}
-    >
-      <span className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/30 to-transparent opacity-70" />
-      <WhatsAppGlyph className="relative h-5 w-5" />
-      <span className="relative">{label}</span>
-      <IconArrow className="relative h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
-    </a>
-  );
-}
-
-function GhostButton({
-  href,
-  label,
+/**
+ * The main CTA, Backdoor-style: a glossy pill with the messenger icon in a
+ * green squircle. `bg-ink text-paper` flips automatically per theme, so it
+ * is a black pill in day mode and a white pill in night mode.
+ */
+function MessageCTA({
+  label = 'Message Scout',
+  caption = 'WhatsApp · free to start',
+  light = false,
   className = '',
 }: {
-  href: string;
-  label: string;
+  label?: string;
+  caption?: string | null;
+  light?: boolean;
   className?: string;
 }) {
   return (
-    <a
-      href={href}
-      className={`group inline-flex items-center justify-center gap-1.5 rounded-full border border-ink/10 bg-card/70 px-6 py-3.5 text-base font-medium text-ink shadow-sm backdrop-blur transition duration-200 hover:-translate-y-0.5 hover:border-ink/20 ${className}`}
-    >
-      {label}
-      <IconArrow className="h-4 w-4 text-mist transition-transform duration-200 group-hover:translate-x-0.5" />
-    </a>
-  );
-}
-
-function SectionLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <p className="mb-4 text-center text-xs font-semibold uppercase tracking-[0.18em] text-moss">
-      {children}
-    </p>
-  );
-}
-
-// ── chat mockup ───────────────────────────────────────────────────────
-
-function ChatIn({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="max-w-[86%] self-start rounded-2xl rounded-tl-sm bg-white px-3.5 py-2.5 text-[13px] leading-relaxed text-[#111614] shadow-sm">
-      {children}
-    </div>
-  );
-}
-function ChatOut({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="max-w-[86%] self-end rounded-2xl rounded-tr-sm bg-bubble px-3.5 py-2.5 text-[13px] leading-relaxed text-[#111614] shadow-sm">
-      {children}
+    <div className={`flex flex-col items-center ${className}`}>
+      <a
+        href={WA_LINK}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`group relative inline-flex w-full items-center justify-center gap-3 overflow-hidden rounded-full px-8 py-4 text-lg font-semibold shadow-lift ring-1 transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_24px_60px_-16px_rgba(0,0,0,0.35)] active:translate-y-0 active:scale-[0.99] sm:w-auto ${
+          light
+            ? 'bg-white text-[#111614] ring-black/5'
+            : 'bg-ink text-paper ring-white/15'
+        }`}
+      >
+        <span className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/25 to-transparent" />
+        <span className="relative grid h-8 w-8 shrink-0 place-items-center rounded-[9px] bg-gradient-to-b from-[#35de74] to-[#1fae54]">
+          <WhatsAppGlyph className="h-5 w-5 text-white" />
+        </span>
+        <span className="relative">{label}</span>
+      </a>
+      {caption ? <p className="mt-3 text-sm text-mist">{caption}</p> : null}
     </div>
   );
 }
 
-function ChatMockup() {
+// ── mini mockups for the step cards ───────────────────────────────────
+
+function StepChat() {
   return (
-    <div className="relative mx-auto w-full max-w-[380px]">
-      <div className="absolute -inset-4 -z-10 rounded-[2.5rem] bg-gradient-to-tr from-signal/20 via-transparent to-transparent blur-2xl" />
-      <div className="overflow-hidden rounded-[2rem] border border-ink/10 bg-chatbg shadow-lift ring-1 ring-black/5">
-        <div className="flex items-center gap-3 bg-[#075e54] px-4 py-3 text-white">
-          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15">
-            <ScoutMark className="h-6 w-6" />
+    <div className="w-full max-w-[290px] rounded-2xl bg-white p-3 text-left shadow-lift">
+      <div className="flex items-center gap-2 border-b border-black/5 pb-2">
+        <ScoutMark className="h-6 w-6" />
+        <p className="text-xs font-semibold text-[#111614]">Scout</p>
+        <p className="ml-auto text-[10px] text-[#8a938e]">online</p>
+      </div>
+      <div className="mt-2.5 space-y-1.5 text-[12px] leading-relaxed">
+        <p className="w-fit max-w-[92%] rounded-xl rounded-tl-sm bg-[#f0f2f0] px-2.5 py-1.5 text-[#111614]">
+          Hey 👋 What are you building?
+        </p>
+        <p className="ml-auto w-fit max-w-[92%] rounded-xl rounded-tr-sm bg-[#d9fdd3] px-2.5 py-1.5 text-[#111614]">
+          Loop, an AI copilot for warehouse ops. $18k MRR.
+        </p>
+        <p className="w-fit max-w-[92%] rounded-xl rounded-tl-sm bg-[#f0f2f0] px-2.5 py-1.5 text-[#111614]">
+          Solid traction. Who&apos;s the buyer, ops manager or floor lead?
+        </p>
+        <p className="ml-auto w-fit max-w-[92%] rounded-xl rounded-tr-sm bg-[#d9fdd3] px-2.5 py-1.5 text-[#111614]">
+          Ops managers at mid-size 3PLs.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function StepMatches() {
+  const rows = [
+    { firm: 'Northbeam Ventures', note: 'led two logistics-AI seeds this year', fit: 94 },
+    { firm: 'Latitude Labs', note: 'thesis: AI owning a full workflow', fit: 91 },
+    { firm: 'Kite String Capital', note: 'backs revenue-tooling at seed', fit: 88 },
+  ];
+  return (
+    <div className="w-full max-w-[290px] rounded-2xl bg-white p-3 text-left shadow-lift">
+      <p className="border-b border-black/5 pb-2 text-xs font-semibold text-[#111614]">
+        58 investors found · top 3
+      </p>
+      <div className="mt-1 divide-y divide-black/5">
+        {rows.map((r, i) => (
+          <div key={r.firm} className="flex items-center gap-2.5 py-2">
+            <span className="text-[11px] font-semibold text-[#8a938e]">{i + 1}</span>
+            <div className="min-w-0">
+              <p className="truncate text-[12px] font-semibold text-[#111614]">{r.firm}</p>
+              <p className="truncate text-[11px] text-[#8a938e]">{r.note}</p>
+            </div>
+            <span className="ml-auto shrink-0 rounded-full bg-[#e8f8ee] px-1.5 py-0.5 text-[10px] font-bold text-[#0e7a5f]">
+              {r.fit}%
+            </span>
           </div>
-          <div className="leading-tight">
-            <p className="text-sm font-semibold">Scout</p>
-            <p className="text-[11px] text-white/70">online</p>
-          </div>
-          <span className="ml-auto flex items-center gap-1 rounded-full bg-white/10 px-2 py-0.5 text-[10px] font-medium text-white/80">
-            <span className="h-1.5 w-1.5 rounded-full bg-signal" /> encrypted
-          </span>
-        </div>
-        <div className="flex flex-col gap-2 px-3 py-4">
-          <ChatIn>
-            Hey 👋 I&apos;m Scout. I&apos;ll help you find investors that actually back
-            startups like yours. What are you building?
-          </ChatIn>
-          <ChatOut>Loop, an AI copilot for warehouse ops. We&apos;re at $18k MRR.</ChatOut>
-          <ChatIn>Solid traction. Who&apos;s the buyer, ops manager or floor lead?</ChatIn>
-          <ChatOut>Ops managers at mid-size 3PLs.</ChatOut>
-          <div className="mt-1 self-start rounded-2xl rounded-tl-sm border border-[#0e7a5f]/15 bg-white px-3.5 py-3 text-[13px] leading-relaxed text-[#111614] shadow-sm">
-            <p className="font-semibold text-[#0e7a5f]">Research complete ✓</p>
-            <p className="mt-1">
-              Found <span className="font-semibold">58 highly relevant investors</span>.
-            </p>
-            <p className="mt-1 text-[#5f6b66]">
-              #1 Northbeam Ventures, led two logistics-AI seeds this year.
-            </p>
-          </div>
-        </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function StepEmail() {
+  return (
+    <div className="w-full max-w-[290px] rounded-2xl bg-white p-3.5 text-left shadow-lift">
+      <p className="text-[10px] font-semibold uppercase tracking-wider text-[#8a938e]">
+        Draft · Sarah Lindqvist
+      </p>
+      <p className="mt-1.5 text-[12px] font-semibold text-[#111614]">
+        Subject: Cursor for warehouse ops
+      </p>
+      <div className="my-2 h-px bg-black/5" />
+      <p className="text-[12px] leading-relaxed text-[#3f4a45]">
+        Hi Sarah, saw your seed into CodeLoom and your piece on agentic ops. We&apos;re
+        building Loop: $18k MRR, growing 22% MoM. Worth 20 minutes?
+      </p>
+      <div className="mt-2.5 flex items-center gap-1.5 text-[11px] font-medium text-[#0e7a5f]">
+        <span className="grid h-4 w-4 place-items-center rounded-full bg-[#e8f8ee]">✓</span>
+        LinkedIn DM included
       </div>
     </div>
   );
@@ -127,25 +136,36 @@ function ChatMockup() {
 
 const steps = [
   {
-    icon: IconChat,
-    title: 'Talk it through',
-    body: 'A 15-minute WhatsApp chat about your product, traction, and raise. Like talking to a sharp associate, not filling a form.',
+    n: 1,
+    title: 'A real conversation',
+    body: 'Fifteen minutes on WhatsApp about your product, traction, and raise. Scout listens like a sharp associate and never asks twice.',
+    gradient: 'from-[#dcc0ab] to-[#8f6f5c]',
+    mock: StepChat,
   },
   {
-    icon: IconResearch,
-    title: 'Scout researches',
-    body: 'It reads your site, market, competitors, and press, then builds an investor-grade profile of your company.',
+    n: 2,
+    title: 'Research and matching',
+    body: 'Scout studies your company and market, then ranks a curated investor base by stage, sector, geography, and thesis fit.',
+    gradient: 'from-[#c7cfb2] to-[#68755a]',
+    mock: StepMatches,
   },
   {
-    icon: IconTarget,
-    title: 'Matches, ranked',
-    body: 'Your profile is scored against a curated investor base. You get the top 50, each with the reason they fit.',
+    n: 3,
+    title: 'Outreach that lands',
+    body: 'Every investor gets a personal email and LinkedIn DM built from their real portfolio and your real numbers. You review and send.',
+    gradient: 'from-[#d3bb96] to-[#57504a]',
+    mock: StepEmail,
   },
-  {
-    icon: IconSend,
-    title: 'Outreach, written',
-    body: 'A personal email and LinkedIn DM per investor, grounded in their real thesis. You review and hit send.',
-  },
+];
+
+const sources = [
+  'Your website',
+  'Crunchbase',
+  'LinkedIn',
+  'X / Twitter',
+  'Y Combinator',
+  'Product Hunt',
+  'TechCrunch',
 ];
 
 const faqs = [
@@ -182,11 +202,10 @@ export default function Home() {
     <>
       {/* Nav */}
       <header className="sticky top-0 z-40 border-b border-ink/[0.06] bg-paper/80 backdrop-blur-md">
-        <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3.5">
+        <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
           <Logo />
           <div className="hidden items-center gap-8 text-sm text-mist md:flex">
             <a href="#how" className="transition hover:text-ink">How it works</a>
-            <a href="#report" className="transition hover:text-ink">The report</a>
             <a href="#pricing" className="transition hover:text-ink">Pricing</a>
             <a href="#faq" className="transition hover:text-ink">FAQ</a>
           </div>
@@ -194,367 +213,178 @@ export default function Home() {
             href={WA_LINK}
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-full bg-ink px-4 py-2 text-sm font-medium text-paper shadow-sm transition duration-200 hover:-translate-y-px hover:opacity-90 hover:shadow-md"
+            className="rounded-full bg-ink px-4 py-2 text-sm font-medium text-paper shadow-sm transition duration-200 hover:-translate-y-px hover:opacity-90"
           >
             Message Scout
           </a>
         </nav>
       </header>
 
-      <main className="mx-auto max-w-6xl px-5">
-        {/* Hero */}
-        <section className="relative grid items-center gap-12 pb-16 pt-12 sm:pt-16 lg:grid-cols-[1.05fr_0.95fr] lg:gap-8 lg:pb-24 lg:pt-20">
-          <div className="dotgrid pointer-events-none absolute -top-24 left-1/2 -z-10 h-[560px] w-[860px] max-w-[96vw] -translate-x-1/2" />
-          <div className="animate-fade-up text-center lg:text-left">
-            <span className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-card px-3.5 py-1.5 text-xs font-medium text-mist shadow-sm">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-signal opacity-60" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-signal" />
-              </span>
-              Now on WhatsApp
-            </span>
-            <h1 className="mt-6 font-display text-[2.7rem] font-semibold leading-[1.03] tracking-[-0.03em] text-ink sm:text-[4.25rem]">
-              Meet Scout, your AI fundraising associate.
-            </h1>
-            <p className="mx-auto mt-5 max-w-md text-base leading-relaxed text-mist sm:text-lg lg:mx-0">
-              Chat for 15 minutes and get the investors most likely to fund you, each with
-              a personal email ready to send.
-            </p>
-            <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row lg:justify-start">
-              <PrimaryCTA label="Message Scout" className="w-full sm:w-auto" />
-              <GhostButton href="#how" label="See how it works" className="w-full sm:w-auto" />
-            </div>
-            <p className="mt-5 text-sm text-mist">
-              Free to start · top-3 matches in ~30 min · no login
-            </p>
-          </div>
-          <div className="animate-fade-up [animation-delay:120ms]">
-            <ChatMockup />
+      <main>
+        {/* Hero: centered, editorial, whitespace-heavy */}
+        <section className="mx-auto max-w-4xl px-5 pb-20 pt-16 text-center sm:pb-28 sm:pt-24">
+          <h1 className="animate-fade-up font-display text-5xl leading-[1.05] tracking-tight text-ink sm:text-7xl">
+            Meet Scout, your AI fundraising associate.
+          </h1>
+          <p className="mx-auto mt-7 max-w-2xl animate-fade-up text-lg leading-relaxed text-mist [animation-delay:80ms] sm:text-xl">
+            Fundraising isn&apos;t a numbers game. Focused outreach wins. Scout finds the
+            investors most likely to fund you and writes outreach they&apos;ll actually
+            answer, so you wake up to meetings, not templates.
+          </p>
+          <div className="mt-10 animate-fade-up [animation-delay:160ms]">
+            <MessageCTA />
           </div>
         </section>
 
-        {/* How it works */}
-        <section id="how" className="scroll-mt-24 border-t border-ink/[0.06] py-16 sm:py-24">
-          <SectionLabel>How it works</SectionLabel>
-          <h2 className="mx-auto max-w-2xl text-center font-display text-3xl font-semibold tracking-[-0.02em] sm:text-4xl">
-            Four steps, one conversation.
+        {/* How it works: three gradient cards with product mockups */}
+        <section id="how" className="mx-auto max-w-6xl scroll-mt-24 px-5 py-16 sm:py-24">
+          <h2 className="text-center font-display text-4xl tracking-tight sm:text-5xl">
+            How it works
           </h2>
-          <div className="mt-10 grid gap-4 sm:mt-14 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
+          <p className="mx-auto mt-4 max-w-xl text-center text-mist">
+            Fifty carefully matched investors, not five thousand. Each one researched,
+            scored, and worth your email. The opposite of spray-and-pray.
+          </p>
+          <div className="mt-12 grid gap-6 sm:mt-16 lg:grid-cols-3">
             {steps.map((step) => (
-              <div
-                key={step.title}
-                className="group flex items-start gap-4 rounded-4xl border border-ink/[0.06] bg-card p-6 shadow-soft transition duration-200 hover:-translate-y-1 hover:shadow-lift sm:block"
-              >
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-signal/12 text-moss transition group-hover:bg-signal/20 sm:mb-5">
-                  <step.icon className="h-6 w-6" />
+              <div key={step.n}>
+                <div
+                  className={`flex min-h-[300px] items-center justify-center rounded-[1.75rem] bg-gradient-to-br p-6 sm:min-h-[340px] ${step.gradient}`}
+                >
+                  <step.mock />
                 </div>
-                <div>
-                  <h3 className="font-display text-lg font-semibold tracking-[-0.01em]">
-                    {step.title}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-mist">{step.body}</p>
-                </div>
+                <p className="mt-6 text-xs font-semibold uppercase tracking-[0.18em] text-mist">
+                  Step {step.n}
+                </p>
+                <h3 className="mt-2 text-lg font-semibold tracking-[-0.01em]">{step.title}</h3>
+                <p className="mt-2 text-[15px] leading-relaxed text-mist">{step.body}</p>
               </div>
             ))}
           </div>
+          <p className="mx-auto mt-12 max-w-xl text-center text-sm text-mist">
+            After the report, the same chat becomes your fundraising assistant. Rewrite an
+            email, prep for a call, or ask what a term sheet clause means.
+          </p>
         </section>
 
-        {/* Product peek */}
-        <section id="report" className="scroll-mt-24 py-16 sm:py-24">
-          <SectionLabel>The report</SectionLabel>
-          <h2 className="mx-auto max-w-2xl text-center font-display text-3xl font-semibold tracking-[-0.02em] sm:text-4xl">
-            This is what a match looks like.
-          </h2>
-          <p className="mx-auto mt-4 max-w-xl text-center text-mist">
-            Every investor comes with the why, the contact, and the first email, already
-            written.
+        {/* Sources */}
+        <section className="mx-auto max-w-5xl px-5 py-14 sm:py-20">
+          <p className="text-center text-xs font-semibold uppercase tracking-[0.22em] text-mist">
+            Where Scout does your diligence
           </p>
-
-          <div className="mx-auto mt-10 grid max-w-4xl gap-5 sm:mt-14 lg:grid-cols-[1fr_0.9fr]">
-            {/* match card */}
-            <div className="rounded-4xl border border-ink/[0.06] bg-card p-6 shadow-lift sm:p-7">
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <p className="text-[11px] font-semibold uppercase tracking-wider text-mist">
-                    Example match · #1
-                  </p>
-                  <h3 className="mt-1 font-display text-xl font-semibold tracking-[-0.01em]">
-                    Northbeam Ventures
-                  </h3>
-                  <p className="text-sm text-mist">Sarah Lindqvist · Partner</p>
-                </div>
-                <span className="shrink-0 rounded-full bg-signal/15 px-3 py-1 text-sm font-bold text-moss">
-                  94% fit
-                </span>
-              </div>
-              <div className="mt-4 flex flex-wrap gap-2">
-                {['Seed to Series A', '$500K to $3M', 'Dev tools · AI infra'].map((t) => (
-                  <span
-                    key={t}
-                    className="rounded-lg bg-paper px-2.5 py-1 text-xs font-medium text-ink/70"
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
-              <div className="mt-5 rounded-2xl bg-paper/70 p-4">
-                <p className="text-[11px] font-semibold uppercase tracking-wider text-moss">
-                  Why matched
-                </p>
-                <p className="mt-1.5 text-sm leading-relaxed text-ink/80">
-                  Sarah led Northbeam&apos;s seed into two logistics-AI startups this year
-                  and writes publicly about agentic ops software. Your warehouse copilot
-                  lands squarely in her thesis.
-                </p>
-              </div>
-            </div>
-
-            {/* email card */}
-            <div className="relative overflow-hidden rounded-4xl border border-white/10 bg-night p-6 text-white shadow-lift sm:p-7">
-              <span className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent" />
-              <div className="flex items-center gap-2 text-white/50">
-                <IconSend className="h-4 w-4" />
-                <p className="text-[11px] font-semibold uppercase tracking-wider">
-                  Drafted for you
-                </p>
-              </div>
-              <p className="mt-4 text-xs text-white/45">Subject</p>
-              <p className="text-sm font-semibold">Cursor for warehouse ops</p>
-              <div className="my-4 h-px bg-white/10" />
-              <p className="text-sm leading-relaxed text-white/80">
-                Hi Sarah, saw your seed into CodeLoom and your piece on agentic ops.
-                We&apos;re building Loop, an AI copilot for warehouse teams: $18k MRR,
-                growing 22% MoM with mid-size 3PLs. Worth 20 minutes to compare notes?
-              </p>
-              <p className="mt-4 text-xs text-white/40">
-                Plus a matching LinkedIn DM, ready to send.
-              </p>
-            </div>
+          <div className="mt-7 flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
+            {sources.map((s) => (
+              <span key={s} className="text-[15px] font-medium text-mist/80">
+                {s}
+              </span>
+            ))}
           </div>
-
-          <p className="mx-auto mt-8 max-w-xl text-center text-sm text-mist">
-            Partner names, emails, and LinkedIn profiles included. Confidence scores on
-            every match so you know who to email first.
+          <p className="mt-6 text-center text-sm text-mist">
+            + honestly, anywhere your startup leaves a trace.
           </p>
         </section>
 
         {/* Pricing */}
-        <section id="pricing" className="scroll-mt-24 border-t border-ink/[0.06] py-16 sm:py-24">
-          <SectionLabel>Pricing</SectionLabel>
-          <h2 className="mx-auto max-w-2xl text-center font-display text-3xl font-semibold tracking-[-0.02em] sm:text-4xl">
+        <section
+          id="pricing"
+          className="mx-auto max-w-6xl scroll-mt-24 border-t border-ink/[0.06] px-5 py-16 sm:py-24"
+        >
+          <h2 className="text-center font-display text-4xl tracking-tight sm:text-5xl">
             Start free. Pay once you&apos;ve seen the matches.
           </h2>
-          <div className="mx-auto mt-10 grid max-w-3xl gap-4 sm:mt-14 sm:grid-cols-2 sm:gap-5">
-            <div className="rounded-4xl border border-ink/[0.06] bg-card p-7 shadow-soft sm:p-8">
-              <h3 className="font-display text-lg font-semibold">Free</h3>
-              <p className="mt-3 font-display text-4xl font-semibold tracking-[-0.02em]">$0</p>
-              <p className="mt-1 text-sm text-mist">No card, no login.</p>
+          <div className="mx-auto mt-12 grid max-w-3xl gap-4 sm:mt-16 sm:grid-cols-2 sm:gap-5">
+            <div className="rounded-[1.75rem] border border-ink/[0.06] bg-card p-7 shadow-soft sm:p-8">
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-mist">Free</h3>
+              <p className="mt-3 font-display text-5xl tracking-tight">$0</p>
+              <p className="mt-1.5 text-sm text-mist">No card, no login.</p>
               <ul className="mt-6 space-y-3 text-[15px] text-ink/80">
-                {[
-                  'Founder interview on WhatsApp',
-                  'Automatic startup research',
-                  'Preview of your top 3 investors',
-                ].map((t) => (
-                  <li key={t} className="flex items-start gap-2.5">
-                    <IconCheck className="mt-0.5 h-5 w-5 shrink-0 text-mist" />
-                    {t}
-                  </li>
-                ))}
+                <li>Founder interview on WhatsApp</li>
+                <li>Automatic startup research</li>
+                <li>Preview of your top 3 investors</li>
               </ul>
             </div>
-            <div className="relative rounded-4xl border-2 border-signal bg-card p-7 shadow-[0_24px_70px_-24px_rgba(34,197,94,0.5)] sm:p-8">
-              <span className="absolute -top-3 right-6 rounded-full bg-signal px-3 py-1 text-xs font-bold text-night shadow-sm">
+            <div className="relative rounded-[1.75rem] border border-ink/10 bg-card p-7 shadow-lift sm:p-8">
+              <span className="absolute -top-3 right-6 rounded-full bg-signal px-3 py-1 text-xs font-bold text-[#0c1512]">
                 Full report
               </span>
-              <h3 className="font-display text-lg font-semibold text-moss">Pro</h3>
-              <p className="mt-3 font-display text-4xl font-semibold tracking-[-0.02em]">
-                ₹999 <span className="text-base font-medium text-mist">/ $29 · one-time</span>
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-moss">Pro</h3>
+              <p className="mt-3 font-display text-5xl tracking-tight">
+                ₹999 <span className="font-sans text-base font-medium text-mist">/ $29 · one-time</span>
               </p>
-              <p className="mt-1 text-sm text-mist">Pay when you unlock. No subscription.</p>
+              <p className="mt-1.5 text-sm text-mist">Pay when you unlock. No subscription.</p>
               <ul className="mt-6 space-y-3 text-[15px] text-ink">
-                {[
-                  'All 50 investors, ranked by fit',
-                  'Why each one fits, plus a confidence score',
-                  'Partner name, email & LinkedIn',
-                  'Personal email + DM per investor',
-                  'Ongoing AI fundraising assistant',
-                ].map((t) => (
-                  <li key={t} className="flex items-start gap-2.5">
-                    <IconCheck className="mt-0.5 h-5 w-5 shrink-0 text-moss" />
-                    {t}
-                  </li>
-                ))}
+                <li>All 50 investors, ranked by fit</li>
+                <li>Why each one fits, plus a confidence score</li>
+                <li>Partner name, email &amp; LinkedIn</li>
+                <li>Personal email + DM per investor</li>
+                <li>Ongoing AI fundraising assistant</li>
               </ul>
-              <div className="mt-7">
-                <PrimaryCTA label="Start with Scout" className="w-full" />
-              </div>
             </div>
           </div>
         </section>
 
-        {/* FAQ */}
-        <section id="faq" className="scroll-mt-24 py-16 sm:py-24">
-          <SectionLabel>FAQ</SectionLabel>
-          <h2 className="mx-auto max-w-2xl text-center font-display text-3xl font-semibold tracking-[-0.02em] sm:text-4xl">
-            Questions founders ask.
+        {/* FAQ: minimal hairline rows */}
+        <section id="faq" className="mx-auto max-w-3xl scroll-mt-24 px-5 py-16 sm:py-24">
+          <h2 className="text-center font-display text-4xl tracking-tight sm:text-5xl">
+            Questions founders ask
           </h2>
-          <div className="mx-auto mt-10 max-w-2xl space-y-3 sm:mt-12">
+          <div className="mt-10 border-t border-ink/10 sm:mt-14">
             {faqs.map((f) => (
-              <details
-                key={f.q}
-                className="group rounded-3xl border border-ink/[0.06] bg-card px-5 py-4 shadow-soft transition open:shadow-lift sm:px-6"
-              >
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-display text-[15px] font-semibold sm:text-base [&::-webkit-details-marker]:hidden">
+              <details key={f.q} className="group border-b border-ink/10 py-5">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-[15px] font-medium sm:text-base [&::-webkit-details-marker]:hidden">
                   {f.q}
-                  <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-paper text-mist transition duration-200 group-open:rotate-45 group-open:bg-signal/15 group-open:text-moss">
+                  <span className="shrink-0 text-xl font-light text-mist transition duration-200 group-open:rotate-45">
                     +
                   </span>
                 </summary>
-                <p className="mt-3 text-[15px] leading-relaxed text-mist">{f.a}</p>
+                <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-mist">{f.a}</p>
               </details>
             ))}
           </div>
         </section>
 
-        {/* Final CTA */}
-        <section className="pb-16 pt-4 sm:pb-24">
-          <div className="relative overflow-hidden rounded-[2.5rem] bg-night px-6 py-14 text-center sm:px-12 sm:py-20">
-            <span className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent" />
-            <div className="pointer-events-none absolute inset-0 opacity-[0.16] [background:radial-gradient(circle_at_50%_-10%,#22c55e,transparent_55%)]" />
+        {/* Final CTA: black panel, serif headline, white pill */}
+        <section className="mx-auto max-w-6xl px-5 pb-20 pt-4 sm:pb-28">
+          <div className="relative overflow-hidden rounded-[2rem] bg-[#0c1512] px-6 py-16 text-center ring-1 ring-white/10 sm:px-12 sm:py-24">
+            <div className="pointer-events-none absolute inset-0 opacity-[0.12] [background:radial-gradient(circle_at_50%_-10%,#22c55e,transparent_55%)]" />
             <div className="relative">
-              <ScoutMark className="mx-auto h-12 w-12" />
-              <span className="mt-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3.5 py-1.5 text-xs font-medium text-white/80">
-                <span className="h-1.5 w-1.5 rounded-full bg-signal" />
-                Your AI fundraising associate · on WhatsApp
-              </span>
-              <h2 className="mx-auto mt-5 max-w-lg font-display text-3xl font-semibold tracking-[-0.03em] text-white sm:text-5xl">
-                Your next investor is a chat away.
+              <h2 className="mx-auto max-w-2xl font-display text-4xl tracking-tight text-white sm:text-6xl">
+                Scout, your unfair advantage.
               </h2>
-              <p className="mx-auto mt-4 max-w-md text-white/60">
-                Fifteen minutes on WhatsApp. No forms, no spreadsheets, no weeks lost to
-                research.
+              <p className="mx-auto mt-5 max-w-md text-white/60">
+                Text once. Scout handles the research, the matching, and the first email.
+                You focus on building.
               </p>
-              <div className="mt-8 flex justify-center">
-                <PrimaryCTA label="Message Scout" className="w-full sm:w-auto" />
+              <div className="mt-9">
+                <MessageCTA light caption="WhatsApp · top-3 preview free" />
               </div>
             </div>
           </div>
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-ink/[0.06] bg-card/50">
-        <div className="mx-auto max-w-6xl px-5 py-14">
-          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
-            <div className="max-w-xs">
-              <Logo />
-              <p className="mt-4 text-sm leading-relaxed text-mist">
-                Your AI fundraising associate. Scout finds the right investors and writes
-                the first email, all on WhatsApp.
-              </p>
-              <div className="mt-5 flex gap-2.5">
-                <a
-                  href="https://x.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Scout on X"
-                  className="grid h-9 w-9 place-items-center rounded-full border border-ink/10 bg-card text-ink/70 transition hover:-translate-y-0.5 hover:text-ink"
-                >
-                  <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden>
-                    <path d="M18.9 2H22l-7.1 8.1L23 22h-6.6l-5.2-6.8L5.2 22H2l7.6-8.7L1.5 2h6.8l4.7 6.2L18.9 2Zm-1.2 18h1.8L7.1 3.9H5.2L17.7 20Z" />
-                  </svg>
-                </a>
-                <a
-                  href="https://linkedin.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Scout on LinkedIn"
-                  className="grid h-9 w-9 place-items-center rounded-full border border-ink/10 bg-card text-ink/70 transition hover:-translate-y-0.5 hover:text-ink"
-                >
-                  <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden>
-                    <path d="M6.5 8.3H3.7V21h2.8V8.3ZM5.1 3.5A1.7 1.7 0 1 0 5.1 7a1.7 1.7 0 0 0 0-3.4ZM21 21h-2.8v-6.7c0-1.6-.6-2.7-2-2.7-1.1 0-1.7.7-2 1.5-.1.2-.1.6-.1.9V21H9.3s0-11.5 0-12.7h2.8v1.8c.4-.6 1-1.5 2.6-1.5 1.9 0 3.4 1.2 3.4 3.9V21Z" />
-                  </svg>
-                </a>
-                <a
-                  href={WA_LINK}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Message Scout on WhatsApp"
-                  className="grid h-9 w-9 place-items-center rounded-full border border-ink/10 bg-card text-ink/70 transition hover:-translate-y-0.5 hover:text-moss"
-                >
-                  <WhatsAppGlyph className="h-4 w-4" />
-                </a>
-              </div>
-            </div>
-
-            <FooterCol
-              title="Product"
-              links={[
-                { label: 'How it works', href: '/#how' },
-                { label: 'The report', href: '/#report' },
-                { label: 'Pricing', href: '/#pricing' },
-                { label: 'FAQ', href: '/#faq' },
-              ]}
-            />
-            <FooterCol
-              title="Company"
-              links={[
-                { label: 'About', href: '/about' },
-                { label: 'Contact', href: '/contact' },
-                { label: 'Message Scout', href: WA_LINK },
-              ]}
-            />
-            <FooterCol
-              title="Legal"
-              links={[
-                { label: 'Privacy', href: '/privacy' },
-                { label: 'Terms', href: '/terms' },
-              ]}
-            />
-          </div>
-
-          <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-ink/[0.06] pt-6 text-sm text-mist sm:flex-row">
-            <p>© {new Date().getFullYear()} Scout. All rights reserved.</p>
-            <div className="flex items-center gap-4">
-              <ThemeToggle />
-              <p>
-                Built by{' '}
-                <a
-                  href="https://realanshuman.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-medium text-ink/70 hover:text-ink"
-                >
-                  Anshuman
-                </a>
-              </p>
-            </div>
+      {/* Footer: one minimal row */}
+      <footer className="border-t border-ink/[0.06]">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-5 px-5 py-8 text-sm text-mist sm:flex-row">
+          <Logo markClassName="h-6 w-6" wordClassName="text-lg" />
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
+            <a href="/about" className="transition hover:text-ink">About</a>
+            <a href="/contact" className="transition hover:text-ink">Contact</a>
+            <a href="/privacy" className="transition hover:text-ink">Privacy</a>
+            <a href="/terms" className="transition hover:text-ink">Terms</a>
+            <a
+              href="https://realanshuman.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition hover:text-ink"
+            >
+              Built by Anshuman
+            </a>
+            <ThemeToggle />
+            <span>© {new Date().getFullYear()}</span>
           </div>
         </div>
       </footer>
     </>
-  );
-}
-
-function FooterCol({
-  title,
-  links,
-}: {
-  title: string;
-  links: { label: string; href: string }[];
-}) {
-  return (
-    <div>
-      <p className="text-xs font-semibold uppercase tracking-wider text-mist/70">{title}</p>
-      <ul className="mt-4 space-y-2.5 text-sm">
-        {links.map((l) => (
-          <li key={l.label}>
-            <a href={l.href} className="text-ink/70 transition hover:text-ink">
-              {l.label}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </div>
   );
 }

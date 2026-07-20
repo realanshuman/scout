@@ -41,7 +41,7 @@ export default function Contact() {
         <Logo />
       </Link>
 
-      <h1 className="mt-12 font-display text-4xl font-semibold tracking-[-0.02em] sm:text-5xl">
+      <h1 className="mt-12 font-display text-5xl tracking-tight sm:text-6xl">
         Say hello.
       </h1>
       <p className="mt-4 max-w-md text-mist">
@@ -58,7 +58,7 @@ export default function Contact() {
           >
             <div className="flex items-center justify-between gap-4">
               <div>
-                <h2 className="font-display text-lg font-semibold tracking-[-0.01em]">
+                <h2 className="text-lg font-semibold tracking-[-0.01em]">
                   {c.title}
                 </h2>
                 <p className="mt-1.5 text-sm leading-relaxed text-mist">{c.body}</p>

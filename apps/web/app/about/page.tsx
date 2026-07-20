@@ -20,7 +20,7 @@ export default function About() {
 
       <div className="mt-12">
         <ScoutMark className="h-12 w-12" />
-        <h1 className="mt-6 font-display text-4xl font-semibold tracking-[-0.02em] sm:text-5xl">
+        <h1 className="mt-6 font-display text-5xl tracking-tight sm:text-6xl">
           Fundraising research should take minutes, not weeks.
         </h1>
       </div>

@@ -6,9 +6,9 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        // Inter for body/UI, Geist for headings.
+        // Inter for body/UI, an editorial high-contrast serif for display.
         sans: ['var(--font-inter)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        display: ['var(--font-geist-sans)', 'var(--font-inter)', 'system-ui', 'sans-serif'],
+        display: ['var(--font-serif)', 'Georgia', 'Times New Roman', 'serif'],
       },
       colors: {
         // Semantic colors driven by CSS variables so day/night both work

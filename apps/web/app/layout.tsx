@@ -1,13 +1,18 @@
 import type { Metadata } from 'next';
-import { GeistSans } from 'geist/font/sans';
-import { Inter } from 'next/font/google';
+import { Inter, Instrument_Serif } from 'next/font/google';
 import './globals.css';
 
-// Geist for display (clean, cool, modern), Inter for body (best small-size
-// legibility on phones). Both are self-hosted, so no runtime font fetch.
+// Editorial pairing: high-contrast serif for display, neutral sans for body.
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
+  display: 'swap',
+});
+
+const serif = Instrument_Serif({
+  weight: '400',
+  subsets: ['latin'],
+  variable: '--font-serif',
   display: 'swap',
 });
 
@@ -45,7 +50,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${GeistSans.variable} ${inter.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${inter.variable} ${serif.variable}`} suppressHydrationWarning>
       <head>
         {/* Set the theme class before paint to avoid a flash of wrong mode. */}
         <script
