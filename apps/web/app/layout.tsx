@@ -15,7 +15,8 @@ const bricolage = Bricolage_Grotesque({
   display: 'swap',
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://scout.genflix.io';
+// Metadata fallback only — set NEXT_PUBLIC_SITE_URL to your real deploy URL.
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://scout.realanshuman.com';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

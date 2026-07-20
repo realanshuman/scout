@@ -617,7 +617,7 @@ export default function Home() {
               title="Company"
               links={[
                 { label: 'Message Scout', href: WA_LINK },
-                { label: 'Contact', href: 'mailto:team@genflix.io' },
+                { label: 'Contact', href: 'mailto:hi@realanshuman.com' },
               ]}
             />
             <FooterCol
@@ -633,8 +633,13 @@ export default function Home() {
             <p>© {new Date().getFullYear()} Scout. All rights reserved.</p>
             <p>
               Built by{' '}
-              <a href="mailto:team@genflix.io" className="font-medium text-ink/70 hover:text-ink">
-                Genflix
+              <a
+                href="https://realanshuman.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-ink/70 hover:text-ink"
+              >
+                Anshuman
               </a>
             </p>
           </div>

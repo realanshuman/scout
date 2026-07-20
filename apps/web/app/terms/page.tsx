@@ -11,7 +11,7 @@ export default function Terms() {
     <LegalPage title="Terms" updated="July 2026">
       <p>
         These are the terms for using Scout. By chatting with Scout you agree to them.
-        Questions? Email <a href="mailto:team@genflix.io">team@genflix.io</a>.
+        Questions? Email <a href="mailto:hi@realanshuman.com">hi@realanshuman.com</a>.
       </p>
 
       <div>

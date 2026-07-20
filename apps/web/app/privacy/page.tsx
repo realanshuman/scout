@@ -12,7 +12,7 @@ export default function Privacy() {
       <p>
         Scout is an early-stage product. This page explains, in plain terms, what we
         collect and why. If anything here is unclear, email us at{' '}
-        <a href="mailto:team@genflix.io">team@genflix.io</a>.
+        <a href="mailto:hi@realanshuman.com">hi@realanshuman.com</a>.
       </p>
 
       <div>
@@ -40,7 +40,7 @@ export default function Privacy() {
         <h2>Your choices</h2>
         <p className="mt-2">
           You can ask us to delete your data at any time by emailing{' '}
-          <a href="mailto:team@genflix.io">team@genflix.io</a>. We&apos;ll remove your
+          <a href="mailto:hi@realanshuman.com">hi@realanshuman.com</a>. We&apos;ll remove your
           conversation and profile from our systems.
         </p>
       </div>
