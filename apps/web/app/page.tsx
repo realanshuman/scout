@@ -15,32 +15,35 @@ function WhatsAppGlyph({ className }: { className?: string }) {
 }
 
 /**
- * The main CTA, Backdoor-style: a glossy pill with the messenger icon in a
- * green squircle. `bg-ink text-paper` flips automatically per theme, so it
- * is a black pill in day mode and a white pill in night mode.
+ * The main CTA: a glossy pill with the WhatsApp glyph in a green squircle.
+ * `dark` is a black pill (light backgrounds), `light` a white pill, and
+ * `glass` a translucent pill for use over the dark hero.
  */
 function MessageCTA({
   label = 'Message Scout',
   caption = 'WhatsApp · free to start',
-  light = false,
+  variant = 'dark',
   className = '',
 }: {
   label?: string;
   caption?: string | null;
-  light?: boolean;
+  variant?: 'dark' | 'light' | 'glass';
   className?: string;
 }) {
+  const pill =
+    variant === 'glass'
+      ? 'bg-white/10 text-white ring-white/20 backdrop-blur-md hover:bg-white/[0.18]'
+      : variant === 'light'
+        ? 'bg-white text-[#111614] ring-black/5'
+        : 'bg-ink text-paper ring-white/15';
+  const cap = variant === 'dark' ? 'text-mist' : 'text-white/55';
   return (
     <div className={`flex flex-col items-center ${className}`}>
       <a
         href={WA_LINK}
         target="_blank"
         rel="noopener noreferrer"
-        className={`group relative inline-flex w-full items-center justify-center gap-3 overflow-hidden rounded-full px-8 py-4 text-lg font-semibold shadow-lift ring-1 transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_24px_60px_-16px_rgba(0,0,0,0.35)] active:translate-y-0 active:scale-[0.99] sm:w-auto ${
-          light
-            ? 'bg-white text-[#111614] ring-black/5'
-            : 'bg-ink text-paper ring-white/15'
-        }`}
+        className={`group relative inline-flex w-full items-center justify-center gap-3 overflow-hidden rounded-full px-8 py-4 text-lg font-semibold shadow-lift ring-1 transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_24px_60px_-16px_rgba(0,0,0,0.35)] active:translate-y-0 active:scale-[0.99] sm:w-auto ${pill}`}
       >
         <span className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/25 to-transparent" />
         <span className="relative grid h-8 w-8 shrink-0 place-items-center rounded-[9px] bg-gradient-to-b from-[#35de74] to-[#1fae54]">
@@ -48,7 +51,52 @@ function MessageCTA({
         </span>
         <span className="relative">{label}</span>
       </a>
-      {caption ? <p className="mt-3 text-sm text-mist">{caption}</p> : null}
+      {caption ? <p className={`mt-3 text-sm ${cap}`}>{caption}</p> : null}
+    </div>
+  );
+}
+
+/** A clean phone device showing Scout's WhatsApp digest (for the dark hero). */
+function HeroPhone() {
+  return (
+    <div className="relative mx-auto w-full max-w-[320px] rounded-[2.4rem] border border-white/10 bg-[#0e1a15] p-2.5 shadow-2xl ring-1 ring-white/5">
+      <div className="overflow-hidden rounded-[2rem] bg-chatbg">
+        <div className="flex items-center gap-2.5 bg-[#075e54] px-4 py-3 text-white">
+          <div className="grid h-8 w-8 place-items-center rounded-full bg-white/15">
+            <ScoutMark className="h-5 w-5" />
+          </div>
+          <div>
+            <p className="text-sm font-semibold leading-none">Scout</p>
+            <p className="mt-0.5 text-[10px] text-white/70">online</p>
+          </div>
+          <span className="ml-auto flex items-center gap-1 rounded-full bg-white/10 px-2 py-0.5 text-[9px] font-medium text-white/80">
+            <span className="h-1.5 w-1.5 rounded-full bg-signal" /> encrypted
+          </span>
+        </div>
+        <div className="space-y-2 px-3 py-4 text-[12.5px] leading-relaxed">
+          <p className="w-fit max-w-[90%] rounded-2xl rounded-tl-sm bg-white px-3 py-2 text-[#111614] shadow-sm">
+            Research done 🔍 Found <span className="font-semibold">58 investors</span> that
+            back startups like yours. Your top 3:
+          </p>
+          <p className="w-fit max-w-[90%] rounded-2xl rounded-tl-sm bg-white px-3 py-2 text-[#111614] shadow-sm">
+            1. <span className="font-semibold">Northbeam Ventures.</span> Led 2
+            logistics-AI seeds. 94% fit.
+          </p>
+          <p className="w-fit max-w-[90%] rounded-2xl rounded-tl-sm bg-white px-3 py-2 text-[#111614] shadow-sm">
+            2. <span className="font-semibold">Latitude Labs.</span> “AI that owns a
+            workflow.” 91% fit.
+          </p>
+          <p className="ml-auto w-fit max-w-[90%] rounded-2xl rounded-tr-sm bg-bubble px-3 py-2 text-[#111614] shadow-sm">
+            Northbeam looks perfect 👀
+          </p>
+          <p className="w-fit max-w-[90%] rounded-2xl rounded-tl-sm bg-white px-3 py-2 text-[#111614] shadow-sm">
+            Want the outreach draft for Sarah?
+          </p>
+          <p className="w-fit rounded-2xl rounded-tl-sm bg-white px-3.5 py-2.5 text-[#8a938e] shadow-sm">
+            • • •
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
@@ -200,40 +248,63 @@ const faqs = [
 export default function Home() {
   return (
     <>
-      {/* Nav */}
-      <header className="sticky top-0 z-40 border-b border-ink/[0.06] bg-paper/80 backdrop-blur-md">
-        <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
-          <Logo />
-          <div className="hidden items-center gap-8 text-sm text-mist md:flex">
-            <a href="#how" className="transition hover:text-ink">How it works</a>
-            <a href="#pricing" className="transition hover:text-ink">Pricing</a>
-            <a href="#faq" className="transition hover:text-ink">FAQ</a>
-          </div>
-          <a
-            href={WA_LINK}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-full bg-ink px-4 py-2 text-sm font-medium text-paper shadow-sm transition duration-200 hover:-translate-y-px hover:opacity-90"
-          >
-            Message Scout
-          </a>
-        </nav>
-      </header>
-
       <main>
-        {/* Hero: centered, editorial, whitespace-heavy */}
-        <section className="mx-auto max-w-4xl px-5 pb-20 pt-16 text-center sm:pb-28 sm:pt-24">
-          <h1 className="animate-fade-up font-display text-5xl leading-[1.05] tracking-tight text-ink sm:text-7xl">
-            Meet Scout, your AI fundraising associate.
-          </h1>
-          <p className="mx-auto mt-7 max-w-2xl animate-fade-up text-lg leading-relaxed text-mist [animation-delay:80ms] sm:text-xl">
-            Fundraising isn&apos;t a numbers game. Focused outreach wins. Scout finds the
-            investors most likely to fund you and writes outreach they&apos;ll actually
-            answer, so you wake up to meetings, not templates.
-          </p>
-          <div className="mt-10 animate-fade-up [animation-delay:160ms]">
-            <MessageCTA />
+        {/* Hero: immersive dark, phone mockup, floating glass CTA */}
+        <section className="relative overflow-hidden bg-[#071310] text-white">
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-[70%] opacity-70 [background:radial-gradient(ellipse_at_50%_-10%,rgb(34_197_94/0.28),transparent_60%)]" />
+          <div className="relative mx-auto max-w-6xl px-5">
+            {/* in-hero nav */}
+            <nav className="flex items-center justify-between py-4">
+              <Logo invert />
+              <div className="hidden items-center gap-8 text-sm text-white/60 md:flex">
+                <a href="#how" className="transition hover:text-white">How it works</a>
+                <a href="#pricing" className="transition hover:text-white">Pricing</a>
+                <a href="#faq" className="transition hover:text-white">FAQ</a>
+              </div>
+              <a
+                href={WA_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur transition hover:bg-white/[0.18]"
+              >
+                Message Scout
+              </a>
+            </nav>
+
+            {/* headline */}
+            <div className="pt-10 sm:pt-16">
+              <p className="animate-fade-up text-sm font-medium tracking-wide text-signal">
+                Your AI fundraising associate
+              </p>
+              <h1 className="mt-3 max-w-3xl animate-fade-up font-display text-[3.25rem] leading-[0.98] tracking-tight [animation-delay:60ms] sm:text-8xl">
+                Meet Scout. Raise from the right investors.
+              </h1>
+            </div>
+
+            {/* phone with its foot fading into the dark, CTA overlapping the fade */}
+            <div className="relative mx-auto mt-12 max-w-[340px] animate-fade-up pb-14 [animation-delay:140ms] sm:mt-16">
+              <div className="pointer-events-none absolute -inset-8 top-10 -z-10 rounded-full bg-signal/15 blur-3xl" />
+              <div className="relative">
+                <HeroPhone />
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#071310] via-[#071310] to-transparent" />
+              </div>
+              <div className="relative z-10 -mt-16 flex justify-center">
+                <MessageCTA variant="glass" className="w-full sm:w-auto" />
+              </div>
+            </div>
           </div>
+        </section>
+
+        {/* Intro: value prop on light */}
+        <section className="mx-auto max-w-3xl px-5 py-20 text-center sm:py-28">
+          <h2 className="font-display text-4xl leading-[1.08] tracking-tight sm:text-5xl">
+            The right ten investors beat a list of five thousand.
+          </h2>
+          <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-mist">
+            Scout learns your startup, researches your market, and hands you the fifty
+            funds most likely to say yes. Each comes with the reason they fit and a
+            personal email, ready to send.
+          </p>
         </section>
 
         {/* How it works: three gradient cards with product mockups */}
@@ -349,14 +420,14 @@ export default function Home() {
             <div className="pointer-events-none absolute inset-0 opacity-[0.12] [background:radial-gradient(circle_at_50%_-10%,#22c55e,transparent_55%)]" />
             <div className="relative">
               <h2 className="mx-auto max-w-2xl font-display text-4xl tracking-tight text-white sm:text-6xl">
-                Scout, your unfair advantage.
+                Your next investor is a chat away.
               </h2>
               <p className="mx-auto mt-5 max-w-md text-white/60">
-                Text once. Scout handles the research, the matching, and the first email.
-                You focus on building.
+                Message Scout once. It handles the research, the matching, and the first
+                email. You focus on building.
               </p>
               <div className="mt-9">
-                <MessageCTA light caption="WhatsApp · top-3 preview free" />
+                <MessageCTA variant="light" caption="WhatsApp · top-3 preview free" />
               </div>
             </div>
           </div>
