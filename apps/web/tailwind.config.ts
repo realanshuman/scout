@@ -4,18 +4,36 @@ const config: Config = {
   content: ['./app/**/*.{ts,tsx}', './components/**/*.{ts,tsx}'],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['var(--font-sans)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        display: ['var(--font-display)', 'var(--font-sans)', 'sans-serif'],
+      },
       colors: {
         ink: '#111614', // primary text
         mist: '#5f6b66', // secondary text
-        paper: '#faf9f6', // page background
-        signal: '#25d366', // WhatsApp green (buttons)
-        moss: '#0e7a5f', // darker green for accents/links (AA on paper)
+        paper: '#f7f6f1', // page background
+        card: '#ffffff',
+        signal: '#22c55e', // WhatsApp-ish green (buttons)
+        moss: '#0e7a5f', // accent / links (AA on paper)
+        night: '#0c1512', // dark sections
         bubble: '#d9fdd3', // outgoing WhatsApp bubble
-        chatbg: '#efeae2', // WhatsApp chat background
+        chatbg: '#ece5dd', // WhatsApp chat background
       },
       boxShadow: {
-        soft: '0 1px 2px rgb(17 22 20 / 0.04), 0 8px 24px rgb(17 22 20 / 0.06)',
-        lift: '0 2px 4px rgb(17 22 20 / 0.06), 0 16px 40px rgb(17 22 20 / 0.10)',
+        soft: '0 1px 2px rgb(17 22 20 / 0.04), 0 10px 30px rgb(17 22 20 / 0.06)',
+        lift: '0 2px 6px rgb(17 22 20 / 0.06), 0 24px 60px rgb(17 22 20 / 0.12)',
+      },
+      borderRadius: {
+        '4xl': '2rem',
+      },
+      keyframes: {
+        'fade-up': {
+          '0%': { opacity: '0', transform: 'translateY(12px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+      },
+      animation: {
+        'fade-up': 'fade-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both',
       },
     },
   },
