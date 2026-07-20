@@ -47,7 +47,7 @@ export function Logo({
     <span className={`inline-flex items-center gap-2.5 ${className}`}>
       <ScoutMark className={markClassName} />
       <span
-        className={`font-display font-extrabold tracking-tight ${
+        className={`font-display font-semibold tracking-tight ${
           invert ? 'text-white' : 'text-ink'
         } ${wordClassName}`}
       >

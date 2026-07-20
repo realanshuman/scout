@@ -45,7 +45,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${GeistSans.variable} ${inter.variable}`}>
+    <html lang="en" className={`${GeistSans.variable} ${inter.variable}`} suppressHydrationWarning>
+      <head>
+        {/* Set the theme class before paint to avoid a flash of wrong mode. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{var t=localStorage.getItem('scout-theme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')}catch(e){}`,
+          }}
+        />
+      </head>
       <body className="grain bg-paper font-sans text-ink antialiased">{children}</body>
     </html>
   );

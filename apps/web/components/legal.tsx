@@ -15,7 +15,7 @@ export function LegalPage({
       <Link href="/" className="inline-block">
         <Logo />
       </Link>
-      <h1 className="mt-10 font-display text-4xl font-extrabold tracking-tight">{title}</h1>
+      <h1 className="mt-10 font-display text-4xl font-semibold tracking-tight">{title}</h1>
       <p className="mt-2 text-sm text-mist">Last updated {updated}</p>
       <div className="mt-8 space-y-6 text-[15px] leading-relaxed text-ink/80 [&_h2]:font-display [&_h2]:text-lg [&_h2]:font-bold [&_h2]:text-ink [&_a]:font-medium [&_a]:text-moss [&_a]:underline">
         {children}

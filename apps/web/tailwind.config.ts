@@ -2,6 +2,7 @@ import type { Config } from 'tailwindcss';
 
 const config: Config = {
   content: ['./app/**/*.{ts,tsx}', './components/**/*.{ts,tsx}'],
+  darkMode: 'class',
   theme: {
     extend: {
       fontFamily: {
@@ -10,19 +11,22 @@ const config: Config = {
         display: ['var(--font-geist-sans)', 'var(--font-inter)', 'system-ui', 'sans-serif'],
       },
       colors: {
-        ink: '#111614', // primary text
-        mist: '#5f6b66', // secondary text
-        paper: '#f7f6f1', // page background
-        card: '#ffffff',
-        signal: '#22c55e', // WhatsApp-ish green (buttons)
-        moss: '#0e7a5f', // accent / links (AA on paper)
-        night: '#0c1512', // dark sections
+        // Semantic colors driven by CSS variables so day/night both work
+        // without touching component classes.
+        paper: 'rgb(var(--paper) / <alpha-value>)', // page background
+        card: 'rgb(var(--card) / <alpha-value>)', // raised surfaces
+        ink: 'rgb(var(--ink) / <alpha-value>)', // primary text
+        mist: 'rgb(var(--mist) / <alpha-value>)', // secondary text
+        moss: 'rgb(var(--moss) / <alpha-value>)', // accent / links
+        // Fixed in both modes:
+        signal: '#22c55e', // green CTAs
+        night: '#0c1512', // dark panels
         bubble: '#d9fdd3', // outgoing WhatsApp bubble
         chatbg: '#ece5dd', // WhatsApp chat background
       },
       boxShadow: {
-        soft: '0 1px 2px rgb(17 22 20 / 0.04), 0 10px 30px rgb(17 22 20 / 0.06)',
-        lift: '0 2px 6px rgb(17 22 20 / 0.06), 0 24px 60px rgb(17 22 20 / 0.12)',
+        soft: '0 1px 2px rgb(0 0 0 / 0.04), 0 10px 30px rgb(0 0 0 / 0.06)',
+        lift: '0 2px 6px rgb(0 0 0 / 0.06), 0 24px 60px rgb(0 0 0 / 0.12)',
       },
       borderRadius: {
         '4xl': '2rem',

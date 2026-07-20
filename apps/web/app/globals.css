@@ -2,8 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Day mode (default) */
 :root {
   color-scheme: light;
+  --paper: 247 246 241; /* warm cream */
+  --card: 255 255 255;
+  --ink: 17 22 20;
+  --mist: 95 107 102;
+  --moss: 14 122 95;
+}
+
+/* Night mode */
+.dark {
+  color-scheme: dark;
+  --paper: 11 15 13; /* deep green-black */
+  --card: 21 27 24;
+  --ink: 240 244 242;
+  --mist: 148 160 154;
+  --moss: 52 211 153;
 }
 
 html {
@@ -11,9 +27,16 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+/* Guard against any decorative element causing sideways scroll on phones. */
+html,
+body {
+  overflow-x: clip;
+}
+
 body {
   font-feature-settings: 'cv02', 'cv03', 'cv04', 'ss01';
   text-rendering: optimizeLegibility;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 ::selection {
@@ -21,7 +44,7 @@ body {
   color: #0c1512;
 }
 
-/* Fine film grain: a subtle Framer-style texture over the whole page. */
+/* Fine film grain: a subtle texture over the whole page. */
 .grain::after {
   content: '';
   position: fixed;
@@ -31,10 +54,14 @@ body {
   opacity: 0.028;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
+.dark .grain::after {
+  opacity: 0.04;
+  filter: invert(1);
+}
 
 /* Hero backdrop: faint dotted grid that fades out downward. */
 .dotgrid {
-  background-image: radial-gradient(rgb(17 22 20 / 0.06) 1px, transparent 1px);
+  background-image: radial-gradient(rgb(var(--ink) / 0.07) 1px, transparent 1px);
   background-size: 22px 22px;
   -webkit-mask-image: linear-gradient(to bottom, black, transparent 78%);
   mask-image: linear-gradient(to bottom, black, transparent 78%);
