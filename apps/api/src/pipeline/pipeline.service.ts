@@ -4,6 +4,7 @@ import { env } from '../config/env';
 import { MemoryService, ReportRow } from '../memory/memory.service';
 import { WhatsappService } from '../whatsapp/whatsapp.service';
 import { ResearchAgent } from '../agents/research.agent';
+import { InvestorDiscoveryAgent } from '../agents/discovery.agent';
 import { MatchingAgent } from '../agents/matching.agent';
 import { ReportAgent } from '../agents/report.agent';
 import { OutreachAgent } from '../agents/outreach.agent';
@@ -28,6 +29,7 @@ export class PipelineService implements OnModuleInit, OnModuleDestroy {
     private readonly memory: MemoryService,
     private readonly whatsapp: WhatsappService,
     private readonly researchAgent: ResearchAgent,
+    private readonly discoveryAgent: InvestorDiscoveryAgent,
     private readonly matchingAgent: MatchingAgent,
     private readonly reportAgent: ReportAgent,
     private readonly outreachAgent: OutreachAgent,
@@ -98,12 +100,25 @@ export class PipelineService implements OnModuleInit, OnModuleDestroy {
         sources: research.sources,
       });
 
+      // Discover investors live from the web + investor platforms and fold
+      // them into the base, so matching has a fresh, on-topic pool to rank.
+      try {
+        const discovered = await this.discoveryAgent.run(startup.profile, research);
+        if (discovered.length) {
+          const saved = await this.memory.upsertInvestors(discovered);
+          this.logger.log(`discovery added/updated ${saved} investors for ${startupId}`);
+        }
+      } catch (err) {
+        // Discovery is best-effort; fall back to whatever is already in the base.
+        this.logger.warn(`investor discovery failed for ${startupId}: ${err}`);
+      }
+
       const ranked = await this.matchingAgent.run(startup.profile, research);
       if (ranked.length === 0) {
         await this.sendAndRecord(
           user.wa_phone,
           startup.conversation_id,
-          `I've finished researching your startup — but I couldn't find strong matches in my investor base for your exact stage and geography yet. I'm expanding coverage; I'll message you as soon as I have a solid list. 🙏`,
+          `I've finished researching your startup — but I couldn't pin down strong investor matches for your exact stage and geography yet. I'm widening the search and will message you the moment I have a solid list. 🙏`,
         );
         return;
       }

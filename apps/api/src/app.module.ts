@@ -8,6 +8,7 @@ import { WhatsappService } from './whatsapp/whatsapp.service';
 import { WhatsappController } from './whatsapp/whatsapp.controller';
 import { ConversationService } from './conversation/conversation.service';
 import { ResearchAgent } from './agents/research.agent';
+import { InvestorDiscoveryAgent } from './agents/discovery.agent';
 import { MatchingAgent } from './agents/matching.agent';
 import { ReportAgent } from './agents/report.agent';
 import { OutreachAgent } from './agents/outreach.agent';
@@ -29,6 +30,7 @@ import { PaymentsController } from './payments/payments.controller';
     WhatsappService,
     ConversationService,
     ResearchAgent,
+    InvestorDiscoveryAgent,
     MatchingAgent,
     ReportAgent,
     OutreachAgent,

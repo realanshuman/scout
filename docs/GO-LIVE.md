@@ -39,7 +39,7 @@ or ask me to walk that part through.
 2. In the left menu open **SQL Editor** → **New query**.
 3. Open the file `supabase/migrations/0001_init.sql` from this project, copy all
    of it, paste into the editor, and click **Run**. Do the same with
-   `0002_payment_ref.sql`.
+   `0002_payment_ref.sql` and `0003_investor_discovery.sql` (run them in order).
 4. Open **Project Settings → API** and copy two things for later:
    - **Project URL** → this is `SUPABASE_URL`
    - **service_role key** (under "Project API keys") → this is
@@ -51,11 +51,13 @@ or ask me to walk that part through.
    cheap, but a card is required).
 2. Open **API keys → Create new secret key**, copy it. This is `OPENAI_API_KEY`.
 
-## Step 3 — Research keys (optional) · ~5 min
+## Step 3 — Research keys (now recommended) · ~5 min
 
 Sign up at **tavily.com** and **firecrawl.dev**, grab an API key from each
-(`TAVILY_API_KEY`, `FIRECRAWL_API_KEY`). If you skip these, Scout still works but
-does lighter research.
+(`TAVILY_API_KEY`, `FIRECRAWL_API_KEY`). These power Scout's **live investor
+discovery** — it researches the web and investor platforms to find matches, so
+you don't have to maintain a big investor database yourself. Without a Tavily
+key, Scout can only rank investors already stored in your database, so add it.
 
 ## Step 4 — Deploy the engine (Railway) · ~15 min
 
@@ -132,19 +134,24 @@ This is the most involved part. Take it slowly; Meta's wording changes often.
 5. Add all three to Railway. Keep `DODO_PAYMENTS_ENVIRONMENT=test_mode` until
    you've tested, then switch to `live_mode` with your live keys.
 
-## Step 7 — Load investor data (needs a terminal) · ~15 min
+## Step 7 — Investor data (now optional) · 0–15 min
 
-The engine ships with **fake sample investors** so it runs, but the whole value
-is a real curated list. Replace `apps/api/data/investors.seed.json` with your
-real dataset (same format), then run the seed command once:
+**You no longer have to build an investor database.** With a Tavily key (Step 3),
+Scout **discovers investors live**: after it researches a founder's startup, it
+searches the web and public investor platforms (OpenVC, VC firm sites, YC, tech
+press, thesis posts) using that startup's filters — stage, sector, geography,
+check size, who funded similar companies — extracts the matching investors,
+ranks them, and saves them so your database fills itself over time.
 
-```
-pnpm install
-pnpm --filter @scout/api seed:investors
-```
-
-This is the one step that needs someone comfortable with a terminal. It takes
-about 10 minutes for a developer, or ask me to guide you through it.
+Two things worth knowing:
+- Scout never invents contact emails. When a partner's email isn't public it
+  leaves it blank and gives the firm website/LinkedIn instead, so you reach the
+  right person without sending to a made-up address.
+- If you *do* have a curated list, you can still pre-load it for extra quality:
+  replace `apps/api/data/investors.seed.json` with your data and run
+  `pnpm install && pnpm --filter @scout/api seed:investors` once (this is the
+  one step that needs a terminal). Optional — skip it and live discovery covers
+  you.
 
 ## Step 8 — Point the website at your number · ~5 min
 

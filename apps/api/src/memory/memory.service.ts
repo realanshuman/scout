@@ -74,6 +74,28 @@ export interface ReportRow {
   payment_ref: string | null;
 }
 
+/** Shape for inserting a discovered investor (embedding already computed). */
+export interface InvestorInsert {
+  firm: string;
+  partner: string | null;
+  email: string | null;
+  linkedin: string | null;
+  website: string | null;
+  countries: string[];
+  stages: string[];
+  sectors: string[];
+  check_min_usd: number | null;
+  check_max_usd: number | null;
+  thesis: string | null;
+  partner_interests: string | null;
+  recent_investments: { company: string; round?: string | null; year?: number | null }[];
+  portfolio: string[];
+  source_url: string | null;
+  discovered: boolean;
+  last_seen_at: string;
+  embedding: number[];
+}
+
 /**
  * The memory agent: every fact learned about a founder is persisted here so
  * they never repeat themselves. All Supabase access for the flow lives in
@@ -285,6 +307,33 @@ export class MemoryService {
     });
     if (error) throw error;
     return data as InvestorRow[];
+  }
+
+  /**
+   * Upsert discovered investors into the base by identity (firm + partner),
+   * refreshing details on re-discovery. Rows already carry their embedding.
+   */
+  async upsertInvestors(rows: InvestorInsert[]): Promise<number> {
+    let saved = 0;
+    for (const row of rows) {
+      const { data: existing } = await this.db
+        .from('investors')
+        .select('id')
+        .ilike('firm', row.firm)
+        .ilike('partner', row.partner ?? '')
+        .maybeSingle();
+
+      const payload = { ...row, updated_at: new Date().toISOString() };
+      const { error } = existing
+        ? await this.db.from('investors').update(payload).eq('id', existing.id)
+        : await this.db.from('investors').insert(payload);
+      if (error) {
+        // A duplicate or transient error on one investor shouldn't abort the rest.
+        continue;
+      }
+      saved += 1;
+    }
+    return saved;
   }
 
   async saveMatches(

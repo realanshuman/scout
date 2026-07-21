@@ -47,11 +47,18 @@ export class OpenAiService {
   }
 
   async embed(text: string): Promise<number[]> {
+    const [vector] = await this.embedMany([text]);
+    return vector;
+  }
+
+  /** Batch embeddings — one API call for many inputs. */
+  async embedMany(texts: string[]): Promise<number[][]> {
+    if (texts.length === 0) return [];
     const response = await this.client.embeddings.create({
       model: env.openaiEmbeddingModel,
-      input: text.slice(0, 8000),
+      input: texts.map((t) => t.slice(0, 8000)),
     });
-    return response.data[0].embedding;
+    return response.data.map((d) => d.embedding);
   }
 }
 

@@ -14,7 +14,7 @@ Dashboard  →  WhatsApp  →  AI founder interview  →  startup research
 
 1. **Interview** — a dynamic WhatsApp conversation (not a form). Every answer is extracted into a structured startup profile; nothing is ever asked twice.
 2. **Research** — Scout scrapes the startup's website (Firecrawl) and searches the web (Tavily), then synthesizes an investor-grade brief: summary, market, strengths, weaknesses, ideal investor profile.
-3. **Matching** — the core of the product. Hard filters (stage, geography) + pgvector semantic retrieval over the investor knowledge base, then an LLM re-ranking pass that scores each candidate and writes a founder-credible "why matched" explanation.
+3. **Discovery + Matching** — the core of the product. First a **live discovery** pass researches the web and public investor platforms (OpenVC, VC firm sites, YC, tech press, thesis posts) using the startup's filters — stage, sector, geography, check size, who funded similar companies — extracts structured investor records, and folds them into the base (so it fills itself; no manual seeding required). Then hard filters + pgvector semantic retrieval + an LLM re-ranking pass score each candidate and write a founder-credible "why matched" explanation. Contact emails are only kept when they actually appear in a source — never fabricated.
 4. **Paywall** — the founder gets a free preview of their top 3 matches; ₹999/$29 (Dodo Payments) unlocks the full report.
 5. **Outreach** — a distinct cold email + LinkedIn DM per investor, each anchored on that investor's actual thesis, portfolio, or recent investment.
 6. **Assistant** — after the report, the same chat becomes a fundraising assistant with full context (profile, research, matched investors).
@@ -69,7 +69,7 @@ Set `REDIS_URL` to run the research/delivery pipeline on BullMQ with retries. Wi
 
 ## The investor knowledge base
 
-`apps/api/data/investors.seed.json` ships with **fictional sample investors** so the full flow works end-to-end immediately. The real moat is a curated, well-maintained dataset with stages, geographies, sectors, check sizes, theses, partner interests, and recent investments. Replace the seed file with your real dataset (same shape) and re-run `pnpm seed:investors` — it upserts by (firm, partner) and recomputes embeddings.
+Scout builds this itself. With a `TAVILY_API_KEY` set, the **discovery agent** researches investors live for each startup and upserts them into the `investors` table, so the base grows and sharpens over time without manual curation. Seeding is now **optional**: `apps/api/data/investors.seed.json` ships with fictional samples, and if you have a curated dataset you can pre-load it for extra quality by replacing that file and running `pnpm seed:investors` (upserts by firm+partner, computes embeddings). Without a Tavily key, Scout can only rank whatever is already stored, so add one for the live-discovery experience.
 
 ## Deployment
 
