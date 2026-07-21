@@ -14,24 +14,10 @@ function WhatsAppGlyph({ className }: { className?: string }) {
   );
 }
 
-function Check({ className = '' }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <path d="m4 12 5 5L20 6" />
-    </svg>
-  );
-}
-
-function Eyebrow({ children }: { children: React.ReactNode }) {
-  return (
-    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-moss">{children}</p>
-  );
-}
-
 /**
- * The main CTA: a WhatsApp-green squircle inside a pill. `dark` is a black pill
- * (light backgrounds), `light` a white pill, `glass` a translucent one for the
- * dark hero.
+ * The main CTA: a glossy pill with the WhatsApp glyph in a green squircle.
+ * `dark` is a black pill (light backgrounds), `light` a white pill, and
+ * `glass` a translucent pill for use over the dark hero.
  */
 function MessageCTA({
   label = 'Message Scout',
@@ -48,8 +34,8 @@ function MessageCTA({
     variant === 'glass'
       ? 'bg-white/10 text-white ring-white/20 backdrop-blur-md hover:bg-white/[0.18]'
       : variant === 'light'
-        ? 'bg-white text-[#111614] ring-black/5 hover:bg-white/90'
-        : 'bg-ink text-paper ring-white/10 hover:opacity-90';
+        ? 'bg-white text-[#111614] ring-black/5'
+        : 'bg-ink text-paper ring-white/15';
   const cap = variant === 'dark' ? 'text-mist' : 'text-white/55';
   return (
     <div className={`flex flex-col items-center ${className}`}>
@@ -57,23 +43,23 @@ function MessageCTA({
         href={WA_LINK}
         target="_blank"
         rel="noopener noreferrer"
-        className={`group inline-flex w-full items-center justify-center gap-3 rounded-full px-8 py-4 text-lg font-semibold ring-1 transition duration-200 active:scale-[0.99] sm:w-auto ${pill}`}
+        className={`group relative inline-flex w-full items-center justify-center gap-3 overflow-hidden rounded-full px-8 py-4 text-lg font-semibold shadow-lift ring-1 transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_24px_60px_-16px_rgba(0,0,0,0.35)] active:translate-y-0 active:scale-[0.99] sm:w-auto ${pill}`}
       >
-        <span className="grid h-8 w-8 shrink-0 place-items-center rounded-[9px] bg-gradient-to-b from-[#35de74] to-[#1fae54]">
+        <span className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/25 to-transparent" />
+        <span className="relative grid h-8 w-8 shrink-0 place-items-center rounded-[9px] bg-gradient-to-b from-[#35de74] to-[#1fae54]">
           <WhatsAppGlyph className="h-5 w-5 text-white" />
         </span>
-        {label}
+        <span className="relative">{label}</span>
       </a>
       {caption ? <p className={`mt-3 text-sm ${cap}`}>{caption}</p> : null}
     </div>
   );
 }
 
-// ── phone mockup (dark hero) ──────────────────────────────────────────
-
+/** A clean phone device showing Scout's WhatsApp digest (for the dark hero). */
 function HeroPhone() {
   return (
-    <div className="relative mx-auto w-full max-w-[320px] rounded-[2.4rem] border border-white/10 bg-[#0e1a15] p-2.5">
+    <div className="relative mx-auto w-full max-w-[320px] rounded-[2.4rem] border border-white/10 bg-[#0e1a15] p-2.5 shadow-2xl ring-1 ring-white/5">
       <div className="overflow-hidden rounded-[2rem] bg-chatbg">
         <div className="flex items-center gap-2.5 bg-[#075e54] px-4 py-3 text-white">
           <div className="grid h-8 w-8 place-items-center rounded-full bg-white/15">
@@ -88,25 +74,25 @@ function HeroPhone() {
           </span>
         </div>
         <div className="space-y-2 px-3 py-4 text-[12.5px] leading-relaxed">
-          <p className="w-fit max-w-[90%] rounded-2xl rounded-tl-sm bg-white px-3 py-2 text-[#111614]">
+          <p className="w-fit max-w-[90%] rounded-2xl rounded-tl-sm bg-white px-3 py-2 text-[#111614] shadow-sm">
             Research done 🔍 Found <span className="font-semibold">58 investors</span> that
             back startups like yours. Your top 3:
           </p>
-          <p className="w-fit max-w-[90%] rounded-2xl rounded-tl-sm bg-white px-3 py-2 text-[#111614]">
+          <p className="w-fit max-w-[90%] rounded-2xl rounded-tl-sm bg-white px-3 py-2 text-[#111614] shadow-sm">
             1. <span className="font-semibold">Northbeam Ventures.</span> Led 2
             logistics-AI seeds. 94% fit.
           </p>
-          <p className="w-fit max-w-[90%] rounded-2xl rounded-tl-sm bg-white px-3 py-2 text-[#111614]">
+          <p className="w-fit max-w-[90%] rounded-2xl rounded-tl-sm bg-white px-3 py-2 text-[#111614] shadow-sm">
             2. <span className="font-semibold">Latitude Labs.</span> “AI that owns a
             workflow.” 91% fit.
           </p>
-          <p className="ml-auto w-fit max-w-[90%] rounded-2xl rounded-tr-sm bg-bubble px-3 py-2 text-[#111614]">
+          <p className="ml-auto w-fit max-w-[90%] rounded-2xl rounded-tr-sm bg-bubble px-3 py-2 text-[#111614] shadow-sm">
             Northbeam looks perfect 👀
           </p>
-          <p className="w-fit max-w-[90%] rounded-2xl rounded-tl-sm bg-white px-3 py-2 text-[#111614]">
+          <p className="w-fit max-w-[90%] rounded-2xl rounded-tl-sm bg-white px-3 py-2 text-[#111614] shadow-sm">
             Want the outreach draft for Sarah?
           </p>
-          <p className="w-fit rounded-2xl rounded-tl-sm bg-white px-3.5 py-2.5 text-[#8a938e]">
+          <p className="w-fit rounded-2xl rounded-tl-sm bg-white px-3.5 py-2.5 text-[#8a938e] shadow-sm">
             • • •
           </p>
         </div>
@@ -115,19 +101,11 @@ function HeroPhone() {
   );
 }
 
-// ── step previews (light, flat) ───────────────────────────────────────
-
-function Panel({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="flex min-h-[280px] items-center justify-center rounded-2xl border border-ink/[0.06] bg-[#eef1ee] p-6">
-      {children}
-    </div>
-  );
-}
+// ── mini mockups for the step cards ───────────────────────────────────
 
 function StepChat() {
   return (
-    <div className="w-full max-w-[280px] rounded-2xl border border-black/5 bg-white p-3 text-left">
+    <div className="w-full max-w-[290px] rounded-2xl bg-white p-3 text-left shadow-lift">
       <div className="flex items-center gap-2 border-b border-black/5 pb-2">
         <ScoutMark className="h-6 w-6" />
         <p className="text-xs font-semibold text-[#111614]">Scout</p>
@@ -141,7 +119,7 @@ function StepChat() {
           Loop, an AI copilot for warehouse ops. $18k MRR.
         </p>
         <p className="w-fit max-w-[92%] rounded-xl rounded-tl-sm bg-[#f0f2f0] px-2.5 py-1.5 text-[#111614]">
-          Nice. Who&apos;s the buyer, ops manager or floor lead?
+          Solid traction. Who&apos;s the buyer, ops manager or floor lead?
         </p>
         <p className="ml-auto w-fit max-w-[92%] rounded-xl rounded-tr-sm bg-[#d9fdd3] px-2.5 py-1.5 text-[#111614]">
           Ops managers at mid-size 3PLs.
@@ -153,12 +131,12 @@ function StepChat() {
 
 function StepMatches() {
   const rows = [
-    { firm: 'Northbeam Ventures', note: 'led two logistics-AI seeds', fit: 94 },
-    { firm: 'Latitude Labs', note: 'thesis: AI owning a workflow', fit: 91 },
-    { firm: 'Kite String Capital', note: 'backs revenue tooling at seed', fit: 88 },
+    { firm: 'Northbeam Ventures', note: 'led two logistics-AI seeds this year', fit: 94 },
+    { firm: 'Latitude Labs', note: 'thesis: AI owning a full workflow', fit: 91 },
+    { firm: 'Kite String Capital', note: 'backs revenue-tooling at seed', fit: 88 },
   ];
   return (
-    <div className="w-full max-w-[280px] rounded-2xl border border-black/5 bg-white p-3 text-left">
+    <div className="w-full max-w-[290px] rounded-2xl bg-white p-3 text-left shadow-lift">
       <p className="border-b border-black/5 pb-2 text-xs font-semibold text-[#111614]">
         58 investors found · top 3
       </p>
@@ -182,7 +160,7 @@ function StepMatches() {
 
 function StepEmail() {
   return (
-    <div className="w-full max-w-[280px] rounded-2xl border border-black/5 bg-white p-3.5 text-left">
+    <div className="w-full max-w-[290px] rounded-2xl bg-white p-3.5 text-left shadow-lift">
       <p className="text-[10px] font-semibold uppercase tracking-wider text-[#8a938e]">
         Draft · Sarah Lindqvist
       </p>
@@ -202,97 +180,46 @@ function StepEmail() {
   );
 }
 
-/** A single investor match, for the "what you get" section. */
-function MatchPreview() {
-  return (
-    <div className="w-full rounded-2xl border border-ink/10 bg-card p-5 sm:p-6">
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <p className="text-[11px] font-semibold uppercase tracking-wider text-mist">
-            Match #1 of 50
-          </p>
-          <h3 className="mt-1 text-lg font-semibold tracking-[-0.01em]">Northbeam Ventures</h3>
-          <p className="text-sm text-mist">Sarah Lindqvist · Partner</p>
-        </div>
-        <span className="shrink-0 rounded-full bg-signal/15 px-3 py-1 text-sm font-bold text-moss">
-          94% fit
-        </span>
-      </div>
-      <div className="mt-4 flex flex-wrap gap-2">
-        {['Seed to Series A', '$500K–$3M', 'Dev tools · AI infra'].map((t) => (
-          <span key={t} className="rounded-lg bg-paper px-2.5 py-1 text-xs font-medium text-ink/70">
-            {t}
-          </span>
-        ))}
-      </div>
-      <div className="mt-4 rounded-xl border border-ink/[0.06] bg-paper/60 p-3.5">
-        <p className="text-[11px] font-semibold uppercase tracking-wider text-moss">Why matched</p>
-        <p className="mt-1.5 text-sm leading-relaxed text-ink/80">
-          Sarah led Northbeam&apos;s seed into two logistics-AI startups this year and writes
-          publicly about agentic ops. Your warehouse copilot lands right in her thesis.
-        </p>
-      </div>
-      <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-mist">
-        <span>sarah@northbeam.vc</span>
-        <span className="text-ink/20">·</span>
-        <span>linkedin.com/in/slindqvist</span>
-      </div>
-    </div>
-  );
-}
-
 // ── content ───────────────────────────────────────────────────────────
 
 const steps = [
   {
     n: 1,
-    title: 'Tell Scout about your startup',
-    body: 'A 15-minute chat on WhatsApp. No forms, no dashboard. It asks about your product, traction, and the round you’re raising, and remembers every answer.',
+    title: 'A real conversation',
+    body: 'Fifteen minutes on WhatsApp about your product, traction, and raise. Scout listens like a sharp associate and never asks twice.',
+    gradient: 'from-[#dcc0ab] to-[#8f6f5c]',
     mock: StepChat,
   },
   {
     n: 2,
-    title: 'It researches and finds your investors',
-    body: 'Scout reads your site and the open web, then finds and ranks the investors most likely to back a company like yours, by stage, sector, geography, and check size.',
+    title: 'Research and matching',
+    body: 'Scout studies your company and market, then ranks a curated investor base by stage, sector, geography, and thesis fit.',
+    gradient: 'from-[#c7cfb2] to-[#68755a]',
     mock: StepMatches,
   },
   {
     n: 3,
-    title: 'You get outreach, written for you',
-    body: 'A personal cold email and LinkedIn DM for each investor, built from their real portfolio and your real numbers. Read it, tweak it, send it.',
+    title: 'Outreach that lands',
+    body: 'Every investor gets a personal email and LinkedIn DM built from their real portfolio and your real numbers. You review and send.',
+    gradient: 'from-[#d3bb96] to-[#57504a]',
     mock: StepEmail,
   },
 ];
 
-const included = [
-  'Up to 50 investors, ranked by how well they fit your raise',
-  'The specific reason each one is a match, in plain English',
-  'A confidence score, so you know who to email first',
-  'Partner name, email, and LinkedIn when they’re public',
-  'A personal cold email and LinkedIn DM for every investor',
+const sources = [
+  'Your website',
+  'Crunchbase',
+  'LinkedIn',
+  'X / Twitter',
+  'Y Combinator',
+  'Product Hunt',
+  'TechCrunch',
 ];
-
-const audience = [
-  {
-    title: 'Pre-seed to Series A',
-    body: 'Whether it’s your first small cheque or a multi-million round, Scout tunes the list to your stage.',
-  },
-  {
-    title: 'Raising in any market',
-    body: 'India, the US, Europe, or global. Scout researches investors wherever you and your market are.',
-  },
-  {
-    title: 'First-time or short on time',
-    body: 'New to fundraising, or just too busy building to do weeks of research. Scout does the legwork for you.',
-  },
-];
-
-const sources = ['Your website', 'Crunchbase', 'LinkedIn', 'X / Twitter', 'Y Combinator', 'Product Hunt', 'Tech press'];
 
 const faqs = [
   {
     q: 'How is this different from an investor database?',
-    a: 'A database hands you thousands of names and a search box. Scout hands you the ones that fit your specific startup, each with a concrete reason and a ready-to-send email. It does the filtering and the writing, which is the part that actually takes weeks.',
+    a: 'A database hands you 5,000 names and a search box. Scout hands you the 50 that fit your specific startup, each with a concrete reason and a ready-to-send email. It does the filtering and the writing, which is the part that actually takes weeks.',
   },
   {
     q: 'How long does the whole thing take?',
@@ -300,11 +227,11 @@ const faqs = [
   },
   {
     q: 'Do I have to repeat myself?',
-    a: 'Never. Scout remembers everything you tell it. After the report it becomes your ongoing fundraising assistant, with full context on your company, so you can pick the conversation back up any time.',
+    a: 'Never. Scout remembers everything you tell it. After the report it becomes your ongoing fundraising assistant, with full context on your company, so you can pick up the conversation any time.',
   },
   {
-    q: 'Where do the investors come from?',
-    a: 'Scout researches the live web and public investor platforms for each startup, then keeps what fits: stage, sector, geography, check size, thesis, and recent investments. It only shows a contact when it is genuinely public, so you never email a made-up address.',
+    q: 'Where does the investor data come from?',
+    a: 'A curated base of funds and angels with stage, sector, geography, check size, thesis, and recent investments: the signals that decide whether an intro is worth making.',
   },
   {
     q: 'Will investors know an AI wrote my outreach?',
@@ -312,7 +239,7 @@ const faqs = [
   },
   {
     q: 'What does it cost?',
-    a: 'The interview, the research, and a preview of your top 3 matches are free. The full report, with every investor, contact, and personalized outreach, is a one-time ₹999 / $29.',
+    a: 'The interview, the research, and a preview of your top 3 matches are free. The full report, all 50 investors with contacts and personalized outreach, is a one-time ₹999 / $29.',
   },
 ];
 
@@ -322,15 +249,15 @@ export default function Home() {
   return (
     <>
       <main>
-        {/* Hero */}
+        {/* Hero: immersive dark, phone mockup, floating glass CTA */}
         <section className="relative overflow-hidden bg-[#071310] text-white">
           <div className="pointer-events-none absolute inset-x-0 top-0 h-[70%] opacity-70 [background:radial-gradient(ellipse_at_50%_-10%,rgb(34_197_94/0.28),transparent_60%)]" />
           <div className="relative mx-auto max-w-6xl px-5">
+            {/* in-hero nav */}
             <nav className="flex items-center justify-between py-4">
               <Logo invert />
               <div className="hidden items-center gap-8 text-sm text-white/60 md:flex">
                 <a href="#how" className="transition hover:text-white">How it works</a>
-                <a href="#report" className="transition hover:text-white">The report</a>
                 <a href="#pricing" className="transition hover:text-white">Pricing</a>
                 <a href="#faq" className="transition hover:text-white">FAQ</a>
               </div>
@@ -344,19 +271,17 @@ export default function Home() {
               </a>
             </nav>
 
+            {/* headline */}
             <div className="pt-10 sm:pt-16">
               <p className="animate-fade-up text-sm font-medium tracking-wide text-signal">
-                Your AI fundraising associate, on WhatsApp
+                Your AI fundraising associate
               </p>
               <h1 className="mt-3 max-w-3xl animate-fade-up font-display text-[3.25rem] leading-[0.98] tracking-tight [animation-delay:60ms] sm:text-8xl">
                 Meet Scout. Raise from the right investors.
               </h1>
-              <p className="mt-5 max-w-xl animate-fade-up text-lg leading-relaxed text-white/60 [animation-delay:100ms]">
-                Chat for 15 minutes. Scout researches your startup and hands you the
-                investors most likely to fund you, each with a personal email ready to send.
-              </p>
             </div>
 
+            {/* phone with its foot fading into the dark, CTA overlapping the fade */}
             <div className="relative mx-auto mt-12 max-w-[340px] animate-fade-up pb-14 [animation-delay:140ms] sm:mt-16">
               <div className="pointer-events-none absolute -inset-8 top-10 -z-10 rounded-full bg-signal/15 blur-3xl" />
               <div className="relative">
@@ -370,224 +295,131 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Problem */}
-        <section className="mx-auto max-w-5xl px-5 py-20 sm:py-28">
-          <div className="mx-auto max-w-2xl text-center">
-            <Eyebrow>The problem</Eyebrow>
-            <h2 className="mt-4 font-display text-4xl leading-[1.08] tracking-tight sm:text-5xl">
-              Raising is mostly research. That&apos;s the part you don&apos;t have time for.
-            </h2>
-            <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-mist">
-              The moment you decide to raise, the building stops and the spreadsheet starts.
-              And the hard part isn&apos;t sending emails, it&apos;s knowing who deserves one.
-            </p>
-          </div>
-          <div className="mx-auto mt-12 grid max-w-3xl gap-4 sm:grid-cols-2 sm:gap-5">
-            <div className="rounded-2xl border border-ink/10 bg-card p-6">
-              <p className="text-sm font-semibold text-ink/60">Doing it yourself</p>
-              <ul className="mt-4 space-y-2.5 text-[15px] text-ink/80">
-                <li>Scrape lists of thousands of funds</li>
-                <li>Guess who&apos;s actually writing cheques</li>
-                <li>Dig for who backs companies like yours</li>
-                <li>Write a different cold email for each</li>
-              </ul>
-              <p className="mt-5 text-sm text-mist">Two to three weeks. Still no replies.</p>
-            </div>
-            <div className="rounded-2xl border border-signal/40 bg-card p-6">
-              <p className="text-sm font-semibold text-moss">With Scout</p>
-              <ul className="mt-4 space-y-2.5 text-[15px] text-ink">
-                {['One 15-minute WhatsApp chat', 'Investors ranked by real fit', 'A reason each one is right for you', 'A personal email written per investor'].map((t) => (
-                  <li key={t} className="flex items-start gap-2.5">
-                    <Check className="mt-1 h-4 w-4 shrink-0 text-moss" />
-                    {t}
-                  </li>
-                ))}
-              </ul>
-              <p className="mt-5 text-sm font-medium text-moss">About 30 minutes. Ready to send.</p>
-            </div>
-          </div>
+        {/* Intro: value prop on light */}
+        <section className="mx-auto max-w-3xl px-5 py-20 text-center sm:py-28">
+          <h2 className="font-display text-4xl leading-[1.08] tracking-tight sm:text-5xl">
+            The right ten investors beat a list of five thousand.
+          </h2>
+          <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-mist">
+            Scout learns your startup, researches your market, and hands you the fifty
+            funds most likely to say yes. Each comes with the reason they fit and a
+            personal email, ready to send.
+          </p>
         </section>
 
-        {/* How it works */}
-        <section id="how" className="scroll-mt-24 border-t border-ink/[0.06] bg-card/40">
-          <div className="mx-auto max-w-6xl px-5 py-20 sm:py-28">
-            <div className="mx-auto max-w-2xl text-center">
-              <Eyebrow>How it works</Eyebrow>
-              <h2 className="mt-4 font-display text-4xl tracking-tight sm:text-5xl">
-                From a 15-minute chat to a ready-to-send list.
-              </h2>
-              <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-mist">
-                Three steps, all inside WhatsApp. You talk, Scout works, you send.
-              </p>
-            </div>
-            <div className="mt-14 grid gap-8 sm:mt-16 lg:grid-cols-3 lg:gap-6">
-              {steps.map((step) => (
-                <div key={step.n}>
-                  <Panel>
-                    <step.mock />
-                  </Panel>
-                  <div className="mt-6 flex items-center gap-2.5">
-                    <span className="grid h-7 w-7 place-items-center rounded-full bg-signal/15 text-sm font-bold text-moss">
-                      {step.n}
-                    </span>
-                    <h3 className="text-lg font-semibold tracking-[-0.01em]">{step.title}</h3>
-                  </div>
-                  <p className="mt-2.5 text-[15px] leading-relaxed text-mist">{step.body}</p>
+        {/* How it works: three gradient cards with product mockups */}
+        <section id="how" className="mx-auto max-w-6xl scroll-mt-24 px-5 py-16 sm:py-24">
+          <h2 className="text-center font-display text-4xl tracking-tight sm:text-5xl">
+            How it works
+          </h2>
+          <p className="mx-auto mt-4 max-w-xl text-center text-mist">
+            Fifty carefully matched investors, not five thousand. Each one researched,
+            scored, and worth your email. The opposite of spray-and-pray.
+          </p>
+          <div className="mt-12 grid gap-6 sm:mt-16 lg:grid-cols-3">
+            {steps.map((step) => (
+              <div key={step.n}>
+                <div
+                  className={`flex min-h-[300px] items-center justify-center rounded-[1.75rem] bg-gradient-to-br p-6 sm:min-h-[340px] ${step.gradient}`}
+                >
+                  <step.mock />
                 </div>
-              ))}
-            </div>
-            <p className="mx-auto mt-14 max-w-xl text-center text-[15px] text-mist">
-              And it doesn&apos;t stop there. After the report, the same chat becomes your
-              fundraising assistant, ready to rewrite an email or prep you for a call.
-            </p>
-          </div>
-        </section>
-
-        {/* What you get */}
-        <section id="report" className="scroll-mt-24 border-t border-ink/[0.06]">
-          <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 py-20 sm:py-28 lg:grid-cols-2 lg:gap-16">
-            <div>
-              <Eyebrow>What you get</Eyebrow>
-              <h2 className="mt-4 font-display text-4xl leading-[1.08] tracking-tight sm:text-5xl">
-                A curated investor report, not another spreadsheet.
-              </h2>
-              <p className="mt-5 text-lg leading-relaxed text-mist">
-                Everything is specific to you. Open it and you know exactly who to contact,
-                why they&apos;ll care, and what to say.
-              </p>
-              <ul className="mt-8 space-y-3.5">
-                {included.map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-[15px] text-ink/85">
-                    <Check className="mt-1 h-4 w-4 shrink-0 text-moss" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="lg:pl-4">
-              <MatchPreview />
-              <p className="mt-4 text-center text-sm text-mist">
-                One of up to 50 matches in your report.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Who it's for */}
-        <section className="scroll-mt-24 border-t border-ink/[0.06] bg-card/40">
-          <div className="mx-auto max-w-6xl px-5 py-20 sm:py-28">
-            <div className="mx-auto max-w-2xl text-center">
-              <Eyebrow>Who it&apos;s for</Eyebrow>
-              <h2 className="mt-4 font-display text-4xl tracking-tight sm:text-5xl">
-                Built for founders raising right now.
-              </h2>
-            </div>
-            <div className="mt-12 grid gap-4 sm:mt-14 sm:grid-cols-3 sm:gap-5">
-              {audience.map((a) => (
-                <div key={a.title} className="rounded-2xl border border-ink/10 bg-card p-6">
-                  <h3 className="text-base font-semibold tracking-[-0.01em]">{a.title}</h3>
-                  <p className="mt-2 text-[15px] leading-relaxed text-mist">{a.body}</p>
-                </div>
-              ))}
-            </div>
-            <p className="mx-auto mt-10 max-w-2xl text-center text-[15px] leading-relaxed text-mist">
-              Not sure it&apos;s for you? If you already have warm intros to the exact
-              investors you need, you may not need Scout. If you&apos;re staring at a blank
-              list, this is exactly what it&apos;s for.
-            </p>
-
-            <div className="mt-12 border-t border-ink/[0.06] pt-10 text-center">
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-mist">
-                Scout researches everywhere your startup leaves a trace
-              </p>
-              <div className="mt-6 flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
-                {sources.map((s) => (
-                  <span key={s} className="text-[15px] font-medium text-mist/80">
-                    {s}
-                  </span>
-                ))}
+                <p className="mt-6 text-xs font-semibold uppercase tracking-[0.18em] text-mist">
+                  Step {step.n}
+                </p>
+                <h3 className="mt-2 text-lg font-semibold tracking-[-0.01em]">{step.title}</h3>
+                <p className="mt-2 text-[15px] leading-relaxed text-mist">{step.body}</p>
               </div>
-            </div>
+            ))}
           </div>
+          <p className="mx-auto mt-12 max-w-xl text-center text-sm text-mist">
+            After the report, the same chat becomes your fundraising assistant. Rewrite an
+            email, prep for a call, or ask what a term sheet clause means.
+          </p>
+        </section>
+
+        {/* Sources */}
+        <section className="mx-auto max-w-5xl px-5 py-14 sm:py-20">
+          <p className="text-center text-xs font-semibold uppercase tracking-[0.22em] text-mist">
+            Where Scout does your diligence
+          </p>
+          <div className="mt-7 flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
+            {sources.map((s) => (
+              <span key={s} className="text-[15px] font-medium text-mist/80">
+                {s}
+              </span>
+            ))}
+          </div>
+          <p className="mt-6 text-center text-sm text-mist">
+            + honestly, anywhere your startup leaves a trace.
+          </p>
         </section>
 
         {/* Pricing */}
-        <section id="pricing" className="scroll-mt-24 border-t border-ink/[0.06]">
-          <div className="mx-auto max-w-6xl px-5 py-20 sm:py-28">
-            <div className="mx-auto max-w-2xl text-center">
-              <Eyebrow>Pricing</Eyebrow>
-              <h2 className="mt-4 font-display text-4xl tracking-tight sm:text-5xl">
-                Start free. Pay once you&apos;ve seen the matches.
-              </h2>
+        <section
+          id="pricing"
+          className="mx-auto max-w-6xl scroll-mt-24 border-t border-ink/[0.06] px-5 py-16 sm:py-24"
+        >
+          <h2 className="text-center font-display text-4xl tracking-tight sm:text-5xl">
+            Start free. Pay once you&apos;ve seen the matches.
+          </h2>
+          <div className="mx-auto mt-12 grid max-w-3xl gap-4 sm:mt-16 sm:grid-cols-2 sm:gap-5">
+            <div className="rounded-[1.75rem] border border-ink/[0.06] bg-card p-7 shadow-soft sm:p-8">
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-mist">Free</h3>
+              <p className="mt-3 font-display text-5xl tracking-tight">$0</p>
+              <p className="mt-1.5 text-sm text-mist">No card, no login.</p>
+              <ul className="mt-6 space-y-3 text-[15px] text-ink/80">
+                <li>Founder interview on WhatsApp</li>
+                <li>Automatic startup research</li>
+                <li>Preview of your top 3 investors</li>
+              </ul>
             </div>
-            <div className="mx-auto mt-12 grid max-w-3xl gap-4 sm:mt-14 sm:grid-cols-2 sm:gap-5">
-              <div className="rounded-2xl border border-ink/10 bg-card p-7 sm:p-8">
-                <h3 className="text-sm font-semibold uppercase tracking-wider text-mist">Free</h3>
-                <p className="mt-3 font-display text-5xl tracking-tight">$0</p>
-                <p className="mt-1.5 text-sm text-mist">No card, no login.</p>
-                <ul className="mt-6 space-y-3 text-[15px] text-ink/80">
-                  {['Founder interview on WhatsApp', 'Automatic startup research', 'Preview of your top 3 investors'].map((t) => (
-                    <li key={t} className="flex items-start gap-2.5">
-                      <Check className="mt-1 h-4 w-4 shrink-0 text-mist" />
-                      {t}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="relative rounded-2xl border-2 border-signal bg-card p-7 sm:p-8">
-                <span className="absolute -top-3 right-6 rounded-full bg-signal px-3 py-1 text-xs font-bold text-[#0c1512]">
-                  Full report
-                </span>
-                <h3 className="text-sm font-semibold uppercase tracking-wider text-moss">Pro</h3>
-                <p className="mt-3 font-display text-5xl tracking-tight">
-                  ₹999 <span className="font-sans text-base font-medium text-mist">/ $29 · one-time</span>
-                </p>
-                <p className="mt-1.5 text-sm text-mist">Pay when you unlock. No subscription.</p>
-                <ul className="mt-6 space-y-3 text-[15px] text-ink">
-                  {['Every matched investor, ranked by fit', 'Why each one fits, plus a confidence score', 'Partner name, email & LinkedIn', 'Personal email + DM per investor', 'Ongoing AI fundraising assistant'].map((t) => (
-                    <li key={t} className="flex items-start gap-2.5">
-                      <Check className="mt-1 h-4 w-4 shrink-0 text-moss" />
-                      {t}
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-7">
-                  <MessageCTA label="Start with Scout" caption={null} className="w-full" />
-                </div>
-              </div>
+            <div className="relative rounded-[1.75rem] border border-ink/10 bg-card p-7 shadow-lift sm:p-8">
+              <span className="absolute -top-3 right-6 rounded-full bg-signal px-3 py-1 text-xs font-bold text-[#0c1512]">
+                Full report
+              </span>
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-moss">Pro</h3>
+              <p className="mt-3 font-display text-5xl tracking-tight">
+                ₹999 <span className="font-sans text-base font-medium text-mist">/ $29 · one-time</span>
+              </p>
+              <p className="mt-1.5 text-sm text-mist">Pay when you unlock. No subscription.</p>
+              <ul className="mt-6 space-y-3 text-[15px] text-ink">
+                <li>All 50 investors, ranked by fit</li>
+                <li>Why each one fits, plus a confidence score</li>
+                <li>Partner name, email &amp; LinkedIn</li>
+                <li>Personal email + DM per investor</li>
+                <li>Ongoing AI fundraising assistant</li>
+              </ul>
             </div>
           </div>
         </section>
 
-        {/* FAQ */}
-        <section id="faq" className="scroll-mt-24 border-t border-ink/[0.06]">
-          <div className="mx-auto max-w-3xl px-5 py-20 sm:py-28">
-            <h2 className="text-center font-display text-4xl tracking-tight sm:text-5xl">
-              Questions founders ask
-            </h2>
-            <div className="mt-12 border-t border-ink/10">
-              {faqs.map((f) => (
-                <details key={f.q} className="group border-b border-ink/10 py-5">
-                  <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-[15px] font-medium sm:text-base [&::-webkit-details-marker]:hidden">
-                    {f.q}
-                    <span className="shrink-0 text-xl font-light text-mist transition duration-200 group-open:rotate-45">
-                      +
-                    </span>
-                  </summary>
-                  <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-mist">{f.a}</p>
-                </details>
-              ))}
-            </div>
+        {/* FAQ: minimal hairline rows */}
+        <section id="faq" className="mx-auto max-w-3xl scroll-mt-24 px-5 py-16 sm:py-24">
+          <h2 className="text-center font-display text-4xl tracking-tight sm:text-5xl">
+            Questions founders ask
+          </h2>
+          <div className="mt-10 border-t border-ink/10 sm:mt-14">
+            {faqs.map((f) => (
+              <details key={f.q} className="group border-b border-ink/10 py-5">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-[15px] font-medium sm:text-base [&::-webkit-details-marker]:hidden">
+                  {f.q}
+                  <span className="shrink-0 text-xl font-light text-mist transition duration-200 group-open:rotate-45">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-mist">{f.a}</p>
+              </details>
+            ))}
           </div>
         </section>
 
-        {/* Final CTA */}
+        {/* Final CTA: black panel, serif headline, white pill */}
         <section className="mx-auto max-w-6xl px-5 pb-20 pt-4 sm:pb-28">
           <div className="relative overflow-hidden rounded-[2rem] bg-[#0c1512] px-6 py-16 text-center ring-1 ring-white/10 sm:px-12 sm:py-24">
             <div className="pointer-events-none absolute inset-0 opacity-[0.12] [background:radial-gradient(circle_at_50%_-10%,#22c55e,transparent_55%)]" />
             <div className="relative">
-              <ScoutMark className="mx-auto h-11 w-11" />
-              <h2 className="mx-auto mt-6 max-w-2xl font-display text-4xl tracking-tight text-white sm:text-6xl">
+              <h2 className="mx-auto max-w-2xl font-display text-4xl tracking-tight text-white sm:text-6xl">
                 Your next investor is a chat away.
               </h2>
               <p className="mx-auto mt-5 max-w-md text-white/60">
@@ -602,7 +434,7 @@ export default function Home() {
         </section>
       </main>
 
-      {/* Footer */}
+      {/* Footer: one minimal row */}
       <footer className="border-t border-ink/[0.06]">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-5 px-5 py-8 text-sm text-mist sm:flex-row">
           <Logo markClassName="h-6 w-6" wordClassName="text-lg" />
