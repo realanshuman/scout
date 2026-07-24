@@ -254,10 +254,12 @@ export default function Home() {
   return (
     <>
       <main>
-        {/* Hero: immersive dark, phone mockup, floating glass CTA */}
-        <section className="relative overflow-hidden bg-[#071310] text-white">
+        {/* Hero: immersive dark. On phones it fills the screen — a big
+            left-aligned headline flowing into the phone, with a floating glass
+            CTA. On tablet/desktop it opens up into a centered composition. */}
+        <section className="relative flex min-h-[100svh] flex-col overflow-hidden bg-[#071310] text-white sm:block sm:min-h-0">
           <div className="pointer-events-none absolute inset-x-0 top-0 h-[70%] opacity-70 [background:radial-gradient(ellipse_at_50%_-10%,rgb(34_197_94/0.28),transparent_60%)]" />
-          <div className="relative mx-auto max-w-6xl px-5 sm:px-8">
+          <div className="relative mx-auto flex w-full max-w-6xl flex-1 flex-col px-5 sm:block sm:px-8">
             {/* in-hero nav */}
             <nav className="flex items-center justify-between py-4 sm:py-5">
               <Logo invert />
@@ -284,19 +286,20 @@ export default function Home() {
               </div>
             </nav>
 
-            {/* headline */}
-            <div className="mx-auto max-w-4xl pt-12 text-center sm:pt-16 md:pt-20">
-              <p className="animate-fade-up text-sm font-medium tracking-wide text-signal">
+            {/* headline: left-aligned and large on phones, centered on sm+ */}
+            <div className="mx-auto w-full max-w-4xl pt-6 text-left sm:pt-16 sm:text-center md:pt-20">
+              <p className="animate-fade-up text-[13px] font-medium tracking-wide text-signal sm:text-sm">
                 Your AI fundraising associate
               </p>
-              <h1 className="mx-auto mt-4 max-w-3xl animate-fade-up font-display text-[2.6rem] leading-[1.02] tracking-tight [animation-delay:60ms] sm:text-6xl md:text-7xl lg:text-[5.25rem] lg:leading-[0.98]">
+              <h1 className="mt-3 animate-fade-up font-display text-[2.95rem] leading-[0.95] tracking-tight [animation-delay:60ms] sm:mx-auto sm:mt-4 sm:max-w-3xl sm:text-6xl md:text-7xl lg:text-[5.25rem] lg:leading-[0.98]">
                 Meet Scout. Raise from the right investors.
               </h1>
-              <p className="mx-auto mt-5 max-w-xl animate-fade-up text-base leading-relaxed text-white/60 [animation-delay:100ms] sm:mt-6 sm:text-lg">
+              {/* subhead + trust row: tablet & desktop only, keeping the phone hero clean */}
+              <p className="mx-auto mt-6 hidden max-w-xl animate-fade-up text-lg leading-relaxed text-white/60 [animation-delay:100ms] sm:block">
                 Chat for fifteen minutes on WhatsApp. Scout researches your startup, finds the
                 fifty investors most likely to fund you, and writes the first email to each.
               </p>
-              <div className="mt-6 flex animate-fade-up flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-white/45 [animation-delay:130ms]">
+              <div className="mt-6 hidden animate-fade-up flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-white/45 [animation-delay:130ms] sm:flex">
                 {['Free top-3 preview', 'No login to start', 'About 15 minutes'].map((t) => (
                   <span key={t} className="inline-flex items-center gap-2">
                     <span className="h-1.5 w-1.5 rounded-full bg-signal/80" />
@@ -306,15 +309,18 @@ export default function Home() {
               </div>
             </div>
 
-            {/* phone with its foot fading into the dark, CTA overlapping the fade */}
-            <div className="relative mx-auto mt-12 max-w-[340px] animate-fade-up pb-14 [animation-delay:160ms] sm:mt-14">
-              <div className="pointer-events-none absolute -inset-8 top-10 -z-10 rounded-full bg-signal/15 blur-3xl" />
-              <div className="relative">
+            {/* phone: flows right under the headline, its top + foot fading
+                into the dark; the glass CTA floats over the foot */}
+            <div className="relative mt-1 flex flex-1 items-center justify-center pb-5 sm:mt-14 sm:block sm:flex-none sm:items-stretch sm:pb-14">
+              <div className="pointer-events-none absolute inset-x-0 top-2 bottom-16 -z-10 mx-auto max-w-[440px] rounded-full bg-signal/20 blur-3xl sm:-inset-8 sm:bottom-auto sm:top-10" />
+              <div className="relative mx-auto w-full max-w-[365px] animate-fade-up [animation-delay:160ms] sm:max-w-[340px]">
+                {/* top fade so the headline reads over the phone's shoulder */}
+                <div className="pointer-events-none absolute inset-x-0 -top-3 z-10 h-20 bg-gradient-to-b from-[#071310] via-[#071310]/80 to-transparent sm:hidden" />
                 <HeroPhone />
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#071310] via-[#071310] to-transparent" />
-              </div>
-              <div className="relative z-10 -mt-16 flex justify-center">
-                <MessageCTA variant="glass" className="w-full sm:w-auto" />
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-36 bg-gradient-to-t from-[#071310] via-[#071310] to-transparent sm:h-40" />
+                <div className="absolute inset-x-0 bottom-1 z-20 flex justify-center sm:static sm:-mt-16">
+                  <MessageCTA variant="glass" className="w-full sm:w-auto" />
+                </div>
               </div>
             </div>
           </div>
