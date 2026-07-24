@@ -299,13 +299,28 @@ export default function Home() {
                 Chat for fifteen minutes on WhatsApp. Scout researches your startup, finds the
                 fifty investors most likely to fund you, and writes the first email to each.
               </p>
-              <div className="mt-6 hidden animate-fade-up flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-white/45 [animation-delay:130ms] sm:flex">
-                {['Free top-3 preview', 'No login to start', 'About 15 minutes'].map((t) => (
-                  <span key={t} className="inline-flex items-center gap-2">
-                    <span className="h-1.5 w-1.5 rounded-full bg-signal/80" />
-                    {t}
-                  </span>
-                ))}
+              {/* prominent CTA + social proof (tablet & desktop) — the phone
+                  hero keeps its own glass CTA on phones */}
+              <div className="mt-9 hidden animate-fade-up flex-col items-center [animation-delay:130ms] sm:flex">
+                <MessageCTA variant="glass" />
+                <div className="mt-7 flex items-center gap-3">
+                  <div className="flex -space-x-2.5">
+                    {[
+                      { i: 'A', c: 'from-emerald-400 to-teal-600' },
+                      { i: 'M', c: 'from-amber-400 to-orange-600' },
+                      { i: 'K', c: 'from-sky-400 to-indigo-600' },
+                      { i: 'R', c: 'from-rose-400 to-pink-600' },
+                    ].map((a) => (
+                      <span
+                        key={a.i}
+                        className={`grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br ${a.c} text-xs font-bold text-white ring-2 ring-[#071310]`}
+                      >
+                        {a.i}
+                      </span>
+                    ))}
+                  </div>
+                  <span className="text-sm text-white/50">Built for founders raising now</span>
+                </div>
               </div>
             </div>
 
@@ -314,7 +329,7 @@ export default function Home() {
             <div className="relative mt-7 flex flex-1 items-end justify-center pb-7 sm:mt-14 sm:block sm:flex-none sm:items-stretch sm:pb-14">
               {/* soft glow behind the phone — desktop only; kept off phones for a clean dark hero */}
               <div className="pointer-events-none absolute -inset-8 top-10 -z-10 mx-auto hidden max-w-[440px] rounded-full bg-signal/20 blur-3xl sm:block" />
-              <div className="relative mx-auto w-full max-w-[316px] animate-fade-up [animation-delay:160ms] sm:max-w-[340px]">
+              <div className="relative mx-auto w-full max-w-[316px] animate-fade-up [animation-delay:160ms] sm:max-w-[372px]">
                 {/* top fade so the headline reads over the phone's shoulder */}
                 <div className="pointer-events-none absolute inset-x-0 -top-3 z-10 h-20 bg-gradient-to-b from-[#071310] via-[#071310]/80 to-transparent sm:hidden" />
                 {/* on phones, tilt the device so it reads as if held at an angle */}
@@ -322,8 +337,8 @@ export default function Home() {
                   <HeroPhone />
                 </div>
                 <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-36 bg-gradient-to-t from-[#071310] via-[#071310] to-transparent sm:h-40" />
-                <div className="absolute inset-x-0 bottom-1 z-20 flex justify-center sm:static sm:-mt-16">
-                  <MessageCTA variant="glass" className="w-full sm:w-auto" />
+                <div className="absolute inset-x-0 bottom-1 z-20 flex justify-center sm:hidden">
+                  <MessageCTA variant="glass" className="w-full" />
                 </div>
               </div>
             </div>
