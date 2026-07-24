@@ -7,6 +7,19 @@ import { dash } from '@better-auth/infra';
 // builds and runs fine without it.
 const infraPlugins = process.env.BETTER_AUTH_API_KEY ? [dash()] : [];
 
+// Origins Better Auth will accept requests from. Better Auth rejects any
+// request whose Origin doesn't match baseURL or one of these ("Invalid
+// origin"). We list the production domain(s) explicitly so it works no matter
+// what BETTER_AUTH_URL is set to, and allow *.vercel.app so preview deploys
+// work too. Add any extra domains you serve the app from here.
+const trustedOrigins = [
+  'https://scout.realanshuman.com',
+  'https://www.scout.realanshuman.com',
+  ...(process.env.BETTER_AUTH_URL ? [process.env.BETTER_AUTH_URL] : []),
+  ...(process.env.WEB_PUBLIC_URL ? [process.env.WEB_PUBLIC_URL] : []),
+  'https://*.vercel.app',
+];
+
 /**
  * Better Auth server instance.
  *
@@ -20,6 +33,8 @@ const infraPlugins = process.env.BETTER_AUTH_API_KEY ? [dash()] : [];
  */
 export const auth = betterAuth({
   appName: 'Scout',
+  baseURL: process.env.BETTER_AUTH_URL,
+  trustedOrigins,
   database: new Pool({ connectionString: process.env.DATABASE_URL }),
   emailAndPassword: {
     enabled: true,
