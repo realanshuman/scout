@@ -1,30 +1,66 @@
-import Link from 'next/link';
-import { Logo } from '@/components/logo';
+import { PageShell } from '@/components/page-shell';
 
+/**
+ * Layout for legal pages. Breadcrumb up top (via PageShell), a plain-words
+ * summary before the detail, and numbered sections so the whole thing is
+ * scannable by a normal human, not just a lawyer.
+ */
 export function LegalPage({
   title,
   updated,
+  summary,
   children,
 }: {
   title: string;
   updated: string;
+  summary?: string[];
   children: React.ReactNode;
 }) {
   return (
-    <div className="mx-auto max-w-2xl px-5 py-10 sm:py-16">
-      <Link href="/" className="inline-block">
-        <Logo />
-      </Link>
-      <h1 className="mt-10 font-display text-5xl tracking-tight">{title}</h1>
+    <PageShell crumb={title}>
+      <h1 className="font-display text-4xl tracking-tight sm:text-5xl">{title}</h1>
       <p className="mt-2 text-sm text-mist">Last updated {updated}</p>
-      <div className="mt-8 space-y-6 text-[15px] leading-relaxed text-ink/80 [&_h2]:text-lg [&_h2]:font-semibold [&_h2]:text-ink [&_a]:font-medium [&_a]:text-moss [&_a]:underline">
+
+      {summary && summary.length > 0 && (
+        <div className="mt-8 rounded-3xl border border-moss/20 bg-signal/[0.06] p-5 sm:p-6">
+          <p className="text-xs font-semibold uppercase tracking-wider text-moss">
+            In plain words
+          </p>
+          <ul className="mt-3 space-y-2 text-[15px] leading-relaxed text-ink/85">
+            {summary.map((s) => (
+              <li key={s} className="flex gap-2.5">
+                <span className="mt-[9px] h-1.5 w-1.5 shrink-0 rounded-full bg-signal" />
+                {s}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <div className="mt-10 space-y-8 text-[15px] leading-relaxed text-ink/80 [&_a]:font-medium [&_a]:text-moss [&_a]:underline">
         {children}
       </div>
-      <div className="mt-12 border-t border-ink/[0.06] pt-6 text-sm text-mist">
-        <Link href="/" className="hover:text-ink">
-          ← Back to home
-        </Link>
-      </div>
-    </div>
+    </PageShell>
+  );
+}
+
+/** A numbered legal section with a clear heading. */
+export function LegalSection({
+  n,
+  title,
+  children,
+}: {
+  n: number;
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section>
+      <h2 className="flex items-baseline gap-2.5 text-lg font-semibold text-ink">
+        <span className="text-sm font-bold text-moss">{n}.</span>
+        {title}
+      </h2>
+      <div className="mt-2.5 space-y-3">{children}</div>
+    </section>
   );
 }

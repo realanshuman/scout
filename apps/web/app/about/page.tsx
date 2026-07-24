@@ -1,29 +1,28 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
-import { Logo, ScoutMark } from '@/components/logo';
+import { PageShell } from '@/components/page-shell';
+import { ScoutMark } from '@/components/logo';
 
 export const metadata: Metadata = {
   title: 'About · Scout',
-  description:
-    'Why Scout exists: fundraising research should take minutes, not weeks.',
+  description: 'Why Scout exists: fundraising research should take minutes, not weeks.',
 };
 
 const WA_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '15551234567';
 const WA_LINK = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Hi Scout!')}`;
 
+const numbers = [
+  { value: '15 min', label: 'One WhatsApp conversation. That is all Scout needs.' },
+  { value: '50', label: 'Investors matched to your startup, each with a reason.' },
+  { value: '1', label: 'Personal email drafted per investor, ready to review and send.' },
+];
+
 export default function About() {
   return (
-    <div className="mx-auto max-w-2xl px-5 py-10 sm:py-16">
-      <Link href="/" className="inline-block">
-        <Logo />
-      </Link>
-
-      <div className="mt-12">
-        <ScoutMark className="h-12 w-12" />
-        <h1 className="mt-6 font-display text-5xl tracking-tight sm:text-6xl">
-          Fundraising research should take minutes, not weeks.
-        </h1>
-      </div>
+    <PageShell crumb="About">
+      <ScoutMark className="h-12 w-12" />
+      <h1 className="mt-6 font-display text-4xl leading-[1.05] tracking-tight sm:text-6xl">
+        Fundraising research should take minutes, not weeks.
+      </h1>
 
       <div className="mt-10 space-y-6 text-[16px] leading-relaxed text-ink/80">
         <p>
@@ -42,13 +41,42 @@ export default function About() {
           investor base, and writes outreach that mentions the things each investor
           actually cares about. You review, you send, you take the meetings.
         </p>
+      </div>
+
+      {/* What that means, in numbers */}
+      <div className="mt-10 grid gap-4 sm:grid-cols-3">
+        {numbers.map((n) => (
+          <div key={n.value} className="rounded-3xl border border-ink/[0.08] bg-card p-5 sm:p-6">
+            <p className="font-display text-4xl tracking-tight text-moss">{n.value}</p>
+            <p className="mt-2 text-sm leading-relaxed text-mist">{n.label}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* How we think about it */}
+      <div className="mt-10 space-y-6 text-[16px] leading-relaxed text-ink/80">
+        <h2 className="font-display text-2xl tracking-tight text-ink sm:text-3xl">
+          What we believe
+        </h2>
         <p>
-          No dashboards to learn, no logins, no seats. Just a conversation in the app
-          you already use every day.
+          <strong className="text-ink">Fifty right beats five thousand maybe.</strong>{' '}
+          A good raise is built on a short list of investors who already believe in
+          your kind of company. Scout exists to find that list.
+        </p>
+        <p>
+          <strong className="text-ink">No new apps to learn.</strong> Founders live on
+          WhatsApp, so Scout does too. No dashboards to master, no logins to start, no
+          seats to buy. Just a conversation in the app you already use every day.
+        </p>
+        <p>
+          <strong className="text-ink">You stay in control.</strong> Scout researches
+          and drafts. You review every email and send it yourself. No mass blasts sent
+          in your name, ever.
         </p>
       </div>
 
-      <div className="mt-10 rounded-3xl border border-ink/[0.06] bg-card p-6 shadow-soft sm:p-7">
+      {/* Who's behind it */}
+      <div className="mt-10 rounded-3xl border border-ink/[0.08] bg-card p-6 sm:p-7">
         <p className="text-xs font-semibold uppercase tracking-wider text-mist">
           Who&apos;s behind it
         </p>
@@ -80,13 +108,8 @@ export default function About() {
         >
           Message Scout
         </a>
+        <p className="mt-2.5 text-sm text-mist">Free to start. Top-3 preview included.</p>
       </div>
-
-      <div className="mt-12 border-t border-ink/[0.06] pt-6 text-sm text-mist">
-        <Link href="/" className="hover:text-ink">
-          ← Back to home
-        </Link>
-      </div>
-    </div>
+    </PageShell>
   );
 }
