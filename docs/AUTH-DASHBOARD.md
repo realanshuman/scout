@@ -35,6 +35,20 @@ customers at `/dashboard`.
 > dashboard renders with sample data so it's viewable; with it set, the
 > dashboard redirects to `/signin` when there's no session.
 
+## Optional: Better Auth hosted add-on (Dash + Sentinel)
+
+Better Auth offers a hosted admin dashboard (`dash`) and bot/fraud protection
+(`sentinel`) via `@better-auth/infra`. This is already wired in and **guarded**:
+
+- Server (`lib/auth.ts`): the `dash()` plugin is added only when
+  `BETTER_AUTH_API_KEY` is set.
+- Client (`lib/auth-client.ts`): `sentinelClient()` is always present but stays
+  dormant until the server side is enabled.
+
+To turn it on, set `BETTER_AUTH_API_KEY` (from the Better Auth dashboard) in
+Vercel and redeploy. Leave it unset to run core email + password auth only.
+Treat the key as a secret — env vars only, never commit it.
+
 ## Wiring real customer data (the one thing left)
 
 The dashboard currently shows realistic **sample data** from

@@ -1,5 +1,11 @@
 import { betterAuth } from 'better-auth';
 import { Pool } from 'pg';
+import { dash } from '@better-auth/infra';
+
+// Better Auth's hosted add-on (admin dashboard + Sentinel bot protection) is
+// optional. It activates only when BETTER_AUTH_API_KEY is set, so the app
+// builds and runs fine without it.
+const infraPlugins = process.env.BETTER_AUTH_API_KEY ? [dash()] : [];
 
 /**
  * Better Auth server instance.
@@ -23,4 +29,5 @@ export const auth = betterAuth({
   session: {
     expiresIn: 60 * 60 * 24 * 30, // 30 days
   },
+  plugins: infraPlugins,
 });
