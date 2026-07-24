@@ -311,9 +311,9 @@ export default function Home() {
 
             {/* phone: flows right under the headline, its top + foot fading
                 into the dark; the glass CTA floats over the foot */}
-            <div className="relative mt-8 flex flex-1 items-end justify-center pb-5 sm:mt-14 sm:block sm:flex-none sm:items-stretch sm:pb-14">
-              <div className="pointer-events-none absolute inset-x-0 bottom-10 top-1/3 -z-10 mx-auto max-w-[440px] rounded-full bg-signal/20 blur-3xl sm:-inset-8 sm:bottom-auto sm:top-10" />
-              <div className="relative mx-auto w-full max-w-[318px] animate-fade-up [animation-delay:160ms] sm:max-w-[340px]">
+            <div className="relative mt-10 flex flex-1 items-center justify-center pb-10 sm:mt-14 sm:block sm:flex-none sm:items-stretch sm:pb-14">
+              <div className="pointer-events-none absolute inset-x-0 bottom-10 top-1/4 -z-10 mx-auto max-w-[440px] rounded-full bg-signal/20 blur-3xl sm:-inset-8 sm:bottom-auto sm:top-10" />
+              <div className="relative mx-auto w-full max-w-[292px] animate-fade-up [animation-delay:160ms] sm:max-w-[340px]">
                 {/* top fade so the headline reads over the phone's shoulder */}
                 <div className="pointer-events-none absolute inset-x-0 -top-3 z-10 h-20 bg-gradient-to-b from-[#071310] via-[#071310]/80 to-transparent sm:hidden" />
                 {/* on phones, tilt the device so it reads as if held at an angle */}
