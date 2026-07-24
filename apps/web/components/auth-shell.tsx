@@ -3,12 +3,12 @@ import { Logo, ScoutMark } from '@/components/logo';
 import { AuthForm } from '@/components/auth-form';
 
 /**
- * Split-screen auth layout. On large screens: a dark green brand panel beside
- * the form. On tablet and phone it collapses to a single centered column with
- * the logo up top. Matches the marketing site's brand exactly.
+ * Split-screen sign-in layout. On large screens: a dark green brand panel
+ * beside the form. On tablet and phone it collapses to a single centered
+ * column with the logo up top. Public sign-up is disabled, so this is
+ * sign-in only.
  */
-export function AuthShell({ mode }: { mode: 'signin' | 'signup' }) {
-  const isSignup = mode === 'signup';
+export function AuthShell() {
   return (
     <div className="grid min-h-screen lg:grid-cols-2">
       {/* Brand panel (desktop only) */}
@@ -54,16 +54,10 @@ export function AuthShell({ mode }: { mode: 'signin' | 'signup' }) {
           </Link>
         </div>
         <div className="mx-auto flex w-full max-w-sm flex-1 flex-col justify-center py-10">
-          <h1 className="font-display text-3xl tracking-tight sm:text-4xl">
-            {isSignup ? 'Create your account' : 'Welcome back'}
-          </h1>
-          <p className="mt-2 text-mist">
-            {isSignup
-              ? 'Use the email you gave Scout, so we can link your report.'
-              : 'Sign in to your Scout dashboard.'}
-          </p>
+          <h1 className="font-display text-3xl tracking-tight sm:text-4xl">Welcome back</h1>
+          <p className="mt-2 text-mist">Sign in to your Scout dashboard.</p>
           <div className="mt-8">
-            <AuthForm mode={mode} />
+            <AuthForm />
           </div>
         </div>
         <p className="mx-auto w-full max-w-sm text-center text-xs text-mist sm:text-left">

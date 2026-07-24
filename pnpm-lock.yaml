@@ -65,6 +65,9 @@ importers:
       better-auth:
         specifier: ^1.6.0
         version: 1.6.25(next@15.5.20(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(pg@8.22.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      dodopayments:
+        specifier: ^2.42.2
+        version: 2.42.2
       next:
         specifier: ^15.5.0
         version: 15.5.20(react-dom@19.2.7(react@19.2.7))(react@19.2.7)

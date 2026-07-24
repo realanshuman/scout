@@ -1,12 +1,27 @@
 import type { Metadata } from 'next';
-import { getDashboardData } from '@/lib/dashboard-data';
-import { PageHeader, Card, WhatsAppButton } from '@/components/dashboard/ui';
-import { Toggle } from '@/components/dashboard/toggle';
+import { loadDashboard } from '@/lib/load-dashboard';
+import { PageHeader, Card, WhatsAppButton, Badge, WA_NUMBER } from '@/components/dashboard/ui';
+import { NotificationSettings } from '@/components/dashboard/notifications';
 
 export const metadata: Metadata = { title: 'Agent · Scout' };
 
 export default async function AgentPage() {
-  const { agent, startup } = await getDashboardData();
+  const { data } = await loadDashboard();
+  const agent = data?.agent ?? {
+    whatsappConnected: false, whatsappNumber: '', lastActive: '', emailReport: true, notifyNewMatches: true, weeklyNudge: false,
+  };
+  const startupName = data?.startup.name || 'your startup';
+  const topFirm = data?.investors[0]?.firm ?? 'Northbeam';
+  const secondFirm = data?.investors[1]?.firm ?? 'Latitude Labs';
+
+  const prompts = [
+    `Rewrite the email for ${topFirm}`,
+    'Who should I email first?',
+    'Explain this SAFE clause',
+    `Draft a follow-up for ${secondFirm}`,
+    'Add 10 more investors like these',
+    'Prep me for my investor call',
+  ];
 
   return (
     <div className="space-y-8">
@@ -25,13 +40,18 @@ export default async function AgentPage() {
               </svg>
             </span>
             <div>
-              <p className="font-semibold">WhatsApp connected</p>
+              <div className="flex items-center gap-2">
+                <p className="font-semibold">WhatsApp</p>
+                {agent.whatsappConnected ? <Badge tone="green">Connected</Badge> : <Badge tone="amber">Not connected</Badge>}
+              </div>
               <p className="text-sm text-mist">
-                {agent.whatsappNumber} · active {agent.lastActive}
+                {agent.whatsappConnected
+                  ? `${agent.whatsappNumber} · active ${agent.lastActive}`
+                  : 'Connect by messaging Scout from your phone.'}
               </p>
             </div>
           </div>
-          <WhatsAppButton label="Open chat" />
+          <WhatsAppButton label={agent.whatsappConnected ? 'Open chat' : 'Connect WhatsApp'} />
         </div>
       </Card>
 
@@ -39,23 +59,22 @@ export default async function AgentPage() {
       <Card>
         <h2 className="font-display text-lg tracking-tight">What you can ask Scout</h2>
         <p className="mt-1 text-sm text-mist">
-          It has full context on {startup.name}. Just message it on WhatsApp.
+          It has full context on {startupName}. Just message it on WhatsApp.
         </p>
         <div className="mt-4 grid gap-2 sm:grid-cols-2">
-          {[
-            'Rewrite the email for Northbeam',
-            'Who should I email first?',
-            'Explain this SAFE clause',
-            'Draft a follow-up for Latitude Labs',
-            'Add 10 more investors like Kite String',
-            'Prep me for my call with Sarah',
-          ].map((q) => (
-            <div
+          {prompts.map((q) => (
+            <a
               key={q}
-              className="rounded-xl border border-ink/[0.08] bg-paper/60 px-3.5 py-2.5 text-sm text-ink/80"
+              href={`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(q)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-center justify-between gap-2 rounded-xl border border-ink/[0.08] bg-paper/60 px-3.5 py-2.5 text-sm text-ink/80 transition hover:border-ink/15 hover:bg-paper"
             >
-              “{q}”
-            </div>
+              <span className="truncate">“{q}”</span>
+              <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0 text-mist transition group-hover:translate-x-0.5 group-hover:text-moss" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </a>
           ))}
         </div>
       </Card>
@@ -63,18 +82,15 @@ export default async function AgentPage() {
       {/* Preferences */}
       <Card>
         <h2 className="font-display text-lg tracking-tight">Notifications</h2>
-        <div className="mt-1 divide-y divide-ink/[0.08]">
-          <Toggle
-            label="Email me my report"
-            hint="A copy of your investor report and outreach, sent to your inbox."
-            defaultOn={agent.emailReport}
+        <p className="mt-1 text-sm text-mist">Changes save automatically.</p>
+        <div className="mt-2">
+          <NotificationSettings
+            initial={{
+              emailReport: agent.emailReport,
+              notifyNewMatches: agent.notifyNewMatches,
+              weeklyNudge: agent.weeklyNudge,
+            }}
           />
-          <Toggle
-            label="Notify me about new matches"
-            hint="When Scout finds new investors that fit, it messages you on WhatsApp."
-            defaultOn={agent.notifyNewMatches}
-          />
-          <Toggle label="Weekly fundraising nudge" hint="A gentle check-in on your raise progress." />
         </div>
       </Card>
     </div>

@@ -1,11 +1,10 @@
-import type { Metadata } from 'next';
-import { AuthShell } from '@/components/auth-shell';
+import { redirect } from 'next/navigation';
 
-export const metadata: Metadata = {
-  title: 'Create your account · Scout',
-  description: 'Create your Scout account to access your investor dashboard.',
-};
-
+/**
+ * Public sign-up is disabled. Accounts are provisioned through Scout's
+ * onboarding (WhatsApp / after payment), so this route just sends people to
+ * sign in.
+ */
 export default function SignUpPage() {
-  return <AuthShell mode="signup" />;
+  redirect('/signin');
 }

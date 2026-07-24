@@ -12,4 +12,4 @@ export const authClient = createAuthClient({
   plugins: [sentinelClient()],
 });
 
-export const { signIn, signUp, signOut, useSession } = authClient;
+export const { signIn, signOut, useSession, changePassword, deleteUser, updateUser } = authClient;
