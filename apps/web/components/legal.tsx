@@ -22,14 +22,12 @@ export function LegalPage({
       <p className="mt-2 text-sm text-mist">Last updated {updated}</p>
 
       {summary && summary.length > 0 && (
-        <div className="mt-8 rounded-3xl border border-moss/20 bg-signal/[0.06] p-5 sm:p-6">
-          <p className="text-xs font-semibold uppercase tracking-wider text-moss">
-            In plain words
-          </p>
-          <ul className="mt-3 space-y-2 text-[15px] leading-relaxed text-ink/85">
+        <div className="mt-8 border-y border-ink/10 py-6">
+          <p className="text-sm font-semibold text-ink">The short version</p>
+          <ul className="mt-3 space-y-2 text-[15px] leading-relaxed text-ink/75">
             {summary.map((s) => (
-              <li key={s} className="flex gap-2.5">
-                <span className="mt-[9px] h-1.5 w-1.5 shrink-0 rounded-full bg-signal" />
+              <li key={s} className="flex gap-3">
+                <span className="select-none text-mist">–</span>
                 {s}
               </li>
             ))}
