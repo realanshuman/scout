@@ -269,9 +269,10 @@ export default function Home() {
                 <a href="#faq" className="transition hover:text-white">FAQ</a>
               </div>
               <div className="flex items-center gap-2.5 sm:gap-3">
+                {/* Phones show only Sign in; tablet/desktop show Sign in + Message Scout */}
                 <a
                   href="/signin"
-                  className="hidden text-sm font-medium text-white/70 transition hover:text-white sm:block"
+                  className="rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur transition hover:bg-white/[0.18] sm:rounded-none sm:border-0 sm:bg-transparent sm:px-0 sm:py-0 sm:text-white/70 sm:backdrop-blur-none sm:hover:bg-transparent sm:hover:text-white"
                 >
                   Sign in
                 </a>
@@ -279,7 +280,7 @@ export default function Home() {
                   href={WA_LINK}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur transition hover:bg-white/[0.18]"
+                  className="hidden rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur transition hover:bg-white/[0.18] sm:block"
                 >
                   Message Scout
                 </a>
