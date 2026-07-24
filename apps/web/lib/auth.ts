@@ -7,6 +7,18 @@ import { dash } from '@better-auth/infra';
 // builds and runs fine without it.
 const infraPlugins = process.env.BETTER_AUTH_API_KEY ? [dash()] : [];
 
+// Neon (and most hosted Postgres) require TLS. If DATABASE_URL doesn't already
+// opt in via ?sslmode=require, enable it here so a missing SSL param doesn't
+// silently fail the connection in serverless.
+const connectionString = process.env.DATABASE_URL;
+const pool = new Pool({
+  connectionString,
+  ssl:
+    connectionString && !/sslmode=disable/.test(connectionString)
+      ? { rejectUnauthorized: false }
+      : undefined,
+});
+
 // Origins Better Auth will accept requests from. Better Auth rejects any
 // request whose Origin doesn't match baseURL or one of these ("Invalid
 // origin"). We list the production domain(s) explicitly so it works no matter
@@ -35,7 +47,7 @@ export const auth = betterAuth({
   appName: 'Scout',
   baseURL: process.env.BETTER_AUTH_URL,
   trustedOrigins,
-  database: new Pool({ connectionString: process.env.DATABASE_URL }),
+  database: pool,
   emailAndPassword: {
     enabled: true,
     autoSignIn: true,
