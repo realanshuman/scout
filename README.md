@@ -81,7 +81,7 @@ The two apps deploy to different platforms on purpose: the dashboard is static a
 2. Set env var `NEXT_PUBLIC_WHATSAPP_NUMBER` to your WhatsApp business number (E.164, no `+`).
 3. Attach your domain and set it as `WEB_PUBLIC_URL` on the API.
 
-### API → Railway / Render / anything that runs Docker
+### API → Railway / Render / anything that runs Docker.
 
 `apps/api/Dockerfile` is a multi-stage build (build → prod-deps → slim runtime) with the **repo root as build context**:
 
