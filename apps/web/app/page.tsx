@@ -43,7 +43,7 @@ function MessageCTA({
         href={WA_LINK}
         target="_blank"
         rel="noopener noreferrer"
-        className={`group relative inline-flex w-full items-center justify-center gap-3 overflow-hidden rounded-full px-8 py-4 text-lg font-semibold shadow-lift ring-1 transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_24px_60px_-16px_rgba(0,0,0,0.35)] active:translate-y-0 active:scale-[0.99] sm:w-auto ${pill}`}
+        className={`group relative inline-flex w-full items-center justify-center gap-3 overflow-hidden rounded-full px-7 py-4 text-base font-semibold shadow-lift ring-1 transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_24px_60px_-16px_rgba(0,0,0,0.35)] active:translate-y-0 active:scale-[0.99] sm:w-auto sm:px-8 sm:text-lg ${pill}`}
       >
         <span className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/25 to-transparent" />
         <span className="relative grid h-8 w-8 shrink-0 place-items-center rounded-[9px] bg-gradient-to-b from-[#35de74] to-[#1fae54]">
@@ -187,21 +187,18 @@ const steps = [
     n: 1,
     title: 'A real conversation',
     body: 'Fifteen minutes on WhatsApp about your product, traction, and raise. Scout listens like a sharp associate and never asks twice.',
-    gradient: 'from-[#dcc0ab] to-[#8f6f5c]',
     mock: StepChat,
   },
   {
     n: 2,
     title: 'Research and matching',
     body: 'Scout studies your company and market, then ranks a curated investor base by stage, sector, geography, and thesis fit.',
-    gradient: 'from-[#c7cfb2] to-[#68755a]',
     mock: StepMatches,
   },
   {
     n: 3,
     title: 'Outreach that lands',
     body: 'Every investor gets a personal email and LinkedIn DM built from their real portfolio and your real numbers. You review and send.',
-    gradient: 'from-[#d3bb96] to-[#57504a]',
     mock: StepEmail,
   },
 ];
@@ -214,6 +211,14 @@ const sources = [
   'Y Combinator',
   'Product Hunt',
   'TechCrunch',
+];
+
+const proPoints = [
+  'All 50 investors, ranked by fit',
+  'Why each one fits, plus a confidence score',
+  'Partner name, email & LinkedIn',
+  'Personal email + DM per investor',
+  'Ongoing AI fundraising assistant',
 ];
 
 const faqs = [
@@ -252,16 +257,16 @@ export default function Home() {
         {/* Hero: immersive dark, phone mockup, floating glass CTA */}
         <section className="relative overflow-hidden bg-[#071310] text-white">
           <div className="pointer-events-none absolute inset-x-0 top-0 h-[70%] opacity-70 [background:radial-gradient(ellipse_at_50%_-10%,rgb(34_197_94/0.28),transparent_60%)]" />
-          <div className="relative mx-auto max-w-6xl px-5">
+          <div className="relative mx-auto max-w-6xl px-5 sm:px-8">
             {/* in-hero nav */}
-            <nav className="flex items-center justify-between py-4">
+            <nav className="flex items-center justify-between py-4 sm:py-5">
               <Logo invert />
               <div className="hidden items-center gap-8 text-sm text-white/60 md:flex">
                 <a href="#how" className="transition hover:text-white">How it works</a>
                 <a href="#pricing" className="transition hover:text-white">Pricing</a>
                 <a href="#faq" className="transition hover:text-white">FAQ</a>
               </div>
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2.5 sm:gap-3">
                 <a
                   href="/signin"
                   className="hidden text-sm font-medium text-white/70 transition hover:text-white sm:block"
@@ -280,17 +285,29 @@ export default function Home() {
             </nav>
 
             {/* headline */}
-            <div className="pt-10 sm:pt-16">
+            <div className="mx-auto max-w-4xl pt-12 text-center sm:pt-16 md:pt-20">
               <p className="animate-fade-up text-sm font-medium tracking-wide text-signal">
                 Your AI fundraising associate
               </p>
-              <h1 className="mt-3 max-w-3xl animate-fade-up font-display text-[3.25rem] leading-[0.98] tracking-tight [animation-delay:60ms] sm:text-8xl">
+              <h1 className="mx-auto mt-4 max-w-3xl animate-fade-up font-display text-[2.6rem] leading-[1.02] tracking-tight [animation-delay:60ms] sm:text-6xl md:text-7xl lg:text-[5.25rem] lg:leading-[0.98]">
                 Meet Scout. Raise from the right investors.
               </h1>
+              <p className="mx-auto mt-5 max-w-xl animate-fade-up text-base leading-relaxed text-white/60 [animation-delay:100ms] sm:mt-6 sm:text-lg">
+                Chat for fifteen minutes on WhatsApp. Scout researches your startup, finds the
+                fifty investors most likely to fund you, and writes the first email to each.
+              </p>
+              <div className="mt-6 flex animate-fade-up flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-white/45 [animation-delay:130ms]">
+                {['Free top-3 preview', 'No login to start', 'About 15 minutes'].map((t) => (
+                  <span key={t} className="inline-flex items-center gap-2">
+                    <span className="h-1.5 w-1.5 rounded-full bg-signal/80" />
+                    {t}
+                  </span>
+                ))}
+              </div>
             </div>
 
             {/* phone with its foot fading into the dark, CTA overlapping the fade */}
-            <div className="relative mx-auto mt-12 max-w-[340px] animate-fade-up pb-14 [animation-delay:140ms] sm:mt-16">
+            <div className="relative mx-auto mt-12 max-w-[340px] animate-fade-up pb-14 [animation-delay:160ms] sm:mt-14">
               <div className="pointer-events-none absolute -inset-8 top-10 -z-10 rounded-full bg-signal/15 blur-3xl" />
               <div className="relative">
                 <HeroPhone />
@@ -304,7 +321,7 @@ export default function Home() {
         </section>
 
         {/* Intro: value prop on light */}
-        <section className="mx-auto max-w-3xl px-5 py-20 text-center sm:py-28">
+        <section className="mx-auto max-w-3xl px-5 py-20 text-center sm:px-8 sm:py-28">
           <h2 className="font-display text-4xl leading-[1.08] tracking-tight sm:text-5xl">
             The right ten investors beat a list of five thousand.
           </h2>
@@ -315,28 +332,31 @@ export default function Home() {
           </p>
         </section>
 
-        {/* How it works: three gradient cards with product mockups */}
-        <section id="how" className="mx-auto max-w-6xl scroll-mt-24 px-5 py-16 sm:py-24">
-          <h2 className="text-center font-display text-4xl tracking-tight sm:text-5xl">
-            How it works
-          </h2>
-          <p className="mx-auto mt-4 max-w-xl text-center text-mist">
-            Fifty carefully matched investors, not five thousand. Each one researched,
-            scored, and worth your email. The opposite of spray-and-pray.
-          </p>
-          <div className="mt-12 grid gap-6 sm:mt-16 lg:grid-cols-3">
+        {/* How it works: three branded cards with product mockups */}
+        <section id="how" className="mx-auto max-w-6xl scroll-mt-24 px-5 py-16 sm:px-8 sm:py-24">
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-moss">How it works</p>
+            <h2 className="mt-3 font-display text-4xl tracking-tight sm:text-5xl">
+              Three steps, one chat
+            </h2>
+            <p className="mx-auto mt-4 max-w-xl text-mist">
+              Fifty carefully matched investors, not five thousand. Each one researched,
+              scored, and worth your email. The opposite of spray-and-pray.
+            </p>
+          </div>
+          <div className="mt-12 grid gap-6 sm:mt-16 md:grid-cols-3">
             {steps.map((step) => (
-              <div key={step.n}>
-                <div
-                  className={`flex min-h-[300px] items-center justify-center rounded-[1.75rem] bg-gradient-to-br p-6 sm:min-h-[340px] ${step.gradient}`}
-                >
+              <div key={step.n} className="flex flex-col">
+                <div className="flex min-h-[290px] flex-1 items-center justify-center rounded-3xl border border-ink/10 bg-gradient-to-br from-moss/[0.08] to-moss/[0.015] p-6 sm:min-h-[320px]">
                   <step.mock />
                 </div>
-                <p className="mt-6 text-xs font-semibold uppercase tracking-[0.18em] text-mist">
-                  Step {step.n}
-                </p>
-                <h3 className="mt-2 text-lg font-semibold tracking-[-0.01em]">{step.title}</h3>
-                <p className="mt-2 text-[15px] leading-relaxed text-mist">{step.body}</p>
+                <div className="mt-6 flex items-center gap-2.5">
+                  <span className="grid h-6 w-6 place-items-center rounded-full bg-signal/15 text-xs font-bold text-moss">
+                    {step.n}
+                  </span>
+                  <h3 className="text-lg font-semibold tracking-[-0.01em]">{step.title}</h3>
+                </div>
+                <p className="mt-2.5 text-[15px] leading-relaxed text-mist">{step.body}</p>
               </div>
             ))}
           </div>
@@ -347,42 +367,49 @@ export default function Home() {
         </section>
 
         {/* Sources */}
-        <section className="mx-auto max-w-5xl px-5 py-14 sm:py-20">
-          <p className="text-center text-xs font-semibold uppercase tracking-[0.22em] text-mist">
-            Where Scout does your diligence
-          </p>
-          <div className="mt-7 flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
-            {sources.map((s) => (
-              <span key={s} className="text-[15px] font-medium text-mist/80">
-                {s}
-              </span>
-            ))}
+        <section className="border-y border-ink/[0.06] bg-card/40">
+          <div className="mx-auto max-w-5xl px-5 py-14 sm:px-8 sm:py-16">
+            <p className="text-center text-xs font-semibold uppercase tracking-[0.22em] text-mist">
+              Where Scout does your diligence
+            </p>
+            <div className="mt-7 flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
+              {sources.map((s) => (
+                <span key={s} className="text-[15px] font-medium text-mist/80">
+                  {s}
+                </span>
+              ))}
+            </div>
+            <p className="mt-6 text-center text-sm text-mist">
+              + honestly, anywhere your startup leaves a trace.
+            </p>
           </div>
-          <p className="mt-6 text-center text-sm text-mist">
-            + honestly, anywhere your startup leaves a trace.
-          </p>
         </section>
 
         {/* Pricing */}
-        <section
-          id="pricing"
-          className="mx-auto max-w-6xl scroll-mt-24 border-t border-ink/[0.06] px-5 py-16 sm:py-24"
-        >
-          <h2 className="text-center font-display text-4xl tracking-tight sm:text-5xl">
-            Start free. Pay once you&apos;ve seen the matches.
-          </h2>
+        <section id="pricing" className="mx-auto max-w-6xl scroll-mt-24 px-5 py-16 sm:px-8 sm:py-24">
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-moss">Pricing</p>
+            <h2 className="mt-3 font-display text-4xl tracking-tight sm:text-5xl">
+              Start free. Pay once you&apos;ve seen the matches.
+            </h2>
+          </div>
           <div className="mx-auto mt-12 grid max-w-3xl gap-4 sm:mt-16 sm:grid-cols-2 sm:gap-5">
-            <div className="rounded-[1.75rem] border border-ink/[0.06] bg-card p-7 shadow-soft sm:p-8">
+            <div className="flex flex-col rounded-3xl border border-ink/[0.08] bg-card p-7 sm:p-8">
               <h3 className="text-sm font-semibold uppercase tracking-wider text-mist">Free</h3>
               <p className="mt-3 font-display text-5xl tracking-tight">$0</p>
               <p className="mt-1.5 text-sm text-mist">No card, no login.</p>
               <ul className="mt-6 space-y-3 text-[15px] text-ink/80">
-                <li>Founder interview on WhatsApp</li>
-                <li>Automatic startup research</li>
-                <li>Preview of your top 3 investors</li>
+                {['Founder interview on WhatsApp', 'Automatic startup research', 'Preview of your top 3 investors'].map(
+                  (t) => (
+                    <li key={t} className="flex gap-2.5">
+                      <Check muted />
+                      {t}
+                    </li>
+                  ),
+                )}
               </ul>
             </div>
-            <div className="relative rounded-[1.75rem] border border-ink/10 bg-card p-7 shadow-lift sm:p-8">
+            <div className="relative flex flex-col rounded-3xl border border-moss/25 bg-card p-7 shadow-lift ring-1 ring-moss/10 sm:p-8">
               <span className="absolute -top-3 right-6 rounded-full bg-signal px-3 py-1 text-xs font-bold text-[#0c1512]">
                 Full report
               </span>
@@ -392,18 +419,22 @@ export default function Home() {
               </p>
               <p className="mt-1.5 text-sm text-mist">Pay when you unlock. No subscription.</p>
               <ul className="mt-6 space-y-3 text-[15px] text-ink">
-                <li>All 50 investors, ranked by fit</li>
-                <li>Why each one fits, plus a confidence score</li>
-                <li>Partner name, email &amp; LinkedIn</li>
-                <li>Personal email + DM per investor</li>
-                <li>Ongoing AI fundraising assistant</li>
+                {proPoints.map((t) => (
+                  <li key={t} className="flex gap-2.5">
+                    <Check />
+                    {t}
+                  </li>
+                ))}
               </ul>
+              <div className="mt-7 sm:mt-8">
+                <MessageCTA caption={null} className="w-full [&_a]:w-full" />
+              </div>
             </div>
           </div>
         </section>
 
         {/* FAQ: minimal hairline rows */}
-        <section id="faq" className="mx-auto max-w-3xl scroll-mt-24 px-5 py-16 sm:py-24">
+        <section id="faq" className="mx-auto max-w-3xl scroll-mt-24 px-5 py-16 sm:px-8 sm:py-24">
           <h2 className="text-center font-display text-4xl tracking-tight sm:text-5xl">
             Questions founders ask
           </h2>
@@ -423,7 +454,7 @@ export default function Home() {
         </section>
 
         {/* Final CTA: black panel, serif headline, white pill */}
-        <section className="mx-auto max-w-6xl px-5 pb-20 pt-4 sm:pb-28">
+        <section className="mx-auto max-w-6xl px-5 pb-20 pt-4 sm:px-8 sm:pb-28">
           <div className="relative overflow-hidden rounded-[2rem] bg-[#0c1512] px-6 py-16 text-center ring-1 ring-white/10 sm:px-12 sm:py-24">
             <div className="pointer-events-none absolute inset-0 opacity-[0.12] [background:radial-gradient(circle_at_50%_-10%,#22c55e,transparent_55%)]" />
             <div className="relative">
@@ -434,7 +465,7 @@ export default function Home() {
                 Message Scout once. It handles the research, the matching, and the first
                 email. You focus on building.
               </p>
-              <div className="mt-9">
+              <div className="mt-9 flex justify-center">
                 <MessageCTA variant="light" caption="WhatsApp · top-3 preview free" />
               </div>
             </div>
@@ -444,7 +475,7 @@ export default function Home() {
 
       {/* Footer: one minimal row */}
       <footer className="border-t border-ink/[0.06]">
-        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-5 px-5 py-8 text-sm text-mist sm:flex-row">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-5 px-5 py-8 text-sm text-mist sm:flex-row sm:px-8">
           <Logo markClassName="h-6 w-6" wordClassName="text-lg" />
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
             <a href="/about" className="transition hover:text-ink">About</a>
@@ -465,5 +496,19 @@ export default function Home() {
         </div>
       </footer>
     </>
+  );
+}
+
+function Check({ muted = false }: { muted?: boolean }) {
+  return (
+    <span
+      className={`mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full ${
+        muted ? 'bg-ink/[0.06] text-mist' : 'bg-signal/15 text-moss'
+      }`}
+    >
+      <svg viewBox="0 0 24 24" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M20 6 9 17l-5-5" />
+      </svg>
+    </span>
   );
 }
