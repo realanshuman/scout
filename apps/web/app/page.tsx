@@ -316,7 +316,10 @@ export default function Home() {
               <div className="relative mx-auto w-full max-w-[318px] animate-fade-up [animation-delay:160ms] sm:max-w-[340px]">
                 {/* top fade so the headline reads over the phone's shoulder */}
                 <div className="pointer-events-none absolute inset-x-0 -top-3 z-10 h-20 bg-gradient-to-b from-[#071310] via-[#071310]/80 to-transparent sm:hidden" />
-                <HeroPhone />
+                {/* on phones, tilt the device so it reads as if held at an angle */}
+                <div className="origin-bottom [transform:perspective(1500px)_rotateX(5deg)_rotateY(-11deg)_rotate(1.5deg)] drop-shadow-[0_36px_44px_rgba(0,0,0,0.55)] sm:[transform:none] sm:drop-shadow-none">
+                  <HeroPhone />
+                </div>
                 <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-36 bg-gradient-to-t from-[#071310] via-[#071310] to-transparent sm:h-40" />
                 <div className="absolute inset-x-0 bottom-1 z-20 flex justify-center sm:static sm:-mt-16">
                   <MessageCTA variant="glass" className="w-full sm:w-auto" />
