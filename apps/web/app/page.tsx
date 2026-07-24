@@ -261,14 +261,22 @@ export default function Home() {
                 <a href="#pricing" className="transition hover:text-white">Pricing</a>
                 <a href="#faq" className="transition hover:text-white">FAQ</a>
               </div>
-              <a
-                href={WA_LINK}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur transition hover:bg-white/[0.18]"
-              >
-                Message Scout
-              </a>
+              <div className="flex items-center gap-3">
+                <a
+                  href="/signin"
+                  className="hidden text-sm font-medium text-white/70 transition hover:text-white sm:block"
+                >
+                  Sign in
+                </a>
+                <a
+                  href={WA_LINK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur transition hover:bg-white/[0.18]"
+                >
+                  Message Scout
+                </a>
+              </div>
             </nav>
 
             {/* headline */}
