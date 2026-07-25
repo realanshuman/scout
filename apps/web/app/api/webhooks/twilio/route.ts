@@ -120,6 +120,8 @@ export async function POST(req: Request) {
         profile,
         researchStatus: contact.researchStatus ?? 'none',
         matches: contact.matches ?? [],
+        unlocked: contact.unlocked ?? false,
+        paymentUrl: contact.paymentUrl ?? null,
       },
       turns,
     );

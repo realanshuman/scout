@@ -1,6 +1,7 @@
 import { discoverInvestors } from '../discovery/discover';
 import { searchConfigured } from '../discovery/search';
 import { llmConfigured } from '../discovery/llm';
+import { createCheckoutSession, paymentsConfigured } from '../dodo';
 import { sendWhatsApp } from './twilio';
 import {
   claimResearch,
@@ -8,9 +9,11 @@ import {
   failResearch,
   getContactById,
   recordOutbound,
+  setPayment,
+  setUnlocked,
   type DiscoveredMatch,
 } from './store';
-import { matchesMessage, NO_MATCHES, RESEARCH_FAILED } from './agent';
+import { previewMessage, NO_MATCHES, RESEARCH_FAILED } from './agent';
 
 /** Maps the WhatsApp interview profile onto the shape discovery expects. */
 function toStartupProfile(p: Record<string, unknown>) {
@@ -35,14 +38,15 @@ function toStartupProfile(p: Record<string, unknown>) {
 }
 
 /**
- * Researches investors for a WhatsApp contact and messages them the result.
+ * Researches investors for a WhatsApp contact, sets up the paywall, and sends
+ * the free top-3 preview.
  *
  * Runs AFTER the webhook response (via next/server `after`), because discovery
- * takes about a minute and Twilio drops the webhook after ~15 seconds.
+ * takes about a minute and Twilio drops the webhook at ~15 seconds.
  *
- * Guarded by claimResearch() so overlapping webhooks can't start it twice, and
- * it always leaves the contact in a truthful state ('done' or 'failed') so the
- * assistant never has to guess whether it ran.
+ * The product flow: preview (top 3, free) -> Dodo payment -> full report. When
+ * payments aren't configured, the report is unlocked immediately so the flow
+ * still works end to end.
  */
 export async function runResearchAndNotify(contactId: string, phone: string): Promise<void> {
   if (!searchConfigured || !llmConfigured) {
@@ -66,6 +70,8 @@ export async function runResearchAndNotify(contactId: string, phone: string): Pr
       return;
     }
 
+    // Store the FULL records, contacts and all, so the assistant can answer
+    // "what's their email?" truthfully after unlock.
     const matches: DiscoveredMatch[] = investors.map((inv) => ({
       rank: inv.rank,
       firm: inv.firm,
@@ -75,11 +81,36 @@ export async function runResearchAndNotify(contactId: string, phone: string): Pr
       stages: inv.stages,
       check: inv.check,
       sectors: inv.sectors,
+      email: inv.email ?? null,
+      linkedin: inv.linkedin ?? null,
+      website: null,
+      outreachSubject: inv.outreachSubject,
     }));
 
     await finishResearch(contactId, matches);
 
-    const message = matchesMessage(matches, matches.length);
+    // Set up the paywall: a Dodo checkout tied to this contact. If payments
+    // aren't configured (or checkout fails), unlock immediately so the founder
+    // is never stuck behind a broken gate.
+    let paymentUrl: string | null = null;
+    if (paymentsConfigured) {
+      try {
+        const base = process.env.BETTER_AUTH_URL ?? process.env.WEB_PUBLIC_URL ?? '';
+        const { url, sessionId } = await createCheckoutSession({
+          returnUrl: `${base}/thanks`,
+          metadata: { wa_contact_id: contactId },
+        });
+        paymentUrl = url;
+        await setPayment(contactId, sessionId, url);
+      } catch (err) {
+        console.error('[wa research] checkout creation failed', err);
+        await setUnlocked(contactId);
+      }
+    } else {
+      await setUnlocked(contactId);
+    }
+
+    const message = previewMessage(matches, matches.length, paymentUrl);
     await recordOutbound(contactId, message);
     await sendWhatsApp(phone, message);
   } catch (err) {

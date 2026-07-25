@@ -22,14 +22,18 @@ function client(): DodoPayments {
 
 /** Creates a checkout session; returns { url, sessionId }. */
 export async function createCheckoutSession(params: {
-  userId: string;
+  userId?: string;
   returnUrl: string;
+  metadata?: Record<string, string>;
 }): Promise<{ url: string; sessionId: string }> {
   const dodo = client();
   const session = await dodo.checkoutSessions.create({
     product_cart: [{ product_id: process.env.DODO_PAYMENTS_PRODUCT_ID as string, quantity: 1 }],
     return_url: params.returnUrl,
-    metadata: { user_id: params.userId },
+    metadata: {
+      ...(params.userId ? { user_id: params.userId } : {}),
+      ...(params.metadata ?? {}),
+    },
   });
   if (!session.checkout_url) throw new Error('Dodo returned no checkout URL');
   return { url: session.checkout_url, sessionId: session.session_id };
@@ -71,7 +75,7 @@ const TIMESTAMP_TOLERANCE_SECONDS = 5 * 60;
 export function verifyWebhook(
   rawBody: string,
   headers: WebhookHeaders,
-): { type: string; userId?: string; sessionId?: string } {
+): { type: string; userId?: string; waContactId?: string; sessionId?: string } {
   if (!headers.id || !headers.timestamp || !headers.signature) {
     throw new Error('missing webhook signature headers');
   }
@@ -99,6 +103,7 @@ export function verifyWebhook(
   return {
     type: event.type,
     userId: event.data?.metadata?.user_id,
+    waContactId: event.data?.metadata?.wa_contact_id,
     sessionId: event.data?.checkout_session_id ?? undefined,
   };
 }

@@ -3,6 +3,14 @@ import { verifyWebhook } from '@/lib/dodo';
 import { activateForUser } from '@/lib/activate';
 import { userIdByProviderRef } from '@/lib/subscription';
 import { queryOne } from '@/lib/db';
+import {
+  getContactById,
+  contactByPaymentRef,
+  setUnlocked,
+  recordOutbound,
+} from '@/lib/whatsapp/store';
+import { unlockedMessage } from '@/lib/whatsapp/agent';
+import { sendWhatsApp } from '@/lib/whatsapp/twilio';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -15,7 +23,7 @@ export const dynamic = 'force-dynamic';
  */
 export async function POST(req: Request) {
   const raw = await req.text();
-  let result: { type: string; userId?: string; sessionId?: string };
+  let result: { type: string; userId?: string; waContactId?: string; sessionId?: string };
   try {
     result = verifyWebhook(raw, {
       id: req.headers.get('webhook-id') ?? '',
@@ -30,7 +38,21 @@ export async function POST(req: Request) {
     return NextResponse.json({ received: true });
   }
 
-  // Resolve the user: prefer metadata, fall back to the pending session ref.
+  // WhatsApp flow: the payment unlocks a wa_contact's full report.
+  let waContact = null;
+  if (result.waContactId) waContact = await getContactById(result.waContactId);
+  if (!waContact && result.sessionId) waContact = await contactByPaymentRef(result.sessionId);
+  if (waContact) {
+    if (!waContact.unlocked) {
+      await setUnlocked(waContact.id);
+      const message = unlockedMessage(waContact.matches ?? []);
+      await recordOutbound(waContact.id, message);
+      await sendWhatsApp(waContact.phone, message);
+    }
+    return NextResponse.json({ received: true });
+  }
+
+  // Dashboard flow: resolve the user via metadata or the pending session ref.
   let userId = result.userId ?? null;
   if (!userId && result.sessionId) userId = await userIdByProviderRef(result.sessionId);
   if (!userId) return NextResponse.json({ received: true });

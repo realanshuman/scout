@@ -13,9 +13,13 @@ export interface WaContact {
   researchStatus: ResearchStatus;
   matches: DiscoveredMatch[];
   researchedAt: string | null;
+  unlocked: boolean;
+  paymentRef: string | null;
+  paymentUrl: string | null;
 }
 
-/** The slice of a discovered investor Scout talks about on WhatsApp. */
+/** A discovered investor as stored for the WhatsApp flow: the full record,
+ * including contacts when the research actually found them. */
 export interface DiscoveredMatch {
   rank: number;
   firm: string;
@@ -25,9 +29,13 @@ export interface DiscoveredMatch {
   stages?: string;
   check?: string;
   sectors?: string;
+  email?: string | null;
+  linkedin?: string | null;
+  website?: string | null;
+  outreachSubject?: string;
 }
 
-const CONTACT_COLS = `"id","phone","name","stage","profile","userId","researchStatus","matches","researchedAt"`;
+const CONTACT_COLS = `"id","phone","name","stage","profile","userId","researchStatus","matches","researchedAt","unlocked","paymentRef","paymentUrl"`;
 
 export interface WaTurn {
   role: 'user' | 'assistant';
@@ -158,6 +166,35 @@ export async function failResearch(contactId: string): Promise<void> {
   await query(
     `UPDATE "wa_contact" SET "researchStatus" = 'failed', "updatedAt" = now() WHERE "id" = $1`,
     [contactId],
+  );
+}
+
+/** Stores the payment link + checkout reference for a contact. */
+export async function setPayment(
+  contactId: string,
+  paymentRef: string,
+  paymentUrl: string,
+): Promise<void> {
+  await query(
+    `UPDATE "wa_contact" SET "paymentRef" = $2, "paymentUrl" = $3, "updatedAt" = now()
+      WHERE "id" = $1`,
+    [contactId, paymentRef, paymentUrl],
+  );
+}
+
+/** Marks a contact's report unlocked (after payment, or when payments are off). */
+export async function setUnlocked(contactId: string): Promise<void> {
+  await query(
+    `UPDATE "wa_contact" SET "unlocked" = true, "updatedAt" = now() WHERE "id" = $1`,
+    [contactId],
+  );
+}
+
+/** Finds the contact tied to a Dodo checkout session (for the webhook). */
+export async function contactByPaymentRef(paymentRef: string): Promise<WaContact | null> {
+  return queryOne<WaContact>(
+    `SELECT ${CONTACT_COLS} FROM "wa_contact" WHERE "paymentRef" = $1 LIMIT 1`,
+    [paymentRef],
   );
 }
 
