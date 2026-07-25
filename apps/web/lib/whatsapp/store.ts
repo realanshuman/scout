@@ -1,0 +1,111 @@
+import { randomUUID } from 'crypto';
+import { query, queryOne } from '../db';
+
+export interface WaContact {
+  id: string;
+  phone: string;
+  name: string | null;
+  stage: 'interview' | 'complete';
+  profile: Record<string, unknown>;
+  userId: string | null;
+}
+
+export interface WaTurn {
+  role: 'user' | 'assistant';
+  content: string;
+}
+
+/** Finds (or creates) the contact for a WhatsApp number. */
+export async function getOrCreateContact(phone: string, name?: string | null): Promise<WaContact> {
+  const existing = await queryOne<WaContact>(
+    `SELECT "id","phone","name","stage","profile","userId" FROM "wa_contact" WHERE "phone" = $1`,
+    [phone],
+  );
+  if (existing) return existing;
+
+  const id = randomUUID();
+  await query(
+    `INSERT INTO "wa_contact" ("id","phone","name") VALUES ($1,$2,$3)
+     ON CONFLICT ("phone") DO NOTHING`,
+    [id, phone, name ?? null],
+  );
+  const created = await queryOne<WaContact>(
+    `SELECT "id","phone","name","stage","profile","userId" FROM "wa_contact" WHERE "phone" = $1`,
+    [phone],
+  );
+  // The SELECT can't be null here (we just inserted or someone raced us).
+  return created as WaContact;
+}
+
+/**
+ * Records an inbound message. Returns false when this Twilio MessageSid was
+ * already stored, which means the webhook is a retry and must be ignored.
+ */
+export async function recordInbound(
+  contactId: string,
+  content: string,
+  providerRef?: string | null,
+): Promise<boolean> {
+  // The dedupe index is partial ("providerRef" IS NOT NULL), so ON CONFLICT
+  // must repeat that predicate for Postgres to match it.
+  const rows = await query<{ id: string }>(
+    `INSERT INTO "wa_message" ("id","contactId","role","content","providerRef")
+     VALUES ($1,$2,'user',$3,$4)
+     ON CONFLICT ("providerRef") WHERE "providerRef" IS NOT NULL DO NOTHING
+     RETURNING "id"`,
+    [randomUUID(), contactId, content, providerRef ?? null],
+  );
+  return rows.length > 0;
+}
+
+export async function recordOutbound(contactId: string, content: string): Promise<void> {
+  await query(
+    `INSERT INTO "wa_message" ("id","contactId","role","content") VALUES ($1,$2,'assistant',$3)`,
+    [randomUUID(), contactId, content],
+  );
+}
+
+/** Recent conversation history, oldest first, for model context. */
+export async function recentTurns(contactId: string, limit = 20): Promise<WaTurn[]> {
+  const rows = await query<{ role: string; content: string }>(
+    `SELECT "role","content" FROM "wa_message"
+      WHERE "contactId" = $1 ORDER BY "createdAt" DESC LIMIT $2`,
+    [contactId, limit],
+  );
+  return rows
+    .reverse()
+    .map((r) => ({ role: r.role === 'assistant' ? 'assistant' : 'user', content: r.content }));
+}
+
+export async function updateContact(
+  contactId: string,
+  patch: { profile?: Record<string, unknown>; stage?: 'interview' | 'complete'; name?: string | null },
+): Promise<void> {
+  if (patch.profile !== undefined) {
+    await query(
+      `UPDATE "wa_contact" SET "profile" = $2, "updatedAt" = now() WHERE "id" = $1`,
+      [contactId, JSON.stringify(patch.profile)],
+    );
+  }
+  if (patch.stage !== undefined) {
+    await query(`UPDATE "wa_contact" SET "stage" = $2, "updatedAt" = now() WHERE "id" = $1`, [
+      contactId,
+      patch.stage,
+    ]);
+  }
+  if (patch.name !== undefined) {
+    await query(`UPDATE "wa_contact" SET "name" = $2, "updatedAt" = now() WHERE "id" = $1`, [
+      contactId,
+      patch.name,
+    ]);
+  }
+}
+
+/** Counts how many messages this contact has sent (used for greeting logic). */
+export async function messageCount(contactId: string): Promise<number> {
+  const row = await queryOne<{ n: string }>(
+    `SELECT count(*)::text AS n FROM "wa_message" WHERE "contactId" = $1`,
+    [contactId],
+  );
+  return Number(row?.n ?? 0);
+}
