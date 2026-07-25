@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { getSessionUser } from '@/lib/session';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -11,20 +12,28 @@ export const dynamic = 'force-dynamic';
  *   - does the Tavily key actually work (runs one tiny real search)
  *   - does the OpenAI key actually work (runs one tiny real completion)
  *
- * Guarded by SEED_TOKEN because it makes real (small) API calls. Never returns
- * key values, only pass/fail plus the provider's error message when it fails.
+ * Access: signed-in users, or anyone with the SEED_TOKEN (?token=...). Guarded
+ * because it makes real (small) API calls. Never returns key values, only
+ * pass/fail plus the provider's error message when it fails.
  */
 export async function GET(req: Request) {
-  const expected = process.env.SEED_TOKEN;
-  const token = new URL(req.url).searchParams.get('token');
-  if (!expected) {
+  // Access: either a signed-in user, or the right SEED_TOKEN. Tokens are
+  // trimmed on both sides, since a stray space or newline pasted into the
+  // hosting provider's env UI is the usual reason a token "doesn't match".
+  const expected = process.env.SEED_TOKEN?.trim();
+  const token = new URL(req.url).searchParams.get('token')?.trim();
+  const signedIn = Boolean(await getSessionUser());
+
+  if (!signedIn && !(expected && token === expected)) {
     return NextResponse.json(
-      { error: 'Diagnostics disabled. Set SEED_TOKEN to enable.' },
-      { status: 404 },
+      {
+        error: 'Not authorized.',
+        hint: expected
+          ? 'Sign in to Scout first, or append ?token=YOUR_SEED_TOKEN matching the SEED_TOKEN value in your hosting environment exactly.'
+          : 'Sign in to Scout first, or set SEED_TOKEN in your hosting environment and pass it as ?token=...',
+      },
+      { status: 401 },
     );
-  }
-  if (token !== expected) {
-    return NextResponse.json({ error: 'Invalid or missing token.' }, { status: 401 });
   }
 
   const tavilyKey = process.env.TAVILY_API_KEY;

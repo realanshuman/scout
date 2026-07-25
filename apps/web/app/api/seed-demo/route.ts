@@ -21,12 +21,20 @@ const DEMO_NAME = 'Jordan Rivera';
  * is disabled (404). Safe to run more than once — it's idempotent.
  */
 async function seed(token: string | null) {
-  const expected = process.env.SEED_TOKEN;
+  // Trim both sides: a trailing space or newline pasted into the hosting
+  // provider's env UI is the most common reason this "doesn't match".
+  const expected = process.env.SEED_TOKEN?.trim();
   if (!expected) {
     return NextResponse.json({ error: 'Seeding is disabled. Set SEED_TOKEN to enable.' }, { status: 404 });
   }
-  if (token !== expected) {
-    return NextResponse.json({ error: 'Invalid or missing token.' }, { status: 401 });
+  if (token?.trim() !== expected) {
+    return NextResponse.json(
+      {
+        error: 'Invalid or missing token.',
+        hint: 'Append ?token=YOUR_SEED_TOKEN to the URL, matching the SEED_TOKEN value set in your hosting environment exactly.',
+      },
+      { status: 401 },
+    );
   }
   if (!hasDatabase) {
     return NextResponse.json({ error: 'DATABASE_URL is not set.' }, { status: 500 });
