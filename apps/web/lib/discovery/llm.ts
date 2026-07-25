@@ -7,6 +7,8 @@ export const llmConfigured = Boolean(process.env.OPENAI_API_KEY);
  * the example env, which would break the call.
  */
 const MODEL = process.env.SCOUT_DISCOVERY_MODEL || 'gpt-4o-mini';
+/** Override to point at a proxy or compatible endpoint. Defaults to OpenAI. */
+const OPENAI_BASE = process.env.OPENAI_BASE_URL || 'https://api.openai.com/v1';
 
 /**
  * One JSON completion from OpenAI (Chat Completions + json_object mode).
@@ -20,7 +22,7 @@ export async function openaiJson<T = unknown>(params: {
   const key = process.env.OPENAI_API_KEY;
   if (!key) throw new Error('OPENAI_API_KEY is not set');
 
-  const res = await fetch('https://api.openai.com/v1/chat/completions', {
+  const res = await fetch(`${OPENAI_BASE}/chat/completions`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

@@ -1,3 +1,4 @@
+import { after } from 'next/server';
 import { hasDatabase } from '@/lib/db';
 import { validateTwilioSignature, twiml, twimlEmpty, twilioConfigured } from '@/lib/whatsapp/twilio';
 import {
@@ -9,6 +10,7 @@ import {
   messageCount,
 } from '@/lib/whatsapp/store';
 import { interviewTurn, assistantTurn, missingFields, GREETING, WRAP_UP } from '@/lib/whatsapp/agent';
+import { runResearchAndNotify } from '@/lib/whatsapp/research';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -97,10 +99,30 @@ export async function POST(req: Request) {
 
       const message = done ? `${result.reply}\n\n${WRAP_UP}` : result.reply;
       await recordOutbound(contact.id, message);
+
+      // The interview just finished: actually go and do the research we
+      // promised. It takes about a minute, so it runs after this response is
+      // sent and the result arrives as a separate WhatsApp message.
+      if (done) {
+        after(() => runResearchAndNotify(contact.id, from));
+      }
       return reply(message);
     }
 
-    const answer = await assistantTurn(profile, turns);
+    // If research somehow never started (e.g. an older conversation), kick it
+    // off now rather than leaving the founder waiting forever.
+    if (contact.researchStatus === 'none' || contact.researchStatus === 'failed') {
+      after(() => runResearchAndNotify(contact.id, from));
+    }
+
+    const answer = await assistantTurn(
+      {
+        profile,
+        researchStatus: contact.researchStatus ?? 'none',
+        matches: contact.matches ?? [],
+      },
+      turns,
+    );
     await recordOutbound(contact.id, answer);
     return reply(answer);
   } catch (err) {

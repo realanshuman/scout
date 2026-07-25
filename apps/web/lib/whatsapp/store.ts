@@ -1,6 +1,8 @@
 import { randomUUID } from 'crypto';
 import { query, queryOne } from '../db';
 
+export type ResearchStatus = 'none' | 'running' | 'done' | 'failed';
+
 export interface WaContact {
   id: string;
   phone: string;
@@ -8,7 +10,24 @@ export interface WaContact {
   stage: 'interview' | 'complete';
   profile: Record<string, unknown>;
   userId: string | null;
+  researchStatus: ResearchStatus;
+  matches: DiscoveredMatch[];
+  researchedAt: string | null;
 }
+
+/** The slice of a discovered investor Scout talks about on WhatsApp. */
+export interface DiscoveredMatch {
+  rank: number;
+  firm: string;
+  partner: string | null;
+  fit: number;
+  why: string;
+  stages?: string;
+  check?: string;
+  sectors?: string;
+}
+
+const CONTACT_COLS = `"id","phone","name","stage","profile","userId","researchStatus","matches","researchedAt"`;
 
 export interface WaTurn {
   role: 'user' | 'assistant';
@@ -18,7 +37,7 @@ export interface WaTurn {
 /** Finds (or creates) the contact for a WhatsApp number. */
 export async function getOrCreateContact(phone: string, name?: string | null): Promise<WaContact> {
   const existing = await queryOne<WaContact>(
-    `SELECT "id","phone","name","stage","profile","userId" FROM "wa_contact" WHERE "phone" = $1`,
+    `SELECT ${CONTACT_COLS} FROM "wa_contact" WHERE "phone" = $1`,
     [phone],
   );
   if (existing) return existing;
@@ -30,7 +49,7 @@ export async function getOrCreateContact(phone: string, name?: string | null): P
     [id, phone, name ?? null],
   );
   const created = await queryOne<WaContact>(
-    `SELECT "id","phone","name","stage","profile","userId" FROM "wa_contact" WHERE "phone" = $1`,
+    `SELECT ${CONTACT_COLS} FROM "wa_contact" WHERE "phone" = $1`,
     [phone],
   );
   // The SELECT can't be null here (we just inserted or someone raced us).
@@ -99,6 +118,47 @@ export async function updateContact(
       patch.name,
     ]);
   }
+}
+
+/** Re-reads a contact by id (used by background research). */
+export async function getContactById(contactId: string): Promise<WaContact | null> {
+  return queryOne<WaContact>(`SELECT ${CONTACT_COLS} FROM "wa_contact" WHERE "id" = $1`, [
+    contactId,
+  ]);
+}
+
+/**
+ * Claims the research slot for a contact. Returns true only if this call
+ * flipped the status to 'running', so two webhooks can't start research twice.
+ */
+export async function claimResearch(contactId: string): Promise<boolean> {
+  const rows = await query<{ id: string }>(
+    `UPDATE "wa_contact" SET "researchStatus" = 'running', "updatedAt" = now()
+      WHERE "id" = $1 AND "researchStatus" IN ('none', 'failed')
+      RETURNING "id"`,
+    [contactId],
+  );
+  return rows.length > 0;
+}
+
+export async function finishResearch(
+  contactId: string,
+  matches: DiscoveredMatch[],
+): Promise<void> {
+  await query(
+    `UPDATE "wa_contact"
+        SET "researchStatus" = 'done', "matches" = $2,
+            "researchedAt" = now(), "updatedAt" = now()
+      WHERE "id" = $1`,
+    [contactId, JSON.stringify(matches)],
+  );
+}
+
+export async function failResearch(contactId: string): Promise<void> {
+  await query(
+    `UPDATE "wa_contact" SET "researchStatus" = 'failed', "updatedAt" = now() WHERE "id" = $1`,
+    [contactId],
+  );
 }
 
 /** Counts how many messages this contact has sent (used for greeting logic). */
