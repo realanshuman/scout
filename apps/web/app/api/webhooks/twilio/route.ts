@@ -136,16 +136,49 @@ export async function POST(req: Request) {
   }
 }
 
-/** Twilio pings with GET when you paste the URL; make that visibly OK. */
+/**
+ * GET = self-diagnosis. Open this URL in a browser and it reports exactly why
+ * the bot might be silent: missing env, unreachable DB, or missing migrations.
+ */
 export async function GET() {
-  return new Response(
-    JSON.stringify({
-      ok: true,
-      service: 'Scout WhatsApp webhook (Twilio)',
-      configured: twilioConfigured,
-      database: hasDatabase,
-      hint: 'Set this URL as the "When a message comes in" webhook (HTTP POST) on your Twilio WhatsApp sender.',
-    }),
-    { status: 200, headers: { 'Content-Type': 'application/json' } },
-  );
+  const report: Record<string, unknown> = {
+    service: 'Scout WhatsApp webhook (Twilio)',
+    twilioConfigured,
+    openaiConfigured: Boolean(process.env.OPENAI_API_KEY),
+    database: hasDatabase,
+  };
+
+  let ok = twilioConfigured && hasDatabase && Boolean(process.env.OPENAI_API_KEY);
+
+  if (hasDatabase) {
+    try {
+      const { query } = await import('@/lib/db');
+      // Probe the exact columns the webhook needs; a missing migration shows
+      // up here as a clear instruction instead of silent 500s to Twilio.
+      await query(
+        `SELECT "id","stage","profile","researchStatus","matches","unlocked","paymentRef","paymentUrl"
+           FROM "wa_contact" LIMIT 1`,
+      );
+      await query(`SELECT "id","providerRef" FROM "wa_message" LIMIT 1`);
+      report.schema = 'ok';
+    } catch (err) {
+      ok = false;
+      const msg = err instanceof Error ? err.message : String(err);
+      report.schema = 'BROKEN';
+      report.schemaError = msg;
+      report.fix = msg.includes('does not exist')
+        ? 'Run apps/web/lib/whatsapp-schema.sql, then whatsapp-schema-2.sql, then whatsapp-schema-3.sql in the Neon SQL Editor. Each is safe to re-run.'
+        : 'Database query failed. Check DATABASE_URL and Neon status.';
+    }
+  }
+
+  report.ok = ok;
+  report.hint = ok
+    ? 'All checks passed. If the bot is still silent, check Twilio Monitor -> Logs -> Messaging for the inbound message and its webhook response code.'
+    : 'Fix the failing item above, redeploy if env vars changed, then test again.';
+
+  return new Response(JSON.stringify(report, null, 2), {
+    status: ok ? 200 : 500,
+    headers: { 'Content-Type': 'application/json' },
+  });
 }
