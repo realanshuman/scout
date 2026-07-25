@@ -1,14 +1,12 @@
 import type { Metadata } from 'next';
 import { PageShell } from '@/components/page-shell';
 import { ScoutMark } from '@/components/logo';
+import { WA_LINK } from '@/lib/whatsapp-link';
 
 export const metadata: Metadata = {
   title: 'About · Scout',
   description: 'Why Scout exists: fundraising research should take minutes, not weeks.',
 };
-
-const WA_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '15551234567';
-const WA_LINK = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Hi Scout!')}`;
 
 const numbers = [
   { value: '15 min', label: 'One WhatsApp conversation. That is all Scout needs.' },

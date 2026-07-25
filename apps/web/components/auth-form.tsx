@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { signIn } from '@/lib/auth-client';
 import { Button } from '@/components/ui/button';
 import { Field, Input } from '@/components/ui/field';
+import { WA_LINK } from '@/lib/whatsapp-link';
 
 /**
  * Sign-in form. Public sign-up is disabled — accounts are provisioned through
@@ -80,7 +81,7 @@ export function AuthForm() {
       <p className="pt-2 text-center text-sm text-mist">
         New to Scout?{' '}
         <a
-          href="https://wa.me/15551234567?text=Hi%20Scout!"
+          href={WA_LINK}
           target="_blank"
           rel="noopener noreferrer"
           className="font-medium text-moss hover:underline"

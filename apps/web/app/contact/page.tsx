@@ -1,13 +1,11 @@
 import type { Metadata } from 'next';
 import { PageShell } from '@/components/page-shell';
+import { WA_LINK } from '@/lib/whatsapp-link';
 
 export const metadata: Metadata = {
   title: 'Contact · Scout',
   description: 'Reach the person behind Scout, or just message Scout on WhatsApp.',
 };
-
-const WA_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '15551234567';
-const WA_LINK = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Hi Scout!')}`;
 
 const channels = [
   {

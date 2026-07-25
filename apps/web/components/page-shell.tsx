@@ -1,9 +1,7 @@
 import Link from 'next/link';
 import { Logo } from '@/components/logo';
 import { ThemeToggle } from '@/components/theme-toggle';
-
-const WA_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '15551234567';
-const WA_LINK = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Hi Scout!')}`;
+import { WA_LINK } from '@/lib/whatsapp-link';
 
 /**
  * Shared layout for standalone pages (About, Contact, Terms, Privacy).

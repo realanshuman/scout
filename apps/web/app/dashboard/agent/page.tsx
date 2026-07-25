@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { loadDashboard } from '@/lib/load-dashboard';
-import { PageHeader, Card, WhatsAppButton, Badge, WA_NUMBER } from '@/components/dashboard/ui';
+import { PageHeader, Card, WhatsAppButton, Badge, waLink } from '@/components/dashboard/ui';
 import { NotificationSettings } from '@/components/dashboard/notifications';
 
 export const metadata: Metadata = { title: 'Agent · Scout' };
@@ -65,7 +65,7 @@ export default async function AgentPage() {
           {prompts.map((q) => (
             <a
               key={q}
-              href={`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(q)}`}
+              href={waLink(q)}
               target="_blank"
               rel="noopener noreferrer"
               className="group flex items-center justify-between gap-2 rounded-xl border border-ink/[0.08] bg-paper/60 px-3.5 py-2.5 text-sm text-ink/80 transition hover:border-ink/15 hover:bg-paper"

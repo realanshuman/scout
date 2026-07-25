@@ -45,6 +45,14 @@ In **Vercel → your project → Settings → Environment Variables** (Productio
 | `TWILIO_WHATSAPP_FROM` | `+14155238886` (sandbox), later your own number |
 | `OPENAI_API_KEY` | required — the agent runs on it |
 | `DATABASE_URL` | your Neon connection string (already set) |
+| `NEXT_PUBLIC_WHATSAPP_NUMBER` | `14155238886` — the number every "Message Scout" button opens |
+| `NEXT_PUBLIC_WHATSAPP_JOIN_CODE` | your sandbox join phrase, e.g. `join happy-tiger` |
+
+The two `NEXT_PUBLIC_*` values are what the site's buttons use. While you're on
+the sandbox, setting the join code means a visitor taps "Message Scout", sends
+the pre-filled join phrase, and is connected immediately, instead of messaging
+into the void. Clear it once you have a production sender. Both are baked in at
+build time, so changing them requires a redeploy.
 
 Then **redeploy** (untick "Use existing Build Cache").
 

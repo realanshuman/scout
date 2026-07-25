@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { ReactNode } from 'react';
+import { WA_NUMBER, WA_LINK, waLink } from '@/lib/whatsapp-link';
 
 export function PageHeader({
   title,
@@ -116,8 +117,7 @@ export function Skeleton({ className = '' }: { className?: string }) {
   return <div className={`animate-pulse rounded-lg bg-ink/[0.07] ${className}`} />;
 }
 
-export const WA_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '15551234567';
-export const WA_LINK = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Hi Scout!')}`;
+export { WA_NUMBER, WA_LINK, waLink };
 
 export function WhatsAppButton({
   label = 'Message Scout',
@@ -128,9 +128,7 @@ export function WhatsAppButton({
   className?: string;
   text?: string;
 }) {
-  const href = text
-    ? `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`
-    : WA_LINK;
+  const href = waLink(text);
   return (
     <Link
       href={href}
