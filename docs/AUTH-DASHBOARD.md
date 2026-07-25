@@ -63,6 +63,27 @@ profile + 6 investor matches) and returns the credentials. You can then sign in
 and use every feature. Re-running it re-seeds the same account. Unset
 `SEED_TOKEN` afterwards to disable the endpoint.
 
+## Live investor discovery (Tavily + OpenAI)
+
+The Investors page has a **Find investors / Refresh matches** button that does
+real work: it searches the web with **Tavily**, then uses **OpenAI** to extract,
+rank and draft personalized outreach for investors that fit the founder's
+profile, and stores the results in Neon (replacing the previous list).
+
+To enable it, set these in Vercel (both are required):
+
+- `TAVILY_API_KEY` — from tavily.com
+- `OPENAI_API_KEY` — from platform.openai.com
+- `SCOUT_DISCOVERY_MODEL` — optional, defaults to `gpt-4o-mini`
+
+Without them the button shows a clear "not configured" message rather than
+failing. Discovery needs the workspace to have at least a **company name and
+industry**, so it knows what to search for. It takes roughly a minute; the UI
+shows progress and reports how many investors were found.
+
+Note: discovery never invents contact details. An email or LinkedIn is included
+only when it actually appears in a source.
+
 ## Wiring real customer data
 
 `getDashboardData()` in `lib/dashboard-data.ts` reads each signed-in user's real

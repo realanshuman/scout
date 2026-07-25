@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { loadDashboard } from '@/lib/load-dashboard';
 import { PageHeader, EmptyState, WhatsAppButton } from '@/components/dashboard/ui';
 import { InvestorList } from '@/components/dashboard/investor-list';
+import { DiscoverButton } from '@/components/dashboard/discover-button';
 
 export const metadata: Metadata = { title: 'Investors · Scout' };
 
@@ -19,6 +20,11 @@ export default async function InvestorsPage() {
             ? `${investors.length} matched for ${startupName}, ranked by fit. Each has a personalized draft ready.`
             : 'Your matched investors will appear here.'
         }
+        action={
+          investors.length > 0 ? (
+            <DiscoverButton hasExisting variant="secondary" />
+          ) : undefined
+        }
       />
 
       {investors.length > 0 ? (
@@ -32,8 +38,13 @@ export default async function InvestorsPage() {
             </svg>
           }
           title="No matches yet"
-          description={`Finish telling Scout about ${startupName} on WhatsApp. It will research the market and build your ranked investor list, usually within a few minutes.`}
-          action={<WhatsAppButton label="Continue with Scout" />}
+          description={`Scout can research the web right now and build a ranked investor list for ${startupName}, each with a personalized outreach draft. Make sure your profile has your company name and industry first.`}
+          action={
+            <div className="flex flex-col items-center gap-3 sm:flex-row">
+              <DiscoverButton />
+              <WhatsAppButton label="Or continue with Scout" />
+            </div>
+          }
         />
       )}
     </div>

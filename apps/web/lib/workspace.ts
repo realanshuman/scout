@@ -178,6 +178,51 @@ export async function provisionWorkspace(userId: string, input: ProvisionInput):
   }
 }
 
+/** Replaces a user's investor matches with a freshly discovered set. */
+export async function replaceInvestorMatches(
+  userId: string,
+  investors: InvestorMatch[],
+): Promise<void> {
+  await query(`DELETE FROM "investor_match" WHERE "userId" = $1`, [userId]);
+  for (const inv of investors) {
+    await query(
+      `INSERT INTO "investor_match"
+         ("id","userId","rank","firm","partner","fit","stages","checkSize","sectors",
+          "why","email","linkedin","outreachSubject","outreachBody","saved","status")
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16)`,
+      [
+        randomUUID(),
+        userId,
+        inv.rank,
+        inv.firm,
+        inv.partner,
+        inv.fit,
+        inv.stages,
+        inv.check,
+        inv.sectors,
+        inv.why,
+        inv.email,
+        inv.linkedin,
+        inv.outreachSubject,
+        inv.outreachBody ?? '',
+        inv.saved ?? false,
+        inv.status ?? 'new',
+      ],
+    );
+  }
+}
+
+/** Marks the workspace report status (e.g. while discovery runs). */
+export async function setReportStatus(
+  userId: string,
+  status: 'ready' | 'generating',
+): Promise<void> {
+  await query(
+    `UPDATE "workspace" SET "reportStatus" = $2, "updatedAt" = now() WHERE "userId" = $1`,
+    [userId, status],
+  );
+}
+
 export interface ProfilePatch {
   startupName: string;
   website: string;
