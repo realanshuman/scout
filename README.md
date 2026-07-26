@@ -4,7 +4,7 @@
 
 A founder chats with Scout for ~15 minutes → Scout researches the startup → matches it against a curated investor knowledge base → the founder gets a curated investor list with personalized outreach for each match, plus an ongoing AI fundraising assistant that never forgets their context.
 
-## How it works
+## How it works!
 
 ```
 Dashboard  →  WhatsApp  →  AI founder interview  →  startup research
