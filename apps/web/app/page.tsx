@@ -99,6 +99,55 @@ function HeroPhone() {
   );
 }
 
+// ── floating hero side cards (tablet + desktop) ───────────────────────
+
+/** Investor-match card that floats left of the hero phone. */
+function HeroCardMatch() {
+  return (
+    <div className="w-56 rounded-2xl bg-white p-4 shadow-2xl ring-1 ring-black/5 lg:w-64">
+      <div className="flex items-center justify-between">
+        <p className="text-[10px] font-semibold uppercase tracking-wider text-[#8a938e]">
+          Top match
+        </p>
+        <span className="rounded-full bg-[#e8f8ee] px-2 py-0.5 text-[10px] font-bold text-[#0e7a5f]">
+          94% fit
+        </span>
+      </div>
+      <p className="mt-2 text-[15px] font-semibold text-[#111614]">Northbeam Ventures</p>
+      <p className="text-[12px] text-[#8a938e]">Sarah Lindqvist · Partner</p>
+      <div className="mt-3 rounded-xl bg-[#f4f6f4] p-2.5">
+        <p className="text-[11px] leading-relaxed text-[#3f4a45]">
+          Led two logistics-AI seeds this year. Your warehouse copilot lands right in her
+          thesis.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+/** Outreach-draft card that floats right of the hero phone. */
+function HeroCardDraft() {
+  return (
+    <div className="w-56 rounded-2xl bg-white p-4 shadow-2xl ring-1 ring-black/5 lg:w-64">
+      <p className="text-[10px] font-semibold uppercase tracking-wider text-[#8a938e]">
+        Draft · ready to send
+      </p>
+      <p className="mt-2 text-[13px] font-semibold text-[#111614]">
+        Subject: Cursor for warehouse ops
+      </p>
+      <div className="my-2 h-px bg-black/5" />
+      <p className="text-[11px] leading-relaxed text-[#3f4a45]">
+        Hi Sarah, saw your seed into CodeLoom and your piece on agentic ops. We&apos;re at
+        $18k MRR, growing 22% MoM…
+      </p>
+      <div className="mt-2.5 flex items-center gap-1.5 text-[11px] font-medium text-[#0e7a5f]">
+        <span className="grid h-4 w-4 place-items-center rounded-full bg-[#e8f8ee]">✓</span>
+        Personalised for each investor
+      </div>
+    </div>
+  );
+}
+
 // ── mini mockups for the step cards ───────────────────────────────────
 
 function StepChat() {
@@ -327,12 +376,23 @@ export default function Home() {
                 into the dark; the glass CTA floats over the foot */}
             <div className="relative mt-7 flex flex-1 items-end justify-center pb-7 sm:mt-14 sm:block sm:flex-none sm:items-stretch sm:pb-14">
               {/* soft glow behind the phone — desktop only; kept off phones for a clean dark hero */}
-              <div className="pointer-events-none absolute -inset-8 top-10 -z-10 mx-auto hidden max-w-[440px] rounded-full bg-signal/20 blur-3xl sm:block" />
+              <div className="pointer-events-none absolute -inset-8 top-10 -z-10 mx-auto hidden max-w-[440px] rounded-full bg-signal/20 blur-3xl sm:block lg:max-w-[680px]" />
               <div className="relative mx-auto w-full max-w-[316px] animate-fade-up [animation-delay:160ms] sm:max-w-[372px]">
+                {/* floating product cards flanking the phone (tablet + desktop) */}
+                <div className="absolute top-[16%] hidden animate-fade-up [animation-delay:260ms] md:-left-48 md:block lg:-left-60">
+                  <div className="-rotate-6">
+                    <HeroCardMatch />
+                  </div>
+                </div>
+                <div className="absolute top-[40%] hidden animate-fade-up [animation-delay:320ms] md:-right-48 md:block lg:-right-60">
+                  <div className="rotate-6">
+                    <HeroCardDraft />
+                  </div>
+                </div>
                 {/* top fade so the headline reads over the phone's shoulder */}
                 <div className="pointer-events-none absolute inset-x-0 -top-3 z-10 h-20 bg-gradient-to-b from-[#071310] via-[#071310]/80 to-transparent sm:hidden" />
                 {/* on phones, tilt the device so it reads as if held at an angle */}
-                <div className="origin-bottom [transform:perspective(1500px)_rotateX(5deg)_rotateY(-11deg)_rotate(1.5deg)] drop-shadow-[0_36px_44px_rgba(0,0,0,0.55)] sm:[transform:none] sm:drop-shadow-none">
+                <div className="relative origin-bottom [transform:perspective(1500px)_rotateX(5deg)_rotateY(-11deg)_rotate(1.5deg)] drop-shadow-[0_36px_44px_rgba(0,0,0,0.55)] sm:[transform:none] sm:drop-shadow-[0_24px_48px_rgba(0,0,0,0.5)]">
                   <HeroPhone />
                 </div>
                 <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-36 bg-gradient-to-t from-[#071310] via-[#071310] to-transparent sm:h-40" />
