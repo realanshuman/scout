@@ -73,22 +73,23 @@ function HeroPhone() {
         </div>
         <div className="space-y-2 px-3 py-4 text-[12.5px] leading-relaxed">
           <p className="w-fit max-w-[90%] rounded-2xl rounded-tl-sm bg-white px-3 py-2 text-[#111614] shadow-sm">
-            Research done 🔍 Found <span className="font-semibold">58 investors</span> that
-            back startups like yours. Your top 3:
+            Your shortlist is ready 🎯 I went through 4,000+ funds and found{' '}
+            <span className="font-semibold">42 investors</span> who back early fintech
+            like Paylo.
           </p>
           <p className="w-fit max-w-[90%] rounded-2xl rounded-tl-sm bg-white px-3 py-2 text-[#111614] shadow-sm">
-            1. <span className="font-semibold">Northbeam Ventures.</span> Led 2
-            logistics-AI seeds. 94% fit.
-          </p>
-          <p className="w-fit max-w-[90%] rounded-2xl rounded-tl-sm bg-white px-3 py-2 text-[#111614] shadow-sm">
-            2. <span className="font-semibold">Latitude Labs.</span> “AI that owns a
-            workflow.” 91% fit.
+            Top match: <span className="font-semibold">Riverbend Capital</span>. They led
+            3 fintech pre-seeds this year. 93% fit.
           </p>
           <p className="ml-auto w-fit max-w-[90%] rounded-2xl rounded-tr-sm bg-bubble px-3 py-2 text-[#111614] shadow-sm">
-            Northbeam looks perfect 👀
+            Whoa. Can you write the intro email?
           </p>
           <p className="w-fit max-w-[90%] rounded-2xl rounded-tl-sm bg-white px-3 py-2 text-[#111614] shadow-sm">
-            Want the outreach draft for Sarah?
+            Already drafted. It mentions your 2,100 shops and their partner Neha&apos;s
+            payments thesis. Want it?
+          </p>
+          <p className="ml-auto w-fit max-w-[90%] rounded-2xl rounded-tr-sm bg-bubble px-3 py-2 text-[#111614] shadow-sm">
+            Yes, send it 🙌
           </p>
           <p className="w-fit rounded-2xl rounded-tl-sm bg-white px-3.5 py-2.5 text-[#8a938e] shadow-sm">
             • • •
@@ -110,15 +111,15 @@ function HeroCardMatch() {
           Top match
         </p>
         <span className="rounded-full bg-[#e8f8ee] px-2 py-0.5 text-[10px] font-bold text-[#0e7a5f]">
-          94% fit
+          93% fit
         </span>
       </div>
-      <p className="mt-2 text-[15px] font-semibold text-[#111614]">Northbeam Ventures</p>
-      <p className="text-[12px] text-[#8a938e]">Sarah Lindqvist · Partner</p>
+      <p className="mt-2 text-[15px] font-semibold text-[#111614]">Riverbend Capital</p>
+      <p className="text-[12px] text-[#8a938e]">Neha Shah · Partner</p>
       <div className="mt-3 rounded-xl bg-[#f4f6f4] p-2.5">
         <p className="text-[11px] leading-relaxed text-[#3f4a45]">
-          Led two logistics-AI seeds this year. Your warehouse copilot lands right in her
-          thesis.
+          Why it fits: led 3 fintech pre-seeds this year and writes about payments infra.
+          Paylo is exactly her thesis.
         </p>
       </div>
     </div>
@@ -130,19 +131,19 @@ function HeroCardDraft() {
   return (
     <div className="w-56 rounded-2xl bg-white p-4 shadow-2xl ring-1 ring-black/5 lg:w-64">
       <p className="text-[10px] font-semibold uppercase tracking-wider text-[#8a938e]">
-        Draft · ready to send
+        Intro email · written for you
       </p>
       <p className="mt-2 text-[13px] font-semibold text-[#111614]">
-        Subject: Cursor for warehouse ops
+        Subject: Payroll that runs itself
       </p>
       <div className="my-2 h-px bg-black/5" />
       <p className="text-[11px] leading-relaxed text-[#3f4a45]">
-        Hi Sarah, saw your seed into CodeLoom and your piece on agentic ops. We&apos;re at
-        $18k MRR, growing 22% MoM…
+        Hi Neha, your post on payment rails stuck with me. Paylo runs payroll for 2,100
+        small shops, growing 18% a month…
       </p>
       <div className="mt-2.5 flex items-center gap-1.5 text-[11px] font-medium text-[#0e7a5f]">
         <span className="grid h-4 w-4 place-items-center rounded-full bg-[#e8f8ee]">✓</span>
-        Personalised for each investor
+        One of these for every investor
       </div>
     </div>
   );
@@ -185,7 +186,7 @@ function StepMatches() {
   return (
     <div className="w-full max-w-[290px] rounded-2xl bg-white p-3 text-left shadow-lift">
       <p className="border-b border-black/5 pb-2 text-xs font-semibold text-[#111614]">
-        58 investors found · top 3
+        Loop&apos;s matches · 58 found, top 3
       </p>
       <div className="mt-1 divide-y divide-black/5">
         {rows.map((r, i) => (
@@ -209,7 +210,7 @@ function StepEmail() {
   return (
     <div className="w-full max-w-[290px] rounded-2xl bg-white p-3.5 text-left shadow-lift">
       <p className="text-[10px] font-semibold uppercase tracking-wider text-[#8a938e]">
-        Draft · Sarah Lindqvist
+        Draft for Sarah at Northbeam
       </p>
       <p className="mt-1.5 text-[12px] font-semibold text-[#111614]">
         Subject: Cursor for warehouse ops
@@ -232,20 +233,20 @@ function StepEmail() {
 const steps = [
   {
     n: 1,
-    title: 'A real conversation',
-    body: 'Fifteen minutes on WhatsApp about your product, traction, and raise. Scout listens like a sharp associate and never asks twice.',
+    title: 'Tell Scout about your startup',
+    body: 'A 15-minute WhatsApp chat about your product, traction, and raise. No forms, no deck needed, and it never asks the same thing twice.',
     mock: StepChat,
   },
   {
     n: 2,
-    title: 'Research and matching',
-    body: 'Scout studies your company and market, then ranks a curated investor base by stage, sector, geography, and thesis fit.',
+    title: 'Scout researches and matches',
+    body: 'It studies your market, scans thousands of funds and angels, and ranks the ones that actually invest at your stage, in your space, with the reason each one fits.',
     mock: StepMatches,
   },
   {
     n: 3,
-    title: 'Outreach that lands',
-    body: 'Every investor gets a personal email and LinkedIn DM built from their real portfolio and your real numbers. You review and send.',
+    title: 'Send outreach that lands',
+    body: 'Every match comes with a personal intro email built from that investor’s portfolio and your real numbers. You review it, you send it, you take the meeting.',
     mock: StepEmail,
   },
 ];
@@ -344,8 +345,9 @@ export default function Home() {
               </h1>
               {/* subhead + trust row: tablet & desktop only, keeping the phone hero clean */}
               <p className="mx-auto mt-6 hidden max-w-xl animate-fade-up text-lg leading-relaxed text-white/60 [animation-delay:100ms] sm:block">
-                Chat for fifteen minutes on WhatsApp. Scout researches your startup, finds the
-                fifty investors most likely to fund you, and writes the first email to each.
+                Chat for fifteen minutes on WhatsApp. Scout researches your startup, finds
+                the investors most likely to fund you, and writes the intro email to each
+                one.
               </p>
               {/* prominent CTA + social proof (tablet & desktop) — the phone
                   hero keeps its own glass CTA on phones */}
@@ -424,8 +426,8 @@ export default function Home() {
               Three steps, one chat
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-mist">
-              Fifty carefully matched investors, not five thousand. Each one researched,
-              scored, and worth your email. The opposite of spray-and-pray.
+              Meet Loop, a warehouse software startup raising their seed. Here is their
+              whole journey with Scout, from first message to sent email.
             </p>
           </div>
           <div className="mt-12 grid gap-6 sm:mt-16 md:grid-cols-3">
