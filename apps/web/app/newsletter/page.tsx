@@ -154,25 +154,13 @@ export default function NewsletterPage() {
             <div className="mx-auto mt-9 max-w-xl">
               <NewsletterForm tone="dark" compact />
             </div>
-
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-white/45">
-              {['Ten fresh names weekly', 'No spam, ever', 'One-click unsubscribe'].map((t) => (
-                <span key={t} className="inline-flex items-center gap-2">
-                  <span className="h-1 w-1 rounded-full bg-signal/70" />
-                  {t}
-                </span>
-              ))}
-            </div>
           </div>
         </section>
 
         {/* Sample issue */}
         <section className="mx-auto max-w-3xl px-5 py-20 sm:px-8 sm:py-24">
           <div className="text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-moss">
-              A real issue
-            </p>
-            <h2 className="mt-3 font-display text-4xl tracking-tight sm:text-5xl">
+            <h2 className="font-display text-4xl tracking-tight sm:text-5xl">
               This is what Sunday looks like
             </h2>
             <p className="mx-auto mt-4 max-w-lg text-mist">
@@ -245,6 +233,9 @@ export default function NewsletterPage() {
             <div className="border-t border-ink/[0.08] bg-paper/60 px-6 py-5 text-center sm:px-8">
               <p className="text-sm text-mist">
                 …and seven more in the full issue, every Sunday morning.
+              </p>
+              <p className="mt-1 text-xs text-mist/70">
+                Example layout. Real issues carry real funds, researched that week.
               </p>
             </div>
           </div>
