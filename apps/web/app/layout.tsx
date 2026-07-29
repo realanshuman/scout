@@ -1,16 +1,16 @@
 import type { Metadata } from 'next';
-import { Inter, Instrument_Serif } from 'next/font/google';
+import { Inter, Source_Serif_4 } from 'next/font/google';
 import './globals.css';
 
-// Editorial pairing: high-contrast serif for display, neutral sans for body.
+// Pairing: a warm, sturdy book serif for display (the closest open font to
+// Tiempos, the Anthropic-style heading serif) with a neutral sans for body.
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
   display: 'swap',
 });
 
-const serif = Instrument_Serif({
-  weight: '400',
+const serif = Source_Serif_4({
   subsets: ['latin'],
   variable: '--font-serif',
   display: 'swap',
