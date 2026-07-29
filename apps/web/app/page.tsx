@@ -314,6 +314,7 @@ export default function Home() {
               <div className="hidden items-center gap-8 text-sm text-white/60 md:flex">
                 <a href="#how" className="transition hover:text-white">How it works</a>
                 <a href="#pricing" className="transition hover:text-white">Pricing</a>
+                <a href="/newsletter" className="transition hover:text-white">Newsletter</a>
                 <a href="#faq" className="transition hover:text-white">FAQ</a>
               </div>
               <div className="flex items-center gap-2.5 sm:gap-3">
@@ -564,6 +565,7 @@ export default function Home() {
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-5 px-5 py-8 text-sm text-mist sm:flex-row sm:px-8">
           <Logo markClassName="h-6 w-6" wordClassName="text-lg" />
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
+            <a href="/newsletter" className="transition hover:text-ink">Newsletter</a>
             <a href="/about" className="transition hover:text-ink">About</a>
             <a href="/contact" className="transition hover:text-ink">Contact</a>
             <a href="/privacy" className="transition hover:text-ink">Privacy</a>

@@ -72,6 +72,7 @@ export function PageShell({
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-5 px-5 py-8 text-sm text-mist sm:flex-row sm:px-8">
           <Logo markClassName="h-6 w-6" wordClassName="text-lg" />
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
+            <Link href="/newsletter" className="transition hover:text-ink">Newsletter</Link>
             <Link href="/about" className="transition hover:text-ink">About</Link>
             <Link href="/contact" className="transition hover:text-ink">Contact</Link>
             <Link href="/privacy" className="transition hover:text-ink">Privacy</Link>
