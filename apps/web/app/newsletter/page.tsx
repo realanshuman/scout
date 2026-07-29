@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Logo } from '@/components/logo';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { NewsletterForm } from '@/components/newsletter-form';
+import { NewsletterIssueCard } from '@/components/newsletter-issue-card';
 import { WA_LINK } from '@/lib/whatsapp-link';
 
 export const metadata: Metadata = {
@@ -25,7 +26,7 @@ const SAMPLE = [
     partner: 'Neha Shah',
     where: 'Bengaluru · invests across India + SEA',
     stage: 'Pre-seed to Seed',
-    cheque: '$250K – $1.5M',
+    cheque: '₹2Cr – ₹12Cr (about $250K – $1.5M)',
     thesis:
       'Payments and lending infrastructure. She likes founders who have already shipped to real merchants, not just a pilot.',
     recent: 'Led PayNest ($1.2M, Mar), followed on Kirana OS ($800K, Jan)',
@@ -132,29 +133,97 @@ export default function NewsletterPage() {
       </header>
 
       <main>
-        {/* Hero */}
-        <section className="relative overflow-hidden bg-[#071310] pb-16 pt-28 text-white sm:pb-20 sm:pt-36">
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-[75%] opacity-70 [background:radial-gradient(ellipse_at_50%_-10%,rgb(34_197_94/0.26),transparent_62%)]" />
-          <div className="relative mx-auto max-w-3xl px-5 text-center sm:px-8">
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-3.5 py-1.5 text-xs font-semibold tracking-wide text-white/80 backdrop-blur">
-              <span className="h-1.5 w-1.5 rounded-full bg-signal" />
-              Free newsletter · every Sunday
-            </span>
+        {/* ── Hero ─────────────────────────────────────────────────────
+            Two deliberately different layouts. On phones the copy stays
+            centred and the email mock sits underneath, bleeding off the
+            bottom edge. On desktop it becomes a split: copy left, the
+            same email floating on the right with detail cards behind it. */}
+        <section className="relative overflow-hidden bg-[#071310] pt-24 text-white sm:pt-32 lg:pb-28 lg:pt-40">
+          {/* aurora */}
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-[80%] opacity-70 [background:radial-gradient(ellipse_at_25%_-10%,rgb(34_197_94/0.24),transparent_60%)]" />
+          {/* dot grid */}
+          <div className="pointer-events-none absolute inset-0 opacity-[0.18] [background-image:radial-gradient(rgb(255_255_255/0.5)_1px,transparent_1px)] [background-size:26px_26px] [mask-image:radial-gradient(ellipse_at_50%_0%,black,transparent_70%)]" />
 
-            <h1 className="mt-6 font-display text-[2.75rem] leading-[1.02] tracking-tight sm:text-6xl md:text-7xl">
-              Ten investors in your inbox. Every Sunday.
-            </h1>
+          <div className="relative mx-auto max-w-6xl px-5 sm:px-8">
+            <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,0.82fr)] lg:items-center lg:gap-16 xl:gap-20">
+              {/* Copy */}
+              <div className="text-center lg:text-left">
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-3.5 py-1.5 text-xs font-semibold tracking-wide text-white/80 backdrop-blur">
+                  <span className="h-1.5 w-1.5 rounded-full bg-signal" />
+                  Free newsletter · every Sunday
+                </span>
 
-            <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-white/65">
-              Real funds and angels who are writing cheques right now. Their thesis, what
-              they backed recently, how big they go, and how to reach them. Researched by
-              Scout, free for founders.
-            </p>
+                <h1 className="mt-5 font-display text-[2.6rem] leading-[1.03] tracking-tight sm:mt-6 sm:text-6xl lg:text-[4.25rem]">
+                  Ten investors in your inbox. Every Sunday.
+                </h1>
 
-            <div className="mx-auto mt-9 max-w-xl">
-              <NewsletterForm tone="dark" compact />
+                <p className="mx-auto mt-5 max-w-xl text-[17px] leading-relaxed text-white/65 sm:mt-6 sm:text-lg lg:mx-0">
+                  Real funds and angels writing cheques right now. Their thesis, recent
+                  deals, cheque size, and how to reach them. Free for founders.
+                </p>
+
+                <div className="mx-auto mt-7 max-w-xl sm:mt-9 lg:mx-0">
+                  <NewsletterForm tone="dark" compact />
+                </div>
+
+                {/* Where the ten come from. Coverage, not a subscriber claim. */}
+                <p className="mt-6 text-[13px] text-white/45 sm:hidden">
+                  Investors across India, the US, Southeast Asia and Europe.
+                </p>
+                <div className="mt-7 hidden flex-wrap items-center justify-center gap-x-2.5 gap-y-2 text-[13px] text-white/45 sm:flex lg:justify-start">
+                  <span className="font-medium text-white/60">Investors across</span>
+                  {['India', 'United States', 'Southeast Asia', 'Europe'].map((place) => (
+                    <span
+                      key={place}
+                      className="rounded-full border border-white/10 bg-white/[0.05] px-2.5 py-1"
+                    >
+                      {place}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Desktop mock: tilted, with two detail cards tucked behind
+                  its edges so nothing in the email itself gets covered. */}
+              <div className="relative mt-16 hidden lg:mt-0 lg:block">
+                <div className="[perspective:1600px]">
+                  <div className="relative [transform:rotateX(6deg)_rotateY(-13deg)_rotate(1.5deg)]">
+                    {/* peeks out from the left edge */}
+                    <div className="absolute -left-32 top-14 z-0 w-[186px] -rotate-6 rounded-xl border border-white/10 bg-[#0f1c18]/95 p-3.5 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.8)] backdrop-blur">
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/40">
+                        Cheque size
+                      </p>
+                      <p className="mt-1.5 font-display text-xl text-signal">₹2Cr – ₹12Cr</p>
+                      <p className="mt-1 text-[11px] text-white/45">Pre-seed · Bengaluru</p>
+                    </div>
+
+                    {/* hangs off the bottom-right corner */}
+                    <div className="absolute -bottom-14 right-4 z-20 w-[206px] rotate-[5deg] rounded-xl border border-white/10 bg-[#0f1c18]/95 p-3.5 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.8)] backdrop-blur">
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/40">
+                        How to reach them
+                      </p>
+                      <p className="mt-1.5 text-[13px] font-medium text-white/90">foundry9.com</p>
+                      <p className="text-[13px] text-signal">tom@foundry9.com</p>
+                    </div>
+
+                    <div className="relative z-10">
+                      <NewsletterIssueCard />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Phone mock: sits under the copy and runs off the bottom edge */}
+            <div className="mx-auto mt-10 -mb-16 max-w-sm [perspective:1200px] sm:mt-14 sm:max-w-lg lg:hidden">
+              <div className="[transform:rotateX(7deg)]">
+                <NewsletterIssueCard rows={2} />
+              </div>
             </div>
           </div>
+
+          {/* fades the cropped phone mock into the section edge */}
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 [background:linear-gradient(to_bottom,transparent,#071310_85%)] lg:hidden" />
         </section>
 
         {/* Sample issue */}
