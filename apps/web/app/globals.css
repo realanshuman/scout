@@ -39,13 +39,6 @@ body {
   transition: background-color 0.25s ease, color 0.25s ease;
 }
 
-/* Display serif tuning: Source Serif 4 is a variable font; ~550 gives the
-   calm, sturdy book-serif heading weight (the Anthropic-style look) instead
-   of the thin default. */
-.font-display {
-  font-weight: 550;
-}
-
 ::selection {
   background: #22c55e;
   color: #0c1512;
